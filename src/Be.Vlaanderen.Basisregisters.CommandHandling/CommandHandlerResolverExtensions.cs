@@ -1,0 +1,60 @@
+namespace Be.Vlaanderen.Basisregisters.CommandHandling
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Reflection;
+    using System.Threading;
+    using System.Threading.Tasks;
+
+    public static class CommandHandlerResolverExtensions
+    {
+        private static readonly MethodInfo DispatchInternalMethod = typeof(CommandHandlerResolverExtensions)
+            .GetRuntimeMethods()
+            .Single(m => m.Name.Equals(nameof(DispatchInternal), StringComparison.Ordinal));
+
+        public static async Task<long> Dispatch(
+            this ICommandHandlerResolver handlerResolver,
+            Guid commandId,
+            object command,
+            IDictionary<string, object> metadata = null,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (command == null)
+                throw new ArgumentNullException(nameof(command));
+
+            metadata = metadata ?? new Dictionary<string, object>();
+
+            var eventType = command.GetType();
+            var dispatchMethod = DispatchInternalMethod.MakeGenericMethod(eventType);
+
+            // Make sure they align with the method signature below
+            var parameters = new[]
+            {
+                handlerResolver,
+                commandId,
+                command,
+                metadata,
+                cancellationToken
+            };
+
+            return await (Task<long>) dispatchMethod.Invoke(handlerResolver, parameters);
+        }
+
+        private static async Task<long> DispatchInternal<TCommand>(
+            ICommandHandlerResolver handlerResolver,
+            Guid commandId,
+            TCommand command,
+            IDictionary<string, object> metadata,
+            CancellationToken cancellationToken)
+            where TCommand : class
+        {
+            var commandMessage = new CommandMessage<TCommand>(commandId, command, metadata);
+            var handler =  handlerResolver.Resolve<TCommand>();
+            if (handler == null)
+                throw new ApplicationException($"No handler was found for command {typeof(TCommand).FullName}");
+
+            return await handler(commandMessage, cancellationToken);
+        }
+    }
+}

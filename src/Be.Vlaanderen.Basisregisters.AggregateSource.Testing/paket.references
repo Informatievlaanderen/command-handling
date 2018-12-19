@@ -1,0 +1,7 @@
+Microsoft.CSharp
+
+Newtonsoft.Json
+CompareNETObjects
+
+SourceLink.Embed.AllSourceFiles
+SourceLink.Copy.PdbFiles

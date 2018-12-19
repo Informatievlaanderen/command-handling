@@ -1,0 +1,30 @@
+type file
+version 1.0.0
+
+id Be.Vlaanderen.Basisregisters.CommandHandling.Idempotency
+title Be.Vlaanderen.Basisregisters.CommandHandling.Idempotency
+
+authors Basisregisters Vlaanderen
+owners agentschap Informatie Vlaanderen <https://vlaanderen.be/informatie-vlaanderen>
+copyright Copyright (c) agentschap Informatie Vlaanderen
+requireLicenseAcceptance false
+projectUrl https://github.com/Informatievlaanderen/command-handling
+iconUrl https://raw.githubusercontent.com/Informatievlaanderen/build-pipeline/master/logo.png
+licenseUrl https://opensource.org/licenses/MIT
+
+description Lightweight infrastructure for doing command handling and eventsourcing using aggregates.
+
+dependencies
+  framework: netstandard20
+    Be.Vlaanderen.Basisregisters.Converters.Timestamp ~> 1.0
+
+    Microsoft.AspNetCore.Http.Abstractions >= LOCKEDVERSION
+    Microsoft.Extensions.Configuration >= LOCKEDVERSION
+    Microsoft.Extensions.Options.ConfigurationExtensions >= LOCKEDVERSION
+    Microsoft.EntityFrameworkCore.SqlServer >= LOCKEDVERSION
+    Newtonsoft.Json >= LOCKEDVERSION
+    Autofac.Extensions.DependencyInjection >= LOCKEDVERSION
+
+files
+  bin\Release\netstandard2.0\Be.Vlaanderen.Basisregisters.CommandHandling.Idempotency.dll => lib\netstandard2.0
+  bin\Release\netstandard2.0\Be.Vlaanderen.Basisregisters.CommandHandling.Idempotency.pdb => lib\netstandard2.0

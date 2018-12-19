@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\..\packages\Be.Vlaanderen.Basisregisters.Build.Pipeline\Content\Be.Vlaanderen.Basisregisters.Build.Pipeline.Settings.Library.props" />
+
+  <ItemGroup>
+    <ProjectReference Include="..\Be.Vlaanderen.Basisregisters.AggregateSource.Testing.CommandHandling\Be.Vlaanderen.Basisregisters.AggregateSource.Testing.CommandHandling.csproj" />
+    <ProjectReference Include="..\Be.Vlaanderen.Basisregisters.AggregateSource.Testing.SqlStreamStore\Be.Vlaanderen.Basisregisters.AggregateSource.Testing.SqlStreamStore.csproj" />
+    <ProjectReference Include="..\Be.Vlaanderen.Basisregisters.AggregateSource.Testing\Be.Vlaanderen.Basisregisters.AggregateSource.Testing.csproj" />
+  </ItemGroup>
+
+  <Import Project="..\..\.paket\Paket.Restore.targets" />
+</Project>

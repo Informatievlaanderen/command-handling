@@ -1,0 +1,9 @@
+NETStandard.Library
+
+SqlStreamStore
+
+Be.Vlaanderen.Basisregisters.EventHandling
+Be.Vlaanderen.Basisregisters.Generators.Guid.Deterministic
+
+SourceLink.Embed.AllSourceFiles
+SourceLink.Copy.PdbFiles

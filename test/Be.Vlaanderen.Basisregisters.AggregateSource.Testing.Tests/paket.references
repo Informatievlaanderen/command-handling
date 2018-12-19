@@ -1,0 +1,8 @@
+Microsoft.NETCore.App
+
+nunit
+NUnit3TestAdapter
+Microsoft.NET.Test.Sdk
+CompareNETObjects
+Moq
+dotnet-sourcelink

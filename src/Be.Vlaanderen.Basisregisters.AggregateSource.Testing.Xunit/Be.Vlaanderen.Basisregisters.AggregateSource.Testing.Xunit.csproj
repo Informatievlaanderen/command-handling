@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\..\packages\Be.Vlaanderen.Basisregisters.Build.Pipeline\Content\Be.Vlaanderen.Basisregisters.Build.Pipeline.Settings.Library.props" />
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE;DEBUG;NETSTANDARD2_0;XUNIT</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants>TRACE;RELEASE;NETSTANDARD2_0;XUNIT</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Be.Vlaanderen.Basisregisters.AggregateSource\Be.Vlaanderen.Basisregisters.AggregateSource.csproj" />
+    <ProjectReference Include="..\Be.Vlaanderen.Basisregisters.AggregateSource.Testing\Be.Vlaanderen.Basisregisters.AggregateSource.Testing.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\Be.Vlaanderen.Basisregisters.AggregateSource.Testing.NUnit\ExtensionsForCommandScenario.cs" Link="ExtensionsForCommandScenario.cs" />
+    <Compile Include="..\Be.Vlaanderen.Basisregisters.AggregateSource.Testing.NUnit\ExtensionsForConstructorScenario.cs" Link="ExtensionsForConstructorScenario.cs" />
+    <Compile Include="..\Be.Vlaanderen.Basisregisters.AggregateSource.Testing.NUnit\ExtensionsForFactoryScenario.cs" Link="ExtensionsForFactoryScenario.cs" />
+    <Compile Include="..\Be.Vlaanderen.Basisregisters.AggregateSource.Testing.NUnit\ExtensionsForQueryScenario.cs" Link="ExtensionsForQueryScenario.cs" />
+    <Compile Include="..\Be.Vlaanderen.Basisregisters.AggregateSource.Testing.NUnit\ExtensionsForTestSpecification.cs" Link="ExtensionsForTestSpecification.cs" />
+  </ItemGroup>
+
+  <Import Project="..\..\.paket\Paket.Restore.targets" />
+</Project>

@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\..\packages\Be.Vlaanderen.Basisregisters.Build.Pipeline\Content\Be.Vlaanderen.Basisregisters.Build.Pipeline.Settings.Test.props" />
+
+  <PropertyGroup>
+    <RootNamespace>Be.Vlaanderen.Basisregisters.AggregateSource.Tests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Be.Vlaanderen.Basisregisters.AggregateSource\Be.Vlaanderen.Basisregisters.AggregateSource.csproj" />
+    <ProjectReference Include="..\..\src\Be.Vlaanderen.Basisregisters.AggregateSource.ExplicitRouting\Be.Vlaanderen.Basisregisters.AggregateSource.ExplicitRouting.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
+  </ItemGroup>
+
+  <Import Project="..\..\.paket\Paket.Restore.targets" />
+</Project>

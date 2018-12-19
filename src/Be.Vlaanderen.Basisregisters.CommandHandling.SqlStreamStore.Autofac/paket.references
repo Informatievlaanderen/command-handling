@@ -1,0 +1,7 @@
+NETStandard.Library
+
+SqlStreamStore
+Autofac.Extensions.DependencyInjection
+
+SourceLink.Embed.AllSourceFiles
+SourceLink.Copy.PdbFiles

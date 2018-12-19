@@ -1,0 +1,5 @@
+Microsoft.NETCore.App
+
+Microsoft.EntityFrameworkCore.Design
+Microsoft.EntityFrameworkCore.SqlServer
+Microsoft.EntityFrameworkCore.InMemory

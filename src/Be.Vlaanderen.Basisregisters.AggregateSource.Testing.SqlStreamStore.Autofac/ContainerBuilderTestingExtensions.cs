@@ -6,7 +6,10 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.SqlStreamStore.Au
 
     public static class ContainerBuilderTestingExtensions
     {
-        public static void UseAggregateSourceTesting(this ContainerBuilder builder, IFactComparer factComparer, IExceptionComparer exceptionComparer)
+        public static void UseAggregateSourceTesting(
+            this ContainerBuilder builder,
+            IFactComparer factComparer,
+            IExceptionComparer exceptionComparer)
         {
             builder
                 .RegisterType<StreamStoreFactRepository>()

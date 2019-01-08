@@ -28,7 +28,8 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
         public static void Assert(
             this IEventCentricTestSpecificationBuilder builder,
             IEventCentricTestSpecificationRunner runner,
-            IFactComparer comparer, ILogger logger)
+            IFactComparer comparer,
+            ILogger logger)
         {
             if (builder == null)
                 throw new ArgumentNullException(nameof(builder));
@@ -128,10 +129,11 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
         public static void Assert(
             this IExceptionCentricTestSpecificationBuilder builder,
             IExceptionCentricTestSpecificationRunner runner,
-            IExceptionComparer comparer, ILogger logger)
+            IExceptionComparer comparer,
+            ILogger logger)
         {
             if (builder == null)
-                throw new ArgumentNullException("builder");
+                throw new ArgumentNullException(nameof(builder));
 
             if (runner == null)
                 throw new ArgumentNullException(nameof(runner));
@@ -216,9 +218,9 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
 #endif
                 }
             }
-            if(result.ButException.HasValue)
-                logger.LogTrace($"Actual exception: \r\n{result.ButException.Value.ToLogString(includeStackTrace: true)}");
 
+            if (result.ButException.HasValue)
+                logger.LogTrace($"Actual exception: \r\n{result.ButException.Value.ToLogString(includeStackTrace: true)}");
         }
     }
 }

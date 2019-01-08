@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/informatievlaanderen/command-handling/compare/v1.0.0...v1.1.0) (2019-01-08)
+
+
+### Features
+
+* add autofac based test base class, using xunit ([eccc096](https://github.com/informatievlaanderen/command-handling/commit/eccc096))
+
 # 1.0.0 (2018-12-19)
 
 

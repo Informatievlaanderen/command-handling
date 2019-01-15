@@ -1,5 +1,6 @@
 namespace Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Autofac
 {
+    using System;
     using AggregateSource;
     using SqlStreamStore;
     using global::Autofac;
@@ -9,6 +10,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Autofac
     {
         private readonly string _eventsConnectionString;
         private readonly string _schema;
+        private readonly Action<MsSqlStreamStoreSettings> _settingsFunc;
 
         /// <summary>
         /// Register an in-memory SqlStreamStore
@@ -20,10 +22,23 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Autofac
         /// </summary>
         /// <param name="eventsConnectionString"></param>
         /// <param name="schema"></param>
-        public SqlStreamStoreModule(string eventsConnectionString, string schema)
+        public SqlStreamStoreModule(string eventsConnectionString, string schema) :
+            this(eventsConnectionString, schema, null) { }
+
+        /// <summary>
+        /// Register a SQL Server SqlStreamStore
+        /// </summary>
+        /// <param name="eventsConnectionString"></param>
+        /// <param name="schema"></param>
+        /// <param name="settingsFunc"></param>
+        public SqlStreamStoreModule(
+            string eventsConnectionString,
+            string schema,
+            Action<MsSqlStreamStoreSettings> settingsFunc)
         {
             _eventsConnectionString = eventsConnectionString;
             _schema = schema;
+            _settingsFunc = settingsFunc;
         }
 
         protected override void Load(ContainerBuilder builder)
@@ -42,7 +57,11 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Autofac
             }
             else
             {
-                builder.RegisterInstance(new MsSqlStreamStoreSettings(_eventsConnectionString) { Schema = _schema });
+                var settings = new MsSqlStreamStoreSettings(_eventsConnectionString) { Schema = _schema };
+
+                _settingsFunc?.Invoke(settings);
+
+                builder.RegisterInstance(settings);
                 builder.RegisterType<MsSqlStreamStore>()
                     .As<MsSqlStreamStore>()
                     .As<IStreamStore>()

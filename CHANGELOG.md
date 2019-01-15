@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/informatievlaanderen/command-handling/compare/v1.1.0...v1.2.0) (2019-01-15)
+
+
+### Features
+
+* allow passing in ms sqlstreamstore settings before registering ([2ab8649](https://github.com/informatievlaanderen/command-handling/commit/2ab8649))
+
 # [1.1.0](https://github.com/informatievlaanderen/command-handling/compare/v1.0.0...v1.1.0) (2019-01-08)
 
 

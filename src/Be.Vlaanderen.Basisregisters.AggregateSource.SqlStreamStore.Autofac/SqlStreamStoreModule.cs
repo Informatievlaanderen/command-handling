@@ -65,6 +65,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Autofac
                 builder.RegisterType<MsSqlStreamStore>()
                     .As<MsSqlStreamStore>()
                     .As<IStreamStore>()
+                    .As<IReadonlyStreamStore>()
                     .SingleInstance();
             }
         }

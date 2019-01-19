@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/informatievlaanderen/command-handling/compare/v1.2.0...v1.3.0) (2019-01-19)
+
+
+### Features
+
+* register MsSqlStreamStore as IReadonlyStreamStore ([55c6588](https://github.com/informatievlaanderen/command-handling/commit/55c6588))
+
 # [1.2.0](https://github.com/informatievlaanderen/command-handling/compare/v1.1.0...v1.2.0) (2019-01-15)
 
 

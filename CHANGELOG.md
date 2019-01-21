@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/informatievlaanderen/command-handling/compare/v1.3.0...v1.4.0) (2019-01-21)
+
+
+### Features
+
+* register InMemoryStreamStore as IReadonlyStreamStore ([af331e3](https://github.com/informatievlaanderen/command-handling/commit/af331e3))
+
 # [1.3.0](https://github.com/informatievlaanderen/command-handling/compare/v1.2.0...v1.3.0) (2019-01-19)
 
 

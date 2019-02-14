@@ -1,6 +1,7 @@
 namespace Be.Vlaanderen.Basisregisters.CommandHandling.Tests
 {
     using System;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
     using Shouldly;
     using Xunit;
@@ -19,6 +20,26 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling.Tests
                 {
                     BaseCommandCounter++;
                     return finalHandler(m, c);
+                });
+            }
+        }
+
+        private class TestICommandHandlerModule2 : CommandHandlerModule
+        {
+            public List<string> ExecutionOrder = new List<string>();
+
+            public TestICommandHandlerModule2()
+            {
+                For<Command>().Pipe(next => async (m, c) =>
+                {
+                    ExecutionOrder.Add("Pipe.Before");
+                    var result = await next(m, c);
+                    ExecutionOrder.Add("Pipe.After");
+                    return result;
+                }).Handle((message, ct) =>
+                {
+                    ExecutionOrder.Add("Handle");
+                    return Task.FromResult(0);
                 });
             }
         }
@@ -55,6 +76,17 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling.Tests
             var handler = resolver.Resolve<Command>();
 
             handler.ShouldNotBeNull();
+        }
+
+        [Fact]
+        public async Task Can_dispatchXXX()
+        {
+            var module = new TestICommandHandlerModule2();
+            var resolver = new CommandHandlerResolver(module);
+
+            await resolver.Dispatch(Guid.NewGuid(), new Command());
+
+            module.ExecutionOrder.ShouldBe(new List<string>{"Pipe.Before", "Handle", "Pipe.After" });
         }
 
         [Fact]

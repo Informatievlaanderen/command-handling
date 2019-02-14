@@ -52,32 +52,48 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling
                 return this;
             }
 
-            public ICommandHandlerBuilder<CommandMessage<TCommand>> Handle(Handler<CommandMessage<TCommand>> handler)
+            public void Handle(Handler<CommandMessage<TCommand>> handler)
             {
                 _handler = handler;
                 Finally(_finalHandler ?? ((msg, ct) => Task.FromResult(-1L)));
-                return this;
             }
 
             public ReturnHandler<CommandMessage<TCommand>> Finally(ReturnHandler<CommandMessage<TCommand>> finalHandler)
             {
-                while (_pipes.Count > 0)
+                ReturnHandler<CommandMessage<TCommand>> composed = null;
+                if (_pipes.Count == 0)
                 {
-                    var pipe = _pipes.Pop();
-                    finalHandler = pipe(finalHandler);
+                    composed = async (msg, ct) =>
+                    {
+                        if (_handler != null)
+                            await _handler(msg, ct);
+
+                        return await finalHandler(msg, ct);
+                    };
+                }
+                else
+                {
+                    while (_pipes.Count > 0)
+                    {
+                        var pipe = _pipes.Pop();
+                        if (composed == null)
+                        {
+                            composed = async (msg, ct) =>
+                            {
+                                if (_handler != null)
+                                    await _handler(msg, ct);
+
+                                return await finalHandler(msg, ct);
+                            };
+                        }
+
+                        composed = pipe(composed);
+                    }
                 }
 
-                var fullHandler = new ReturnHandler<CommandMessage<TCommand>>(async (msg, ct) =>
-                {
-                    if (_handler != null)
-                        await _handler(msg, ct);
+                Register(composed);
 
-                    return await finalHandler(msg, ct);
-                });
-
-                Register(fullHandler);
-
-                return fullHandler;
+                return composed;
             }
 
             private void Register(ReturnHandler<CommandMessage<TCommand>> fullHandler)

@@ -17,8 +17,7 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling
         /// Handles the message and is the last stage in a handler pipeline.
         /// </summary>
         /// <param name="handler">The handler.</param>
-        /// <returns>A <see cref="Handler{TMessage}"/>.</returns>
-        ICommandHandlerBuilder<TMessage> Handle(Handler<TMessage> handler);
+        void Handle(Handler<TMessage> handler);
 
         ReturnHandler<TMessage> Finally(ReturnHandler<TMessage> finalHandler);
     }

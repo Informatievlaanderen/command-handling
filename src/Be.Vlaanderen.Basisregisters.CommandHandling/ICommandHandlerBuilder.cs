@@ -18,7 +18,5 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling
         /// </summary>
         /// <param name="handler">The handler.</param>
         void Handle(Handler<TMessage> handler);
-
-        ReturnHandler<TMessage> Finally(ReturnHandler<TMessage> finalHandler);
     }
 }

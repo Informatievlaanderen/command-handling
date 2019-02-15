@@ -24,11 +24,11 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling.Tests
             }
         }
 
-        private class TestICommandHandlerModule2 : CommandHandlerModule
+        private class TestICommandHandlerModuleForPipeOrder : CommandHandlerModule
         {
             public List<string> ExecutionOrder = new List<string>();
 
-            public TestICommandHandlerModule2()
+            public TestICommandHandlerModuleForPipeOrder()
             {
                 For<Command>().Pipe(next => async (m, c) =>
                 {
@@ -51,7 +51,7 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling.Tests
             public TestCommandHandlerModule()
             {
                 For<Command>()
-                    .Finally((_, __) => Task.FromResult((long) CommandCounter++));
+                    .Handle((_, __) => Task.FromResult((long) CommandCounter++));
             }
         }
 
@@ -79,9 +79,9 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling.Tests
         }
 
         [Fact]
-        public async Task Can_dispatchXXX()
+        public async Task PipesRunInCorrectOrder()
         {
-            var module = new TestICommandHandlerModule2();
+            var module = new TestICommandHandlerModuleForPipeOrder();
             var resolver = new CommandHandlerResolver(module);
 
             await resolver.Dispatch(Guid.NewGuid(), new Command());

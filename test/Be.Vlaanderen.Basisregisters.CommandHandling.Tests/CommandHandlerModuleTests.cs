@@ -12,9 +12,9 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling.Tests
         public void When_add_duplicate_command_then_should_throw()
         {
             var module = new CommandHandlerModule();
-            module.For<Command>().Finally((_, __) => Task.FromResult(0L));
+            module.For<Command>().Handle((_, __) => Task.FromResult(0L));
 
-            Action act = () => module.For<Command>().Finally((_, __) => Task.FromResult(0L));
+            Action act = () => module.For<Command>().Handle((_, __) => Task.FromResult(0L));
 
             act.ShouldThrow<InvalidOperationException>();
         }
@@ -24,7 +24,7 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling.Tests
         {
             var module = new CommandHandlerModule();
 
-            module.For<Command>().Finally((_,__) => Task.FromResult(-1L));
+            module.For<Command>().Handle((_,__) => Task.FromResult(-1L));
 
             var commandTypes = module.CommandTypes.ToList();
 

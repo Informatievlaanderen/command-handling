@@ -55,11 +55,8 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling
             public void Handle(Handler<CommandMessage<TCommand>> handler)
             {
                 _handler = handler;
-                Finally(_finalHandler ?? ((msg, ct) => Task.FromResult(-1L)));
-            }
+                var finalHandler = _finalHandler ?? ((msg, ct) => Task.FromResult(-1L));
 
-            public ReturnHandler<CommandMessage<TCommand>> Finally(ReturnHandler<CommandMessage<TCommand>> finalHandler)
-            {
                 ReturnHandler<CommandMessage<TCommand>> composed = null;
                 if (_pipes.Count == 0)
                 {
@@ -92,8 +89,6 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling
                 }
 
                 Register(composed);
-
-                return composed;
             }
 
             private void Register(ReturnHandler<CommandMessage<TCommand>> fullHandler)

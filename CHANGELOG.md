@@ -1,3 +1,21 @@
+# [2.0.0](https://github.com/informatievlaanderen/command-handling/compare/v1.4.0...v2.0.0) (2019-02-16)
+
+
+### Bug Fixes
+
+* fix the order of the piping mechanism ([c701e7d](https://github.com/informatievlaanderen/command-handling/commit/c701e7d))
+
+
+### Features
+
+* remove finally method ([32bbfcb](https://github.com/informatievlaanderen/command-handling/commit/32bbfcb))
+
+
+### BREAKING CHANGES
+
+* Finally was removed.
+* Handle is now void.
+
 # [1.4.0](https://github.com/informatievlaanderen/command-handling/compare/v1.3.0...v1.4.0) (2019-01-21)
 
 

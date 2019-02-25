@@ -65,7 +65,7 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling
                         if (_handler != null)
                             await _handler(msg, ct);
 
-                        return await finalHandler(msg, ct);
+                        return 0L;
                     };
                 }
                 else
@@ -80,7 +80,7 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling
                                 if (_handler != null)
                                     await _handler(msg, ct);
 
-                                return await finalHandler(msg, ct);
+                                return 0L;
                             };
                         }
 
@@ -88,7 +88,12 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling
                     }
                 }
 
-                Register(composed);
+                Register(async (msg, ct) =>
+                {
+                    await composed(msg, ct);
+
+                    return await finalHandler(msg, ct);
+                });
             }
 
             private void Register(ReturnHandler<CommandMessage<TCommand>> fullHandler)

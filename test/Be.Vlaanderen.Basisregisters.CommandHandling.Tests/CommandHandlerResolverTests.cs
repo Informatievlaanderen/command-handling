@@ -44,6 +44,51 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling.Tests
             }
         }
 
+        private class TestICommandHandlerModuleNormal : CommandHandlerModule
+        {
+            public static List<string> ExecutionOrder = new List<string>();
+
+            public TestICommandHandlerModuleNormal() : base((message, ct) =>
+            {
+                ExecutionOrder.Add("Final");
+                return Task.FromResult(0L);
+            })
+            {
+                For<Command>()
+                    .Handle((message, ct) =>
+                    {
+                        ExecutionOrder.Add("Handle");
+                        return Task.FromResult(0);
+                    });
+            }
+        }
+
+        private class TestICommandHandlerModuleForFinalHandler : CommandHandlerModule
+        {
+            public static List<string> ExecutionOrder = new List<string>();
+
+            public TestICommandHandlerModuleForFinalHandler() : base((message, ct) =>
+            {
+                ExecutionOrder.Add("Final");
+                return Task.FromResult(0L);
+            })
+            {
+                For<Command>()
+                    .Pipe(next => async (m, c) =>
+                    {
+                        ExecutionOrder.Add("Pipe.Before");
+                        var result = await next(m, c);
+                        ExecutionOrder.Add("Pipe.After");
+                        return result;
+                    })
+                    .Handle((message, ct) =>
+                    {
+                        ExecutionOrder.Add("Handle");
+                        return Task.FromResult(0);
+                    });
+            }
+        }
+
         private sealed class TestCommandHandlerModule : TestICommandHandlerModule
         {
             public int CommandCounter;
@@ -98,6 +143,28 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling.Tests
             Func<Task<long>> dispatch = async ()=>await resolver.Dispatch(Guid.NewGuid(), new Command());
 
             dispatch.ShouldThrowAsync<ApplicationException>($"No handler was found for command {typeof(Command).FullName}");
+        }
+
+        [Fact]
+        public async Task FinalHandlerShouldRunLastWithPipes()
+        {
+            var module = new TestICommandHandlerModuleForFinalHandler();
+            var resolver = new CommandHandlerResolver(module);
+
+            await resolver.Dispatch(Guid.NewGuid(), new Command());
+
+            TestICommandHandlerModuleForFinalHandler.ExecutionOrder.ShouldBe(new List<string> { "Pipe.Before", "Handle", "Pipe.After", "Final" });
+        }
+
+        [Fact]
+        public async Task FinalHandlerShouldRunLastWithoutPipes()
+        {
+            var module = new TestICommandHandlerModuleNormal();
+            var resolver = new CommandHandlerResolver(module);
+
+            await resolver.Dispatch(Guid.NewGuid(), new Command());
+
+            TestICommandHandlerModuleNormal.ExecutionOrder.ShouldBe(new List<string> { "Handle", "Final" });
         }
     }
 }

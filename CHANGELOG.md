@@ -1,3 +1,10 @@
+## [2.0.1](https://github.com/informatievlaanderen/command-handling/compare/v2.0.0...v2.0.1) (2019-02-25)
+
+
+### Bug Fixes
+
+* finally the finalhandler always runs last ([240b69c](https://github.com/informatievlaanderen/command-handling/commit/240b69c))
+
 # [2.0.0](https://github.com/informatievlaanderen/command-handling/compare/v1.4.0...v2.0.0) (2019-02-16)
 
 

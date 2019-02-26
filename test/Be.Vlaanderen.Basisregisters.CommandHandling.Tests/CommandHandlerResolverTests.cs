@@ -39,47 +39,60 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling.Tests
                 }).Handle((message, ct) =>
                 {
                     ExecutionOrder.Add("Handle");
-                    return Task.FromResult(0);
+                    return Task.FromResult(0L);
                 });
             }
         }
 
-        private class TestICommandHandlerModuleNormal : CommandHandlerModule
+        private class TestICommandHandlerModuleForMultiplePipes : CommandHandlerModule
         {
-            public static List<string> ExecutionOrder = new List<string>();
+            public List<string> ExecutionOrder = new List<string>();
 
-            public TestICommandHandlerModuleNormal() : base((message, ct) =>
-            {
-                ExecutionOrder.Add("Final");
-                return Task.FromResult(0L);
-            })
-            {
-                For<Command>()
-                    .Handle((message, ct) =>
-                    {
-                        ExecutionOrder.Add("Handle");
-                        return Task.FromResult(0);
-                    });
-            }
-        }
-
-        private class TestICommandHandlerModuleForFinalHandler : CommandHandlerModule
-        {
-            public static List<string> ExecutionOrder = new List<string>();
-
-            public TestICommandHandlerModuleForFinalHandler() : base((message, ct) =>
-            {
-                ExecutionOrder.Add("Final");
-                return Task.FromResult(0L);
-            })
+            public TestICommandHandlerModuleForMultiplePipes()
             {
                 For<Command>()
                     .Pipe(next => async (m, c) =>
                     {
-                        ExecutionOrder.Add("Pipe.Before");
+                        ExecutionOrder.Add("Pipe1.Before");
                         var result = await next(m, c);
-                        ExecutionOrder.Add("Pipe.After");
+                        ExecutionOrder.Add("Pipe1.After");
                         return result;
+                    })
+                    .Pipe(next => async (m, c) =>
+                    {
+                        ExecutionOrder.Add("Pipe2.Before");
+                        var result = await next(m, c);
+                        ExecutionOrder.Add("Pipe2.After");
+                        return result;
+                    })
+                    .Handle((message, ct) =>
+                    {
+                        ExecutionOrder.Add("Handle");
+                        return Task.FromResult(0L);
+                    });
+            }
+        }
+
+        private class TestICommandHandlerModuleForMultiplePipesPassingValues : CommandHandlerModule
+        {
+            public List<string> ExecutionOrder = new List<string>();
+
+            public TestICommandHandlerModuleForMultiplePipesPassingValues(long dummyValue)
+            {
+                For<Command>()
+                    .Pipe(next => async (m, c) =>
+                    {
+                        ExecutionOrder.Add("Pipe1.Before");
+                        var result = await next(m, c);
+                        ExecutionOrder.Add($"Pipe1.After {result}");
+                        return result;
+                    })
+                    .Pipe(next => async (m, c) =>
+                    {
+                        ExecutionOrder.Add("Pipe2.Before");
+                        var result = await next(m, c);
+                        ExecutionOrder.Add($"Pipe2.After {result}");
+                        return dummyValue; // This pretends to return the position from sql stream store
                     })
                     .Handle((message, ct) =>
                     {
@@ -146,25 +159,25 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling.Tests
         }
 
         [Fact]
-        public async Task FinalHandlerShouldRunLastWithPipes()
+        public async Task MultiplePipesRunInCorrectOrder()
         {
-            var module = new TestICommandHandlerModuleForFinalHandler();
+            var module = new TestICommandHandlerModuleForMultiplePipes();
             var resolver = new CommandHandlerResolver(module);
 
             await resolver.Dispatch(Guid.NewGuid(), new Command());
 
-            TestICommandHandlerModuleForFinalHandler.ExecutionOrder.ShouldBe(new List<string> { "Pipe.Before", "Handle", "Pipe.After", "Final" });
+            module.ExecutionOrder.ShouldBe(new List<string> { "Pipe1.Before", "Pipe2.Before", "Handle", "Pipe2.After", "Pipe1.After" });
         }
 
         [Fact]
-        public async Task FinalHandlerShouldRunLastWithoutPipes()
+        public async Task MultiplePipesPassValueCorrectly()
         {
-            var module = new TestICommandHandlerModuleNormal();
+            var module = new TestICommandHandlerModuleForMultiplePipesPassingValues(5);
             var resolver = new CommandHandlerResolver(module);
 
             await resolver.Dispatch(Guid.NewGuid(), new Command());
 
-            TestICommandHandlerModuleNormal.ExecutionOrder.ShouldBe(new List<string> { "Handle", "Final" });
+            module.ExecutionOrder.ShouldBe(new List<string> { "Pipe1.Before", "Pipe2.Before", "Handle", "Pipe2.After -1", "Pipe1.After 5" });
         }
     }
 }

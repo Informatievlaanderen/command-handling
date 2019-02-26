@@ -17,7 +17,7 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling
             handlerBuilder.Handle((message, _) =>
             {
                 handler(message);
-                return Task.FromResult(0);
+                return Task.FromResult(0L);
             });
         }
     }

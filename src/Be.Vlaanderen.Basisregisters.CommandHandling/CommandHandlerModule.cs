@@ -3,32 +3,20 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Threading.Tasks;
 
     public class CommandHandlerModule
     {
-        private readonly ReturnHandler<CommandMessage> _finalHandler;
-
         internal HashSet<CommandHandlerRegistration> HandlerRegistrations { get; }
             = new HashSet<CommandHandlerRegistration>(CommandHandlerRegistration.MessageTypeComparer);
 
-        public CommandHandlerModule(ReturnHandler<CommandMessage> finalHandler = null) => _finalHandler = finalHandler;
-
-        protected void Wrap(CommandHandlerModule commandHandlerModule)
-        {
-            foreach (var registration in commandHandlerModule.HandlerRegistrations.ToList())
-                HandlerRegistrations.Add(registration);
-        }
-
         public virtual ICommandHandlerBuilder<CommandMessage<TCommand>> For<TCommand>()
             where TCommand : class
-        {
-            return new CommandHandlerBuilder<TCommand>(handlerRegistration =>
+            => new CommandHandlerBuilder<TCommand>(handlerRegistration =>
             {
                 if (!HandlerRegistrations.Add(handlerRegistration))
-                    throw new InvalidOperationException("Attempt to register multiple handlers for command type {0}".FormatWith(typeof(TCommand)));
-            }, _finalHandler);
-        }
+                    throw new InvalidOperationException(
+                        "Attempt to register multiple handlers for command type {0}".FormatWith(typeof(TCommand)));
+            });
 
         public IEnumerable<Type> CommandTypes => HandlerRegistrations.Select(r => r.CommandType);
 
@@ -37,14 +25,9 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling
         {
             private readonly Stack<Pipe<CommandMessage<TCommand>>> _pipes = new Stack<Pipe<CommandMessage<TCommand>>>();
             private readonly Action<CommandHandlerRegistration> _registerHandler;
-            private readonly ReturnHandler<CommandMessage<TCommand>> _finalHandler;
             private Handler<CommandMessage<TCommand>> _handler;
 
-            internal CommandHandlerBuilder(Action<CommandHandlerRegistration> registerHandler, ReturnHandler<CommandMessage> finalHandler)
-            {
-                _registerHandler = registerHandler;
-                _finalHandler = finalHandler;
-            }
+            internal CommandHandlerBuilder(Action<CommandHandlerRegistration> registerHandler) => _registerHandler = registerHandler;
 
             public ICommandHandlerBuilder<CommandMessage<TCommand>> Pipe(Pipe<CommandMessage<TCommand>> pipe)
             {
@@ -55,7 +38,6 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling
             public void Handle(Handler<CommandMessage<TCommand>> handler)
             {
                 _handler = handler;
-                var finalHandler = _finalHandler ?? ((msg, ct) => Task.FromResult(-1L));
 
                 ReturnHandler<CommandMessage<TCommand>> composed = null;
                 if (_pipes.Count == 0)
@@ -65,7 +47,7 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling
                         if (_handler != null)
                             await _handler(msg, ct);
 
-                        return 0L;
+                        return -1L;
                     };
                 }
                 else
@@ -80,7 +62,7 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling
                                 if (_handler != null)
                                     await _handler(msg, ct);
 
-                                return 0L;
+                                return -1L;
                             };
                         }
 
@@ -88,12 +70,7 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling
                     }
                 }
 
-                Register(async (msg, ct) =>
-                {
-                    await composed(msg, ct);
-
-                    return await finalHandler(msg, ct);
-                });
+                Register(async (msg, ct) => await composed(msg, ct));
             }
 
             private void Register(ReturnHandler<CommandMessage<TCommand>> fullHandler)

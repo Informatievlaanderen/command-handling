@@ -43,9 +43,6 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling
         public CommandMessage(
             Guid commandId,
             TCommand command,
-            IDictionary<string, object> metadata = null) : base(commandId, metadata)
-        {
-            Command = command;
-        }
+            IDictionary<string, object> metadata = null) : base(commandId, metadata) => Command = command;
     }
 }

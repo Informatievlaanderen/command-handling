@@ -1,3 +1,11 @@
+## [3.0.1](https://github.com/informatievlaanderen/command-handling/compare/v3.0.0...v3.0.1) (2019-02-26)
+
+
+### Bug Fixes
+
+* make AddSqlStreamStore private ([9633a50](https://github.com/informatievlaanderen/command-handling/commit/9633a50))
+* make AddSqlStreamStore public ([48ac500](https://github.com/informatievlaanderen/command-handling/commit/48ac500))
+
 # [3.0.0](https://github.com/informatievlaanderen/command-handling/compare/v2.0.1...v3.0.0) (2019-02-26)
 
 

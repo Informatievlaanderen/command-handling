@@ -1,3 +1,23 @@
+# [3.0.0](https://github.com/informatievlaanderen/command-handling/compare/v2.0.1...v3.0.0) (2019-02-26)
+
+
+### Code Refactoring
+
+* remove finalHandler from CommandHandlerModule ([b7553de](https://github.com/informatievlaanderen/command-handling/commit/b7553de))
+* remove StreamStoreCommandHandlerModule ([4847d6b](https://github.com/informatievlaanderen/command-handling/commit/4847d6b))
+
+
+### Features
+
+* add SqlStreamStorePipe ([e1d9696](https://github.com/informatievlaanderen/command-handling/commit/e1d9696))
+
+
+### BREAKING CHANGES
+
+* FinalHandler does not exist anymore in CommandHandlerModule, use pipes.
+* StreamStoreCommandHandlerModule and RegisterSqlStreamStoreCommandHandler do not
+exist anymore. Use SqlStreamStorePipe.
+
 ## [2.0.1](https://github.com/informatievlaanderen/command-handling/compare/v2.0.0...v2.0.1) (2019-02-25)
 
 

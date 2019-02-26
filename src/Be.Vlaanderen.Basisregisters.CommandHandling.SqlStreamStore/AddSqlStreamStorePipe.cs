@@ -34,7 +34,7 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling.SqlStreamStore
             });
         }
 
-        private static async Task<long> AddSqlStreamStore(
+        public static async Task<long> AddSqlStreamStore(
             Func<IStreamStore> getStreamStore,
             Func<ConcurrentUnitOfWork> getUnitOfWork,
             EventMapping eventMapping,
@@ -56,8 +56,7 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling.SqlStreamStore
                 aggregate.Root.GetChangesWithMetadata()
                     .Select(o =>
                         new NewStreamMessage(
-                            messageId: Deterministic.Create(Deterministic.Namespaces.Events,
-                                $"{message.CommandId}-{i++}"),
+                            messageId: Deterministic.Create(Deterministic.Namespaces.Events, $"{message.CommandId}-{i++}"),
                             type: eventMapping.GetEventName(o.Event.GetType()),
                             jsonData: eventSerializer.SerializeObject(o.Event),
                             jsonMetadata: eventSerializer.SerializeObject(GetMetadata(message.Metadata, o.Metadata))))

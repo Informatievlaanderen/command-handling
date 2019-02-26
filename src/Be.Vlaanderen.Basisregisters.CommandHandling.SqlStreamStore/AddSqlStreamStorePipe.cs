@@ -34,7 +34,7 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling.SqlStreamStore
             });
         }
 
-        public static async Task<long> AddSqlStreamStore(
+        private static async Task<long> AddSqlStreamStore(
             Func<IStreamStore> getStreamStore,
             Func<ConcurrentUnitOfWork> getUnitOfWork,
             EventMapping eventMapping,

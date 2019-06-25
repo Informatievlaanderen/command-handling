@@ -1,15 +1,17 @@
 namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
 {
+    using AggregateSource;
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
     using System.Runtime.CompilerServices;
-    using AggregateSource;
-    using Newtonsoft.Json;
 
     public static class LogExtensions
     {
+        public static JsonSerializerSettings LogJsonSerializerSettings = new JsonSerializerSettings();
+
         public static string ToLogStringShort(this Fact[] facts)
             => string.Join(
                 Environment.NewLine,
@@ -23,17 +25,17 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
         public static string ToLogStringLimited<T>(this IEnumerable<T> objects, Formatting formatting = Formatting.Indented, int max = 5)
         {
             var objectsList = objects.ToList();
-            return objectsList.Count < max ? JsonConvert.SerializeObject(objectsList.Select(o => o.ToAnonymousWithTypeInfo()), formatting) : "...";
+            return objectsList.Count < max ? JsonConvert.SerializeObject(objectsList.Select(o => o.ToAnonymousWithTypeInfo()), formatting, LogJsonSerializerSettings) : "...";
         }
 
         public static string ToLogString<T>(this T @object, Formatting formatting = Formatting.Indented)
-            => JsonConvert.SerializeObject(@object.ToAnonymousWithTypeInfo(), formatting);
+            => JsonConvert.SerializeObject(@object.ToAnonymousWithTypeInfo(), formatting, LogJsonSerializerSettings);
 
         public static string ToLogString(this Exception exception, Formatting formatting = Formatting.Indented, bool includeStackTrace = false)
         {
             return includeStackTrace
-                ? JsonConvert.SerializeObject(new { _type = exception.GetType().Name, exception.Message }, formatting)
-                : JsonConvert.SerializeObject(new { _type = exception.GetType().Name, exception.Message, exception.StackTrace }, formatting);
+                ? JsonConvert.SerializeObject(new { _type = exception.GetType().Name, exception.Message }, formatting, LogJsonSerializerSettings)
+                : JsonConvert.SerializeObject(new { _type = exception.GetType().Name, exception.Message, exception.StackTrace }, formatting, LogJsonSerializerSettings);
         }
 
         public static dynamic ToAnonymousWithTypeInfo(this object @object)

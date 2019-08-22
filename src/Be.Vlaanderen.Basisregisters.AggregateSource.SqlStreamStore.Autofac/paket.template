@@ -19,8 +19,6 @@ dependencies
     Be.Vlaanderen.Basisregisters.AggregateSource CURRENTVERSION
     Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore CURRENTVERSION
 
-    Be.Vlaanderen.Basisregisters.EventHandling ~> 1.0
-
     SqlStreamStore >= LOCKEDVERSION
     SqlStreamStore.MsSql >= LOCKEDVERSION
     Autofac.Extensions.DependencyInjection >= LOCKEDVERSION

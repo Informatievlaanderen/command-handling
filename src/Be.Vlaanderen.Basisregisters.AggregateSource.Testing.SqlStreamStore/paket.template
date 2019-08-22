@@ -18,7 +18,7 @@ dependencies
   framework: netstandard20
     Be.Vlaanderen.Basisregisters.AggregateSource.Testing CURRENTVERSION
 
-    Be.Vlaanderen.Basisregisters.EventHandling ~> 1.0
+    Be.Vlaanderen.Basisregisters.EventHandling ~> 1.1
 
     SqlStreamStore >= LOCKEDVERSION
 

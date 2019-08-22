@@ -16,7 +16,6 @@ description Lightweight infrastructure for doing command handling and eventsourc
 
 dependencies
   framework: netstandard20
-    Be.Vlaanderen.Basisregisters.AggregateSource.Testing CURRENTVERSION
     Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Xunit CURRENTVERSION
     Be.Vlaanderen.Basisregisters.AggregateSource.Testing.CommandHandling CURRENTVERSION
     Be.Vlaanderen.Basisregisters.AggregateSource.Testing.SqlStreamStore CURRENTVERSION

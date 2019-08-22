@@ -19,8 +19,8 @@ dependencies
     Be.Vlaanderen.Basisregisters.CommandHandling CURRENTVERSION
     Be.Vlaanderen.Basisregisters.AggregateSource CURRENTVERSION
 
-    Be.Vlaanderen.Basisregisters.EventHandling ~> 1.0
-    Be.Vlaanderen.Basisregisters.Generators.Guid.Deterministic ~> 1.0
+    Be.Vlaanderen.Basisregisters.EventHandling ~> 1.1
+    Be.Vlaanderen.Basisregisters.Generators.Guid.Deterministic ~> 1.1
 
     SqlStreamStore >= LOCKEDVERSION
 

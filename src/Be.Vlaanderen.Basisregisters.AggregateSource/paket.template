@@ -16,9 +16,9 @@ description Lightweight infrastructure for doing command handling and eventsourc
 
 dependencies
   framework: netstandard20
-    Be.Vlaanderen.Basisregisters.Utilities.HashCodeCalculator ~> 1.0
-    Be.Vlaanderen.Basisregisters.Utilities.HexByteConvertor ~> 1.0
-    Be.Vlaanderen.Basisregisters.Utilities.ToStringBuilder ~> 1.0
+    Be.Vlaanderen.Basisregisters.Utilities.HashCodeCalculator ~> 1.1
+    Be.Vlaanderen.Basisregisters.Utilities.HexByteConvertor ~> 1.1
+    Be.Vlaanderen.Basisregisters.Utilities.ToStringBuilder ~> 1.1
 
     Newtonsoft.Json >= LOCKEDVERSION
     NodaTime >= LOCKEDVERSION

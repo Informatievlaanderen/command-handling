@@ -16,7 +16,6 @@ description Lightweight infrastructure for doing command handling and eventsourc
 
 dependencies
   framework: netstandard20
-    Be.Vlaanderen.Basisregisters.AggregateSource CURRENTVERSION
     Be.Vlaanderen.Basisregisters.AggregateSource.Testing CURRENTVERSION
 
     nunit >= LOCKEDVERSION

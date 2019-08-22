@@ -1,3 +1,10 @@
+# [3.2.0](https://github.com/informatievlaanderen/command-handling/compare/v3.1.0...v3.2.0) (2019-08-22)
+
+
+### Features
+
+* bump to .net 2.2.6 ([b32747f](https://github.com/informatievlaanderen/command-handling/commit/b32747f))
+
 # [3.1.0](https://github.com/informatievlaanderen/command-handling/compare/v3.0.2...v3.1.0) (2019-06-25)
 
 

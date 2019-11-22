@@ -1,3 +1,15 @@
+# [4.0.0](https://github.com/informatievlaanderen/command-handling/compare/v3.2.0...v4.0.0) (2019-11-22)
+
+
+### Code Refactoring
+
+* upgrade to netcoreapp30 ([afe16a5](https://github.com/informatievlaanderen/command-handling/commit/afe16a5))
+
+
+### BREAKING CHANGES
+
+* Upgrade to .NET Core 3
+
 # [3.2.0](https://github.com/informatievlaanderen/command-handling/compare/v3.1.0...v3.2.0) (2019-08-22)
 
 

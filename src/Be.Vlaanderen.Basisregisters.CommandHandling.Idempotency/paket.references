@@ -1,10 +1,10 @@
-NETStandard.Library
-
-Microsoft.AspNetCore.Http.Abstractions
+Microsoft.Data.SqlClient
 Microsoft.Extensions.Configuration
 Microsoft.Extensions.Options.ConfigurationExtensions
 Microsoft.EntityFrameworkCore.SqlServer
+
 Newtonsoft.Json
+
 Autofac.Extensions.DependencyInjection
 
 Be.Vlaanderen.Basisregisters.Converters.Timestamp

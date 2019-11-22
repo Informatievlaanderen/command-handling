@@ -15,14 +15,14 @@ licenseUrl https://opensource.org/licenses/MIT
 description Lightweight infrastructure for doing command handling and eventsourcing using aggregates.
 
 dependencies
-  framework: netstandard20
-    Be.Vlaanderen.Basisregisters.Utilities.HashCodeCalculator ~> 1.1
-    Be.Vlaanderen.Basisregisters.Utilities.HexByteConvertor ~> 1.1
-    Be.Vlaanderen.Basisregisters.Utilities.ToStringBuilder ~> 1.1
+  framework: netcoreapp30
+    Be.Vlaanderen.Basisregisters.Utilities.HashCodeCalculator >= LOCKEDVERSION
+    Be.Vlaanderen.Basisregisters.Utilities.HexByteConvertor >= LOCKEDVERSION
+    Be.Vlaanderen.Basisregisters.Utilities.ToStringBuilder >= LOCKEDVERSION
 
     Newtonsoft.Json >= LOCKEDVERSION
     NodaTime >= LOCKEDVERSION
 
 files
-  bin\Release\netstandard2.0\Be.Vlaanderen.Basisregisters.AggregateSource.dll => lib\netstandard2.0
-  bin\Release\netstandard2.0\Be.Vlaanderen.Basisregisters.AggregateSource.pdb => lib\netstandard2.0
+  bin\Release\netcoreapp3.0\Be.Vlaanderen.Basisregisters.AggregateSource.dll => lib\netcoreapp3.0
+  bin\Release\netcoreapp3.0\Be.Vlaanderen.Basisregisters.AggregateSource.pdb => lib\netcoreapp3.0

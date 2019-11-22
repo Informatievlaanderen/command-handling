@@ -1,6 +1,6 @@
 // Only the target frameworks that are used in projects.
 // If you change the target framework of the projects then you need to run paket install again.
-framework: netstandard20, netcoreapp22, net472
+framework: netcoreapp30
 
 // When doing development as a non-employee, uncomment this to use the public NuGet feed
 source https://api.nuget.org/v3/index.json
@@ -8,58 +8,48 @@ source https://api.nuget.org/v3/index.json
 // When doing development as an employee, uncomment this to use the private NuGet proxy
 // source https://informatievlaanderen.myget.org/F/nuget-mirror/api/v3/index.json username: "%MYGET_FEED_USER%" password: "%MYGET_FEED_PASS%" authtype: "basic"
 
-// DOTNETCORE ISSUES
-nuget Microsoft.NETCore.App 2.2.6
-nuget Microsoft.NETCore.DotNetAppHost 2.2.6
-nuget Microsoft.NETCore.DotNetHostResolver 2.2.6
-nuget Microsoft.NETCore.DotNetHostPolicy 2.2.6
-nuget NETStandard.Library 2.0.3
-
 // PRODUCTION STUFF
 nuget SqlStreamStore 1.1.3
 nuget SqlStreamStore.MsSql 1.1.3
 
-nuget Microsoft.CSharp 4.5.0
+nuget Microsoft.Extensions.Logging 3.0.1
+nuget Microsoft.Extensions.Configuration 3.0.1
+nuget Microsoft.Extensions.Options.ConfigurationExtensions 3.0.1
 
-nuget Microsoft.AspNetCore.Http.Abstractions 2.2.0
+nuget Microsoft.EntityFrameworkCore 3.0.1
+nuget Microsoft.EntityFrameworkCore.SqlServer 3.0.1
+nuget Microsoft.EntityFrameworkCore.InMemory 3.0.1
+nuget Microsoft.EntityFrameworkCore.Design 3.0.1
 
-nuget Microsoft.Extensions.Logging 2.2.0
-nuget Microsoft.Extensions.Configuration 2.2.0
-nuget Microsoft.Extensions.Options.ConfigurationExtensions 2.2.0
+nuget Microsoft.Data.SqlClient 1.1.0
 
-nuget Microsoft.EntityFrameworkCore 2.2.6
-nuget Microsoft.EntityFrameworkCore.SqlServer 2.2.6
-nuget Microsoft.EntityFrameworkCore.InMemory 2.2.6
-nuget Microsoft.EntityFrameworkCore.Design 2.2.6
+nuget Autofac.Extensions.DependencyInjection 5.0.1
 
-nuget Autofac.Extensions.DependencyInjection 4.4.0
+nuget Newtonsoft.Json 12.0.3
 
-nuget Newtonsoft.Json 12.0.2
+nuget NodaTime 2.4.7
 
-nuget NodaTime 2.4.6
-
-nuget CompareNETObjects 4.62.0
+nuget CompareNETObjects 4.63.0
 
 // VBR STUFF
-nuget Be.Vlaanderen.Basisregisters.Build.Pipeline ~> 1.7
+nuget Be.Vlaanderen.Basisregisters.Build.Pipeline 3.0.0
 
-nuget Be.Vlaanderen.Basisregisters.EventHandling ~> 1.1
-nuget Be.Vlaanderen.Basisregisters.Utilities.HashCodeCalculator ~> 1.1
-nuget Be.Vlaanderen.Basisregisters.Utilities.ToStringBuilder ~> 1.1
-nuget Be.Vlaanderen.Basisregisters.Utilities.HexByteConvertor ~> 1.1
-nuget Be.Vlaanderen.Basisregisters.Generators.Guid.Deterministic ~> 1.1
-nuget Be.Vlaanderen.Basisregisters.Converters.Timestamp ~> 1.1
+nuget Be.Vlaanderen.Basisregisters.EventHandling 2.0.0
+nuget Be.Vlaanderen.Basisregisters.Utilities.HashCodeCalculator 2.0.0
+nuget Be.Vlaanderen.Basisregisters.Utilities.ToStringBuilder 2.0.0
+nuget Be.Vlaanderen.Basisregisters.Utilities.HexByteConvertor 2.0.0
+nuget Be.Vlaanderen.Basisregisters.Generators.Guid.Deterministic 2.0.0
+nuget Be.Vlaanderen.Basisregisters.Converters.Timestamp 2.0.0
 
 // TEST STUFF
-nuget Microsoft.NET.Test.Sdk 16.2.0
+nuget Microsoft.NET.Test.Sdk 16.4.0
 nuget NUnit 3.12.0
-nuget NUnit3TestAdapter 3.14.0
+nuget NUnit3TestAdapter 3.15.1
 nuget xunit 2.4.1
 nuget xunit.runner.visualstudio 2.4.1
-nuget Moq 4.12.0
+nuget Moq 4.13.1
 nuget Shouldly 3.0.2
 
 // BUILD STUFF
-nuget FAKE 4.64.13 // Don't update to v5!
 nuget SourceLink.Embed.AllSourceFiles 2.8.3 copy_local: true
 nuget SourceLink.Copy.PdbFiles 2.8.3 copy_local: true

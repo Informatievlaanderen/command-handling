@@ -1,6 +1,14 @@
+#r "paket:
+version 5.226.0
+framework: netstandard20
+source https://api.nuget.org/v3/index.json
+nuget Be.Vlaanderen.Basisregisters.Build.Pipeline 3.0.0 //"
+
 #load "packages/Be.Vlaanderen.Basisregisters.Build.Pipeline/Content/build-generic.fsx"
 
-open Fake
+open Fake.Core
+open Fake.Core.TargetOperators
+open Fake.IO.FileSystemOperators
 open ``Build-generic``
 
 let assemblyVersionNumber = (sprintf "%s.0")
@@ -12,9 +20,9 @@ let pack = packSolution nugetVersionNumber
 
 // Library ------------------------------------------------------------------------
 
-Target "Lib_Build" (fun _ -> build "Be.Vlaanderen.Basisregisters.CommandHandling")
+Target.create "Lib_Build" (fun _ -> build "Be.Vlaanderen.Basisregisters.CommandHandling")
 
-Target "Lib_Test" (fun _ ->
+Target.create "Lib_Test" (fun _ ->
   [
     "test" @@ "Be.Vlaanderen.Basisregisters.AggregateSource.Tests"
     "test" @@ "Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Tests"
@@ -23,16 +31,16 @@ Target "Lib_Test" (fun _ ->
   |> List.iter testWithDotNet
 )
 
-Target "Lib_Publish" (fun _ -> publish "Be.Vlaanderen.Basisregisters.CommandHandling")
-Target "Lib_Pack" (fun _ -> pack "Be.Vlaanderen.Basisregisters.CommandHandling")
+Target.create "Lib_Publish" (fun _ -> publish "Be.Vlaanderen.Basisregisters.CommandHandling")
+Target.create "Lib_Pack" (fun _ -> pack "Be.Vlaanderen.Basisregisters.CommandHandling")
 
 // --------------------------------------------------------------------------------
 
-Target "PublishLibrary" DoNothing
-Target "PublishAll" DoNothing
+Target.create "PublishLibrary" ignore
+Target.create "PublishAll" ignore
 
-Target "PackageMyGet" DoNothing
-Target "PackageAll" DoNothing
+Target.create "PackageMyGet" ignore
+Target.create "PackageAll" ignore
 
 // Publish ends up with artifacts in the build folder
 "DotNetCli" ==> "Clean" ==> "Restore" ==> "Lib_Build" ==> "Lib_Test" ==> "Lib_Publish" ==> "PublishLibrary"
@@ -42,4 +50,4 @@ Target "PackageAll" DoNothing
 "PublishLibrary" ==> "Lib_Pack" ==> "PackageMyGet"
 "PackageMyGet" ==> "PackageAll"
 
-RunTargetOrDefault "Lib_Test"
+Target.runOrDefault "Lib_Test"

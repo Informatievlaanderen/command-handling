@@ -15,7 +15,7 @@ licenseUrl https://opensource.org/licenses/MIT
 description Lightweight infrastructure for doing command handling and eventsourcing using aggregates.
 
 dependencies
-  framework: netcoreapp30
+  framework: netcoreapp31
     Be.Vlaanderen.Basisregisters.AggregateSource CURRENTVERSION
 
     Newtonsoft.Json >= LOCKEDVERSION
@@ -23,5 +23,5 @@ dependencies
     CompareNETObjects >= LOCKEDVERSION
 
 files
-  bin\Release\netcoreapp3.0\Be.Vlaanderen.Basisregisters.AggregateSource.Testing.dll => lib\netcoreapp3.0
-  bin\Release\netcoreapp3.0\Be.Vlaanderen.Basisregisters.AggregateSource.Testing.pdb => lib\netcoreapp3.0
+  bin\Release\netcoreapp3.1\Be.Vlaanderen.Basisregisters.AggregateSource.Testing.dll => lib\netcoreapp3.1
+  bin\Release\netcoreapp3.1\Be.Vlaanderen.Basisregisters.AggregateSource.Testing.pdb => lib\netcoreapp3.1

@@ -1,3 +1,10 @@
+# [4.1.0](https://github.com/informatievlaanderen/command-handling/compare/v4.0.0...v4.1.0) (2019-12-15)
+
+
+### Features
+
+* upgrade to netcoreapp31 ([a3afa4f](https://github.com/informatievlaanderen/command-handling/commit/a3afa4f841462abe336d443e3edfa57e052a656b))
+
 # [4.0.0](https://github.com/informatievlaanderen/command-handling/compare/v3.2.0...v4.0.0) (2019-11-22)
 
 

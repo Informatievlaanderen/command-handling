@@ -36,8 +36,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Be.Vlaanderen.Basisregister
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Be.Vlaanderen.Basisregisters.CommandHandling.SqlStreamStore", "src\Be.Vlaanderen.Basisregisters.CommandHandling.SqlStreamStore\Be.Vlaanderen.Basisregisters.CommandHandling.SqlStreamStore.csproj", "{0D9C1A67-C555-4D45-B56E-EF1A4FE3508B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EF", "src\EF\EF.csproj", "{84E003F8-DE13-4AC8-A0C3-BE5BF9B86A98}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Be.Vlaanderen.Basisregisters.CommandHandling.Idempotency", "src\Be.Vlaanderen.Basisregisters.CommandHandling.Idempotency\Be.Vlaanderen.Basisregisters.CommandHandling.Idempotency.csproj", "{912FCB01-7F65-4C76-8563-6BA0192EA4AD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Be.Vlaanderen.Basisregisters.CommandHandling.Tests", "test\Be.Vlaanderen.Basisregisters.CommandHandling.Tests\Be.Vlaanderen.Basisregisters.CommandHandling.Tests.csproj", "{B0ED3658-E519-42CF-A057-665E0FDA0EA9}"
@@ -120,10 +118,6 @@ Global
 		{0D9C1A67-C555-4D45-B56E-EF1A4FE3508B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0D9C1A67-C555-4D45-B56E-EF1A4FE3508B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0D9C1A67-C555-4D45-B56E-EF1A4FE3508B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{84E003F8-DE13-4AC8-A0C3-BE5BF9B86A98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{84E003F8-DE13-4AC8-A0C3-BE5BF9B86A98}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{84E003F8-DE13-4AC8-A0C3-BE5BF9B86A98}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{84E003F8-DE13-4AC8-A0C3-BE5BF9B86A98}.Release|Any CPU.Build.0 = Release|Any CPU
 		{912FCB01-7F65-4C76-8563-6BA0192EA4AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{912FCB01-7F65-4C76-8563-6BA0192EA4AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{912FCB01-7F65-4C76-8563-6BA0192EA4AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -152,7 +146,6 @@ Global
 		{A4DD8BEE-C6DB-4E99-8211-76EBA0B68FCF} = {C2F8FF63-7A48-4179-A720-86206C42F496}
 		{B59EA035-7081-45C7-A768-3C20DE9CDAD6} = {C2F8FF63-7A48-4179-A720-86206C42F496}
 		{0D9C1A67-C555-4D45-B56E-EF1A4FE3508B} = {C2F8FF63-7A48-4179-A720-86206C42F496}
-		{84E003F8-DE13-4AC8-A0C3-BE5BF9B86A98} = {C2F8FF63-7A48-4179-A720-86206C42F496}
 		{912FCB01-7F65-4C76-8563-6BA0192EA4AD} = {C2F8FF63-7A48-4179-A720-86206C42F496}
 		{B0ED3658-E519-42CF-A057-665E0FDA0EA9} = {6DD3C208-58D1-46CE-AEAF-16F3F90D26C5}
 	EndGlobalSection

@@ -12,42 +12,42 @@ source https://api.nuget.org/v3/index.json
 nuget SqlStreamStore 1.1.3
 nuget SqlStreamStore.MsSql 1.1.3
 
-nuget Microsoft.Extensions.Logging 3.1.0
-nuget Microsoft.Extensions.Configuration 3.1.0
-nuget Microsoft.Extensions.Options.ConfigurationExtensions 3.1.0
+nuget Microsoft.Extensions.Logging 3.1.1
+nuget Microsoft.Extensions.Configuration 3.1.1
+nuget Microsoft.Extensions.Options.ConfigurationExtensions 3.1.1
 
-nuget Microsoft.EntityFrameworkCore 3.1.0
-nuget Microsoft.EntityFrameworkCore.SqlServer 3.1.0
-nuget Microsoft.EntityFrameworkCore.InMemory 3.1.0
-nuget Microsoft.EntityFrameworkCore.Design 3.1.0
+nuget Microsoft.EntityFrameworkCore 3.1.1
+nuget Microsoft.EntityFrameworkCore.SqlServer 3.1.1
+nuget Microsoft.EntityFrameworkCore.InMemory 3.1.1
+nuget Microsoft.EntityFrameworkCore.Design 3.1.1
 
 nuget Microsoft.Data.SqlClient 1.1.0
 
-nuget Autofac.Extensions.DependencyInjection 5.0.1
+nuget Autofac.Extensions.DependencyInjection 6.0.0
 
 nuget Newtonsoft.Json 12.0.3
 
 nuget NodaTime 2.4.7
 
-nuget CompareNETObjects 4.64.0
+nuget CompareNETObjects 4.65.0
 
 // VBR STUFF
-nuget Be.Vlaanderen.Basisregisters.Build.Pipeline 3.2.0
+nuget Be.Vlaanderen.Basisregisters.Build.Pipeline 3.3.0
 
-nuget Be.Vlaanderen.Basisregisters.EventHandling 2.1.0
+nuget Be.Vlaanderen.Basisregisters.EventHandling 2.2.0
 
-nuget Be.Vlaanderen.Basisregisters.Utilities.HashCodeCalculator 2.1.0
-nuget Be.Vlaanderen.Basisregisters.Utilities.ToStringBuilder 2.1.1
-nuget Be.Vlaanderen.Basisregisters.Utilities.HexByteConvertor 2.1.0
+nuget Be.Vlaanderen.Basisregisters.Utilities.HashCodeCalculator 2.2.0
+nuget Be.Vlaanderen.Basisregisters.Utilities.ToStringBuilder 2.2.0
+nuget Be.Vlaanderen.Basisregisters.Utilities.HexByteConvertor 2.2.0
 
-nuget Be.Vlaanderen.Basisregisters.Generators.Guid.Deterministic 2.1.0
+nuget Be.Vlaanderen.Basisregisters.Generators.Guid.Deterministic 2.2.0
 
-nuget Be.Vlaanderen.Basisregisters.Converters.Timestamp 2.1.0
+nuget Be.Vlaanderen.Basisregisters.Converters.Timestamp 2.2.0
 
 // TEST STUFF
 nuget Microsoft.NET.Test.Sdk 16.4.0
 nuget NUnit 3.12.0
-nuget NUnit3TestAdapter 3.15.1
+nuget NUnit3TestAdapter 3.16.1
 nuget xunit 2.4.1
 nuget xunit.runner.visualstudio 2.4.1
 nuget Moq 4.13.1

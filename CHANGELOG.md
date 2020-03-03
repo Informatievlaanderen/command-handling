@@ -1,3 +1,10 @@
+## [4.2.2](https://github.com/informatievlaanderen/command-handling/compare/v4.2.1...v4.2.2) (2020-03-03)
+
+
+### Bug Fixes
+
+* force build ([d6a265e](https://github.com/informatievlaanderen/command-handling/commit/d6a265ef936501cd28ffa39b498b3affb4911c90))
+
 ## [4.2.1](https://github.com/informatievlaanderen/command-handling/compare/v4.2.0...v4.2.1) (2020-03-03)
 
 

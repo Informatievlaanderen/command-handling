@@ -1,3 +1,10 @@
+## [4.2.1](https://github.com/informatievlaanderen/command-handling/compare/v4.2.0...v4.2.1) (2020-03-03)
+
+
+### Bug Fixes
+
+* bump netcore to 3.1.2 ([696901e](https://github.com/informatievlaanderen/command-handling/commit/696901e18ae0c6ac1d9c45b576a2f3fe9eee7402))
+
 # [4.2.0](https://github.com/informatievlaanderen/command-handling/compare/v4.1.0...v4.2.0) (2020-01-31)
 
 

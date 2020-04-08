@@ -1,3 +1,10 @@
+## [5.0.1](https://github.com/informatievlaanderen/command-handling/compare/v5.0.0...v5.0.1) (2020-04-08)
+
+
+### Bug Fixes
+
+* use correct build user ([8845828](https://github.com/informatievlaanderen/command-handling/commit/8845828694834491d0e8700666de8a83bcbc251f))
+
 # [5.0.0](https://github.com/informatievlaanderen/command-handling/compare/v4.2.2...v5.0.0) (2020-04-08)
 
 

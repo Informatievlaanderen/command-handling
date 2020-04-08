@@ -1,3 +1,15 @@
+# [5.0.0](https://github.com/informatievlaanderen/command-handling/compare/v4.2.2...v5.0.0) (2020-04-08)
+
+
+### chore
+
+* upgrade sql stream store ([#10](https://github.com/informatievlaanderen/command-handling/issues/10)) ([406c873](https://github.com/informatievlaanderen/command-handling/commit/406c8732202b673e9b7cccbd2d2e47d60e45d214))
+
+
+### BREAKING CHANGES
+
+* Upgrade SqlStreamStore
+
 ## [4.2.2](https://github.com/informatievlaanderen/command-handling/compare/v4.2.1...v4.2.2) (2020-03-03)
 
 

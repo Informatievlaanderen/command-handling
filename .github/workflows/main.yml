@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    if: github.repository == 'Informatievlaanderen/Informatievlaanderen/command-handling'
+    if: github.repository == 'Informatievlaanderen/command-handling'
     name: Build
     runs-on: ubuntu-latest
 

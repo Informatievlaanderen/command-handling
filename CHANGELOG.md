@@ -1,3 +1,11 @@
+## [5.0.2](https://github.com/informatievlaanderen/command-handling/compare/v5.0.1...v5.0.2) (2020-05-13)
+
+
+### Bug Fixes
+
+* correct repository check for ci runner ([35f1000](https://github.com/informatievlaanderen/command-handling/commit/35f10005b52a0b9c1fdbaaa24c663097ab1e0000))
+* move to GH-actions ([cd454bc](https://github.com/informatievlaanderen/command-handling/commit/cd454bc805f7d66631e168924eb23539a4fa08f9))
+
 ## [5.0.1](https://github.com/informatievlaanderen/command-handling/compare/v5.0.0...v5.0.1) (2020-04-08)
 
 

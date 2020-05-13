@@ -1,56 +1,49 @@
-// Only the target frameworks that are used in projects.
-// If you change the target framework of the projects then you need to run paket install again.
 framework: netcoreapp31
-
-// When doing development as a non-employee, uncomment this to use the public NuGet feed
 source https://api.nuget.org/v3/index.json
-
-// When doing development as an employee, uncomment this to use the private NuGet proxy
-// source https://informatievlaanderen.myget.org/F/nuget-mirror/api/v3/index.json username: "%MYGET_FEED_USER%" password: "%MYGET_FEED_PASS%" authtype: "basic"
 
 // PRODUCTION STUFF
 nuget SqlStreamStore 1.2.0-beta.8
 nuget SqlStreamStore.MsSql 1.2.0-beta.8
 
-nuget Microsoft.Extensions.Logging 3.1.2
-nuget Microsoft.Extensions.Configuration 3.1.2
-nuget Microsoft.Extensions.Options.ConfigurationExtensions 3.1.2
+nuget Microsoft.Extensions.Logging 3.1.3
+nuget Microsoft.Extensions.Configuration 3.1.3
+nuget Microsoft.Extensions.Options.ConfigurationExtensions 3.1.3
 
-nuget Microsoft.EntityFrameworkCore 3.1.2
-nuget Microsoft.EntityFrameworkCore.SqlServer 3.1.2
-nuget Microsoft.EntityFrameworkCore.InMemory 3.1.2
-nuget Microsoft.EntityFrameworkCore.Design 3.1.2
+nuget Microsoft.EntityFrameworkCore 3.1.3
+nuget Microsoft.EntityFrameworkCore.SqlServer 3.1.3
+nuget Microsoft.EntityFrameworkCore.InMemory 3.1.3
+nuget Microsoft.EntityFrameworkCore.Design 3.1.3
 
-nuget Microsoft.Data.SqlClient 1.1.1
+nuget Microsoft.Data.SqlClient 1.1.2
 
 nuget Autofac.Extensions.DependencyInjection 6.0.0
 
 nuget Newtonsoft.Json 12.0.3
 
-nuget NodaTime 2.4.7
+nuget NodaTime 2.4.8
 
 nuget CompareNETObjects 4.65.0
 
 // VBR STUFF
-nuget Be.Vlaanderen.Basisregisters.Build.Pipeline 3.3.2
+nuget Be.Vlaanderen.Basisregisters.Build.Pipeline 4.0.6
 
-nuget Be.Vlaanderen.Basisregisters.EventHandling 2.2.1
+nuget Be.Vlaanderen.Basisregisters.EventHandling 2.2.2
 
-nuget Be.Vlaanderen.Basisregisters.Utilities.HashCodeCalculator 2.2.1
-nuget Be.Vlaanderen.Basisregisters.Utilities.ToStringBuilder 2.2.1
-nuget Be.Vlaanderen.Basisregisters.Utilities.HexByteConvertor 2.2.1
+nuget Be.Vlaanderen.Basisregisters.Utilities.HashCodeCalculator 2.2.2
+nuget Be.Vlaanderen.Basisregisters.Utilities.ToStringBuilder 2.2.5
+nuget Be.Vlaanderen.Basisregisters.Utilities.HexByteConvertor 2.2.2
 
-nuget Be.Vlaanderen.Basisregisters.Generators.Guid.Deterministic 2.2.1
+nuget Be.Vlaanderen.Basisregisters.Generators.Guid.Deterministic 2.2.2
 
-nuget Be.Vlaanderen.Basisregisters.Converters.Timestamp 2.2.1
+nuget Be.Vlaanderen.Basisregisters.Converters.Timestamp 2.2.4
 
 // TEST STUFF
-nuget Microsoft.NET.Test.Sdk 16.5.0
+nuget Microsoft.NET.Test.Sdk 16.6.1
 nuget NUnit 3.12.0
 nuget NUnit3TestAdapter 3.16.1
 nuget xunit 2.4.1
 nuget xunit.runner.visualstudio 2.4.1
-nuget Moq 4.13.1
+nuget Moq 4.14.1
 nuget Shouldly 3.0.2
 
 // BUILD STUFF

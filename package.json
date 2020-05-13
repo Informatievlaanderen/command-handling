@@ -118,7 +118,11 @@
       },
       {
         "path": "@semantic-release/exec",
-        "cmd": "BITBUCKET_BUILD_NUMBER=${nextRelease.version} ./build.sh Lib_Pack"
+        "cmd": "echo ${nextRelease.version} > semver"
+      },
+      {
+        "path": "@semantic-release/exec",
+        "cmd": "CI_BUILD_NUMBER=${nextRelease.version} ./build.sh PackageAll"
       },
       {
         "path": "@semantic-release/git",
@@ -138,62 +142,6 @@
             "path": "dist/**/*.nupkg"
           }
         ]
-      },
-      {
-        "path": "@semantic-release/exec",
-        "cmd": "node packages/Be.Vlaanderen.Basisregisters.Build.Pipeline/Content/ci-nuget.js dist/Be.Vlaanderen.Basisregisters.CommandHandling/Be.Vlaanderen.Basisregisters.AggregateSource.${nextRelease.version}.nupkg"
-      },
-      {
-        "path": "@semantic-release/exec",
-        "cmd": "node packages/Be.Vlaanderen.Basisregisters.Build.Pipeline/Content/ci-nuget.js dist/Be.Vlaanderen.Basisregisters.CommandHandling/Be.Vlaanderen.Basisregisters.AggregateSource.ExplicitRouting.${nextRelease.version}.nupkg"
-      },
-      {
-        "path": "@semantic-release/exec",
-        "cmd": "node packages/Be.Vlaanderen.Basisregisters.Build.Pipeline/Content/ci-nuget.js dist/Be.Vlaanderen.Basisregisters.CommandHandling/Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.${nextRelease.version}.nupkg"
-      },
-      {
-        "path": "@semantic-release/exec",
-        "cmd": "node packages/Be.Vlaanderen.Basisregisters.Build.Pipeline/Content/ci-nuget.js dist/Be.Vlaanderen.Basisregisters.CommandHandling/Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Autofac.${nextRelease.version}.nupkg"
-      },
-      {
-        "path": "@semantic-release/exec",
-        "cmd": "node packages/Be.Vlaanderen.Basisregisters.Build.Pipeline/Content/ci-nuget.js dist/Be.Vlaanderen.Basisregisters.CommandHandling/Be.Vlaanderen.Basisregisters.AggregateSource.Testing.${nextRelease.version}.nupkg"
-      },
-      {
-        "path": "@semantic-release/exec",
-        "cmd": "node packages/Be.Vlaanderen.Basisregisters.Build.Pipeline/Content/ci-nuget.js dist/Be.Vlaanderen.Basisregisters.CommandHandling/Be.Vlaanderen.Basisregisters.AggregateSource.Testing.SqlStreamStore.${nextRelease.version}.nupkg"
-      },
-      {
-        "path": "@semantic-release/exec",
-        "cmd": "node packages/Be.Vlaanderen.Basisregisters.Build.Pipeline/Content/ci-nuget.js dist/Be.Vlaanderen.Basisregisters.CommandHandling/Be.Vlaanderen.Basisregisters.AggregateSource.Testing.SqlStreamStore.Autofac.${nextRelease.version}.nupkg"
-      },
-      {
-        "path": "@semantic-release/exec",
-        "cmd": "node packages/Be.Vlaanderen.Basisregisters.Build.Pipeline/Content/ci-nuget.js dist/Be.Vlaanderen.Basisregisters.CommandHandling/Be.Vlaanderen.Basisregisters.AggregateSource.Testing.CommandHandling.${nextRelease.version}.nupkg"
-      },
-      {
-        "path": "@semantic-release/exec",
-        "cmd": "node packages/Be.Vlaanderen.Basisregisters.Build.Pipeline/Content/ci-nuget.js dist/Be.Vlaanderen.Basisregisters.CommandHandling/Be.Vlaanderen.Basisregisters.AggregateSource.Testing.NUnit.${nextRelease.version}.nupkg"
-      },
-      {
-        "path": "@semantic-release/exec",
-        "cmd": "node packages/Be.Vlaanderen.Basisregisters.Build.Pipeline/Content/ci-nuget.js dist/Be.Vlaanderen.Basisregisters.CommandHandling/Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Xunit.${nextRelease.version}.nupkg"
-      },
-      {
-        "path": "@semantic-release/exec",
-        "cmd": "node packages/Be.Vlaanderen.Basisregisters.Build.Pipeline/Content/ci-nuget.js dist/Be.Vlaanderen.Basisregisters.CommandHandling/Be.Vlaanderen.Basisregisters.CommandHandling.${nextRelease.version}.nupkg"
-      },
-      {
-        "path": "@semantic-release/exec",
-        "cmd": "node packages/Be.Vlaanderen.Basisregisters.Build.Pipeline/Content/ci-nuget.js dist/Be.Vlaanderen.Basisregisters.CommandHandling/Be.Vlaanderen.Basisregisters.CommandHandling.Idempotency.${nextRelease.version}.nupkg"
-      },
-      {
-        "path": "@semantic-release/exec",
-        "cmd": "node packages/Be.Vlaanderen.Basisregisters.Build.Pipeline/Content/ci-nuget.js dist/Be.Vlaanderen.Basisregisters.CommandHandling/Be.Vlaanderen.Basisregisters.CommandHandling.SqlStreamStore.${nextRelease.version}.nupkg"
-      },
-      {
-        "path": "@semantic-release/exec",
-        "cmd": "./packages/Be.Vlaanderen.Basisregisters.Build.Pipeline/Content/ci-confluence.sh"
       }
     ],
     "success": [

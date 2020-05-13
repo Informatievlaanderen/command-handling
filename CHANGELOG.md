@@ -1,3 +1,10 @@
+## [5.0.3](https://github.com/informatievlaanderen/command-handling/compare/v5.0.2...v5.0.3) (2020-05-13)
+
+
+### Bug Fixes
+
+* remove trailing double quote ([55bb1a8](https://github.com/informatievlaanderen/command-handling/commit/55bb1a8eb34a628ee66b59b6775d163de3347fcb))
+
 ## [5.0.2](https://github.com/informatievlaanderen/command-handling/compare/v5.0.1...v5.0.2) (2020-05-13)
 
 

@@ -1,3 +1,10 @@
+## [5.0.4](https://github.com/informatievlaanderen/command-handling/compare/v5.0.3...v5.0.4) (2020-05-14)
+
+
+### Bug Fixes
+
+* remove Microsoft 3.1.4 referenties ([b5d717a](https://github.com/informatievlaanderen/command-handling/commit/b5d717acb5b345f9e805f4b699f155d389cbbe9c))
+
 ## [5.0.3](https://github.com/informatievlaanderen/command-handling/compare/v5.0.2...v5.0.3) (2020-05-13)
 
 

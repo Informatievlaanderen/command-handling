@@ -1,3 +1,10 @@
+## [5.0.6](https://github.com/informatievlaanderen/command-handling/compare/v5.0.5...v5.0.6) (2020-06-19)
+
+
+### Bug Fixes
+
+* move to 3.1.5 ([8bab6b3](https://github.com/informatievlaanderen/command-handling/commit/8bab6b3a8eb67d33c4f583fd171f586a1bbc072e))
+
 ## [5.0.5](https://github.com/informatievlaanderen/command-handling/compare/v5.0.4...v5.0.5) (2020-05-18)
 
 

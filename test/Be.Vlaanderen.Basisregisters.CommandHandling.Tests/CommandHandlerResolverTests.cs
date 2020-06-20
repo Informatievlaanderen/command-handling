@@ -113,6 +113,17 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling.Tests
             }
         }
 
+        private sealed class TestCommandHandlerModule2 : TestICommandHandlerModule
+        {
+            public int CommandCounter;
+
+            public TestCommandHandlerModule2()
+            {
+                For<Command>()
+                    .Handle((_, __) => Task.FromResult((long)CommandCounter++));
+            }
+        }
+
         [Fact]
         public async Task Can_dispatch()
         {
@@ -178,6 +189,17 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling.Tests
             await resolver.Dispatch(Guid.NewGuid(), new Command());
 
             module.ExecutionOrder.ShouldBe(new List<string> { "Pipe1.Before", "Pipe2.Before", "Handle", "Pipe2.After -1", "Pipe1.After 5" });
+        }
+
+        [Fact]
+        public void When_add_duplicate_command_then_should_throw()
+        {
+            var module1 = new TestCommandHandlerModule();
+            var module2 = new TestCommandHandlerModule2();
+
+            Action act = () => new CommandHandlerResolver(module1, module2);
+
+            act.ShouldThrow<InvalidOperationException>();
         }
     }
 }

@@ -192,14 +192,30 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling.Tests
         }
 
         [Fact]
-        public void When_add_duplicate_command_then_should_throw()
+        public void When_add_duplicate_command_then_should_not_throw()
         {
             var module1 = new TestCommandHandlerModule();
             var module2 = new TestCommandHandlerModule2();
 
             Action act = () => new CommandHandlerResolver(module1, module2);
 
-            act.ShouldThrow<InvalidOperationException>();
+            act.ShouldNotThrow();
+        }
+
+        [Fact]
+        public async Task When_add_duplicate_command_then_should_handle_both()
+        {
+            var module1 = new TestCommandHandlerModule();
+            var module2 = new TestCommandHandlerModule2();
+            var resolver = new CommandHandlerResolver(module1, module2);
+
+            await resolver.Dispatch(Guid.NewGuid(), new Command());
+
+            module1.BaseCommandCounter.ShouldBe(1);
+            module1.CommandCounter.ShouldBe(1);
+
+            module2.BaseCommandCounter.ShouldBe(1);
+            module2.CommandCounter.ShouldBe(1);
         }
     }
 }

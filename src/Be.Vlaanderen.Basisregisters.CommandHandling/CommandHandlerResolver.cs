@@ -2,11 +2,11 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     public class CommandHandlerResolver : ICommandHandlerResolver
     {
-        private readonly HashSet<Type> _knownCommandTypes = new HashSet<Type>();
-        private readonly Dictionary<Type, object> _handlers = new Dictionary<Type, object>();
+        private readonly Dictionary<Type, List<object>> _handlers = new Dictionary<Type, List<object>>();
 
         public CommandHandlerResolver(params CommandHandlerModule[] commandHandlerModules)
         {
@@ -14,21 +14,18 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling
             {
                 foreach(var handlerRegistration in module.HandlerRegistrations)
                 {
-                    if (!_knownCommandTypes.Add(handlerRegistration.CommandType))
-                        throw new InvalidOperationException(
-                            "Attempt to register multiple handlers for command type {0}".FormatWith(handlerRegistration.CommandType));
+                    if (!_handlers.ContainsKey(handlerRegistration.RegistrationType))
+                        _handlers[handlerRegistration.RegistrationType] = new List<object>();
 
-                    _handlers[handlerRegistration.RegistrationType] = handlerRegistration.HandlerInstance;
+                    _handlers[handlerRegistration.RegistrationType].Add(handlerRegistration.HandlerInstance);
                 }
             }
         }
 
-        public IEnumerable<Type> KnownCommandTypes => _knownCommandTypes;
-
-        public ReturnHandler<CommandMessage<TCommand>> Resolve<TCommand>() where TCommand : class
+        public List<ReturnHandler<CommandMessage<TCommand>>> Resolve<TCommand>() where TCommand : class
         {
-            if(_handlers.TryGetValue(typeof(ReturnHandler<CommandMessage<TCommand>>), out var handler))
-                return (ReturnHandler<CommandMessage<TCommand>>) handler;
+            if (_handlers.TryGetValue(typeof(ReturnHandler<CommandMessage<TCommand>>), out var handlers))
+                return handlers.Cast<ReturnHandler<CommandMessage<TCommand>>>().ToList();
 
             return null;
         }

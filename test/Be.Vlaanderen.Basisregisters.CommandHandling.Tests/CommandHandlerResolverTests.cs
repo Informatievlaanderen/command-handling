@@ -164,7 +164,7 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling.Tests
             var module = new BadlyConfiguredCommandHandlerModule();
             var resolver = new CommandHandlerResolver(module);
 
-            Func<Task<long>> dispatch = async ()=>await resolver.Dispatch(Guid.NewGuid(), new Command());
+            Func<Task<long[]>> dispatch = async ()=> await resolver.Dispatch(Guid.NewGuid(), new Command());
 
             dispatch.ShouldThrowAsync<ApplicationException>($"No handler was found for command {typeof(Command).FullName}");
         }

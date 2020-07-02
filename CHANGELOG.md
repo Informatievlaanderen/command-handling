@@ -1,3 +1,10 @@
+## [5.0.7](https://github.com/informatievlaanderen/command-handling/compare/v5.0.6...v5.0.7) (2020-07-02)
+
+
+### Bug Fixes
+
+* update streamstore ([c837df6](https://github.com/informatievlaanderen/command-handling/commit/c837df62ee139756e938987e6f1b8de298b1b9f8))
+
 ## [5.0.6](https://github.com/informatievlaanderen/command-handling/compare/v5.0.5...v5.0.6) (2020-06-19)
 
 

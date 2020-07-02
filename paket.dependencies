@@ -2,8 +2,8 @@ framework: netcoreapp31
 source https://api.nuget.org/v3/index.json
 
 // PRODUCTION STUFF
-nuget SqlStreamStore 1.2.0-beta.8
-nuget SqlStreamStore.MsSql 1.2.0-beta.8
+nuget SqlStreamStore 1.2.0
+nuget SqlStreamStore.MsSql 1.2.0
 
 nuget Microsoft.Extensions.Logging 3.1.5
 nuget Microsoft.Extensions.Configuration 3.1.5
@@ -43,7 +43,7 @@ nuget NUnit 3.12.0
 nuget NUnit3TestAdapter 3.16.1
 nuget xunit 2.4.1
 nuget xunit.runner.visualstudio 2.4.2
-nuget Moq 4.14.3
+nuget Moq 4.14.5
 nuget Shouldly 3.0.2
 
 // BUILD STUFF

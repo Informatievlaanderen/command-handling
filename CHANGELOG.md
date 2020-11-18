@@ -1,3 +1,10 @@
+## [5.0.10](https://github.com/informatievlaanderen/command-handling/compare/v5.0.9...v5.0.10) (2020-11-18)
+
+
+### Bug Fixes
+
+* remove set-env usage in gh-actions ([a4d00e2](https://github.com/informatievlaanderen/command-handling/commit/a4d00e22b23f198411950510cbe919cfa30ce455))
+
 ## [5.0.9](https://github.com/informatievlaanderen/command-handling/compare/v5.0.8...v5.0.9) (2020-09-21)
 
 

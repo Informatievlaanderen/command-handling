@@ -28,7 +28,7 @@ nuget CompareNETObjects 4.67.0
 nuget Be.Vlaanderen.Basisregisters.Build.Pipeline 4.2.3
 nuget Nuget.Packaging < 5.7
 
-nuget Be.Vlaanderen.Basisregisters.EventHandling 2.2.6
+nuget Be.Vlaanderen.Basisregisters.EventHandling 2.3.1
 
 nuget Be.Vlaanderen.Basisregisters.Utilities.HashCodeCalculator 2.2.6
 nuget Be.Vlaanderen.Basisregisters.Utilities.ToStringBuilder 2.2.10

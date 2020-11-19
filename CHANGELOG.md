@@ -1,3 +1,10 @@
+## [5.0.11](https://github.com/informatievlaanderen/command-handling/compare/v5.0.10...v5.0.11) (2020-11-19)
+
+
+### Bug Fixes
+
+* update eventhandling reference ([4950ddc](https://github.com/informatievlaanderen/command-handling/commit/4950ddcb894e0071757274590c01f263a3c3bceb))
+
 ## [5.0.10](https://github.com/informatievlaanderen/command-handling/compare/v5.0.9...v5.0.10) (2020-11-18)
 
 

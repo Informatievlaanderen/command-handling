@@ -19,7 +19,7 @@ NUGET
       Newtonsoft.Json (>= 12.0.3)
     Be.Vlaanderen.Basisregisters.Converters.TrimString (2.2.6)
       Newtonsoft.Json (>= 12.0.3)
-    Be.Vlaanderen.Basisregisters.EventHandling (2.2.6)
+    Be.Vlaanderen.Basisregisters.EventHandling (2.3.1)
       Be.Vlaanderen.Basisregisters.Converters.TrimString (>= 2.2.6)
       Newtonsoft.Json (>= 12.0.3)
       NodaTime.Serialization.JsonNet (>= 3.0)

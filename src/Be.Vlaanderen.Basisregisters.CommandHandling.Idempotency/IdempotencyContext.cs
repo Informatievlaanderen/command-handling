@@ -23,13 +23,13 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling.Idempotency
 
             processedCommand.ToTable(_idempotencyTableInfo.TableName, _idempotencyTableInfo.Schema)
                 .HasKey(p => new { p.CommandId, p.CommandContentHash })
-                .ForSqlServerIsClustered(false);
+                .IsClustered(false);
 
             processedCommand.Property(p => p.CommandContentHash).HasMaxLength(128); // SHA-512 Hex
 
             processedCommand.Property(p => p.DateProcessed);
 
-            processedCommand.HasIndex(p => p.DateProcessed).ForSqlServerIsClustered();
+            processedCommand.HasIndex(p => p.DateProcessed).IsClustered();
         }
     }
 

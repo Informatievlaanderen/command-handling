@@ -15,7 +15,7 @@ licenseUrl https://opensource.org/licenses/MIT
 description Lightweight infrastructure for doing command handling and eventsourcing using aggregates.
 
 dependencies
-  framework: netcoreapp31
+  framework: net5.0
     Be.Vlaanderen.Basisregisters.AggregateSource CURRENTVERSION
 
     Be.Vlaanderen.Basisregisters.EventHandling >= LOCKEDVERSION
@@ -23,5 +23,5 @@ dependencies
     SqlStreamStore >= LOCKEDVERSION
 
 files
-  bin\Release\netcoreapp3.1\Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.dll => lib\netcoreapp3.1
-  bin\Release\netcoreapp3.1\Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.pdb => lib\netcoreapp3.1
+  bin\Release\net5.0\Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.dll => lib\net5.0
+  bin\Release\net5.0\Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.pdb => lib\net5.0

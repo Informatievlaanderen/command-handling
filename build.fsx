@@ -1,8 +1,8 @@
 #r "paket:
-version 5.241.6
+version 6.0.0-beta8
 framework: netstandard20
 source https://api.nuget.org/v3/index.json
-nuget Be.Vlaanderen.Basisregisters.Build.Pipeline 4.2.3 //"
+nuget Be.Vlaanderen.Basisregisters.Build.Pipeline 5.0.1 //"
 
 #load "packages/Be.Vlaanderen.Basisregisters.Build.Pipeline/Content/build-generic.fsx"
 
@@ -14,14 +14,34 @@ open ``Build-generic``
 let assemblyVersionNumber = (sprintf "%s.0")
 let nugetVersionNumber = (sprintf "%s")
 
-let build = buildSolution assemblyVersionNumber
-let publish = publishSolution assemblyVersionNumber
+let buildSource = build assemblyVersionNumber
+let buildTest = buildTest assemblyVersionNumber
+let publishSource = publish assemblyVersionNumber
 let pack = packSolution nugetVersionNumber
 
 supportedRuntimeIdentifiers <- [ "linux-x64" ]
 
 // Library ------------------------------------------------------------------------
-Target.create "Lib_Build" (fun _ -> build "Be.Vlaanderen.Basisregisters.CommandHandling")
+Target.create "Lib_Build" (fun _ ->
+  buildSource "Be.Vlaanderen.Basisregisters.AggregateSource"
+  buildSource "Be.Vlaanderen.Basisregisters.AggregateSource.ExplicitRouting"
+  buildSource "Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore"
+  buildSource "Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Autofac"
+  buildSource "Be.Vlaanderen.Basisregisters.AggregateSource.Testing"
+  buildSource "Be.Vlaanderen.Basisregisters.AggregateSource.Testing.CommandHandling"
+  buildSource "Be.Vlaanderen.Basisregisters.AggregateSource.Testing.NUnit"
+  buildSource "Be.Vlaanderen.Basisregisters.AggregateSource.Testing.SqlStreamStore"
+  buildSource "Be.Vlaanderen.Basisregisters.AggregateSource.Testing.SqlStreamStore.Autofac"
+  buildSource "Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Xunit"
+  buildSource "Be.Vlaanderen.Basisregisters.CommandHandling"
+  buildSource "Be.Vlaanderen.Basisregisters.CommandHandling.Idempotency"
+  buildSource "Be.Vlaanderen.Basisregisters.CommandHandling.SqlStreamStore"
+  buildTest "Be.Vlaanderen.Basisregisters.AggregateSource.Tests"
+  buildTest "Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Tests"
+  buildTest "Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests"
+  buildTest "Be.Vlaanderen.Basisregisters.CommandHandling.Tests"
+)
+
 Target.create "Lib_Test" (fun _ ->
   [
     "test" @@ "Be.Vlaanderen.Basisregisters.AggregateSource.Tests"
@@ -31,7 +51,22 @@ Target.create "Lib_Test" (fun _ ->
   ] |> List.iter testWithDotNet
 )
 
-Target.create "Lib_Publish" (fun _ -> publish "Be.Vlaanderen.Basisregisters.CommandHandling")
+Target.create "Lib_Publish" (fun _ ->
+  publishSource "Be.Vlaanderen.Basisregisters.AggregateSource"
+  publishSource "Be.Vlaanderen.Basisregisters.AggregateSource.ExplicitRouting"
+  publishSource "Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore"
+  publishSource "Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Autofac"
+  publishSource "Be.Vlaanderen.Basisregisters.AggregateSource.Testing"
+  publishSource "Be.Vlaanderen.Basisregisters.AggregateSource.Testing.CommandHandling"
+  publishSource "Be.Vlaanderen.Basisregisters.AggregateSource.Testing.NUnit"
+  publishSource "Be.Vlaanderen.Basisregisters.AggregateSource.Testing.SqlStreamStore"
+  publishSource "Be.Vlaanderen.Basisregisters.AggregateSource.Testing.SqlStreamStore.Autofac"
+  publishSource "Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Xunit"
+  publishSource "Be.Vlaanderen.Basisregisters.CommandHandling"
+  publishSource "Be.Vlaanderen.Basisregisters.CommandHandling.Idempotency"
+  publishSource "Be.Vlaanderen.Basisregisters.CommandHandling.SqlStreamStore"
+)
+
 Target.create "Lib_Pack" (fun _ -> pack "Be.Vlaanderen.Basisregisters.CommandHandling")
 
 // --------------------------------------------------------------------------------

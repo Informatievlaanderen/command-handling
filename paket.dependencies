@@ -9,41 +9,41 @@ nuget Microsoft.Extensions.Logging 5.0.0
 nuget Microsoft.Extensions.Configuration 5.0.0
 nuget Microsoft.Extensions.Options.ConfigurationExtensions 5.0.0
 
-nuget Microsoft.EntityFrameworkCore 5.0.1
-nuget Microsoft.EntityFrameworkCore.SqlServer 5.0.1
-nuget Microsoft.EntityFrameworkCore.InMemory 5.0.1
-nuget Microsoft.EntityFrameworkCore.Design 5.0.1
+nuget Microsoft.EntityFrameworkCore 5.0.2
+nuget Microsoft.EntityFrameworkCore.SqlServer 5.0.2
+nuget Microsoft.EntityFrameworkCore.InMemory 5.0.2
+nuget Microsoft.EntityFrameworkCore.Design 5.0.2
 
-nuget Microsoft.Data.SqlClient 2.1.0
+nuget Microsoft.Data.SqlClient 2.1.1
 
 nuget Autofac.Extensions.DependencyInjection 7.1.0
 
 nuget Newtonsoft.Json 12.0.3
 
-nuget NodaTime 3.0.3
+nuget NodaTime 3.0.5
 
-nuget CompareNETObjects 4.67.0
+nuget CompareNETObjects 4.71.0
 
 // VBR STUFF
-nuget Be.Vlaanderen.Basisregisters.Build.Pipeline 5.0.1
+nuget Be.Vlaanderen.Basisregisters.Build.Pipeline 5.0.2
 
-nuget Be.Vlaanderen.Basisregisters.EventHandling 3.0.3
+nuget Be.Vlaanderen.Basisregisters.EventHandling 3.0.4
 
-nuget Be.Vlaanderen.Basisregisters.Utilities.HashCodeCalculator 2.2.10
-nuget Be.Vlaanderen.Basisregisters.Utilities.ToStringBuilder 2.2.13
-nuget Be.Vlaanderen.Basisregisters.Utilities.HexByteConvertor 2.2.9
+nuget Be.Vlaanderen.Basisregisters.Utilities.HashCodeCalculator 2.2.11
+nuget Be.Vlaanderen.Basisregisters.Utilities.ToStringBuilder 2.2.14
+nuget Be.Vlaanderen.Basisregisters.Utilities.HexByteConvertor 2.2.10
 
-nuget Be.Vlaanderen.Basisregisters.Generators.Guid.Deterministic 2.2.9
+nuget Be.Vlaanderen.Basisregisters.Generators.Guid.Deterministic 2.2.10
 
-nuget Be.Vlaanderen.Basisregisters.Converters.Timestamp 2.2.12
+nuget Be.Vlaanderen.Basisregisters.Converters.Timestamp 2.2.13
 
 // TEST STUFF
 nuget Microsoft.NET.Test.Sdk 16.8.3
-nuget NUnit 3.12.0
+nuget NUnit 3.13.1
 nuget NUnit3TestAdapter 3.17.0
 nuget xunit 2.4.1
 nuget xunit.runner.visualstudio 2.4.3
-nuget Moq 4.15.2
+nuget Moq 4.16.0
 nuget Shouldly 4.0.3
 
 // BUILD STUFF

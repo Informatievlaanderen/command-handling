@@ -1,3 +1,11 @@
+# [5.1.0](https://github.com/informatievlaanderen/command-handling/compare/v5.0.13...v5.1.0) (2021-03-15)
+
+
+### Features
+
+* support reading from snapshots ([2b88102](https://github.com/informatievlaanderen/command-handling/commit/2b88102bacef8debe22ce46426425cdbba029a47))
+* support writing snapshots ([70f10fb](https://github.com/informatievlaanderen/command-handling/commit/70f10fb7592bb72e6d46631deb83b79d27635dee))
+
 ## [5.0.13](https://github.com/informatievlaanderen/command-handling/compare/v5.0.12...v5.0.13) (2021-02-02)
 
 

@@ -15,6 +15,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Tests.Fram
             _recordedEvents = new List<object>();
 
             Register<EventStub>(_ => _recordedEvents.Add(_));
+            Register<SnapshotStub>(_ => _recordedEvents.Add(_));
         }
 
         public IList<object> RecordedEvents => new ReadOnlyCollection<object>(_recordedEvents);

@@ -2,6 +2,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
     using EventHandling;
@@ -98,7 +99,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore
         /// <param name="cancellationToken"></param>
         /// <returns>An instance of <typeparamref name="TAggregateRoot" />.</returns>
         /// <exception cref="T:Be.Vlaanderen.Basisregisters.AggregateSource.AggregateNotFoundException">Thrown when an aggregate is not found.</exception>
-        public async Task<TAggregateRoot> GetAsync(string identifier, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<TAggregateRoot> GetAsync(string identifier, CancellationToken cancellationToken = default)
         {
             var result = await GetOptionalAsync(identifier, cancellationToken);
             if (!result.HasValue)
@@ -106,46 +107,80 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore
 
             return result.Value;
         }
-
+        
         /// <summary>
         /// Attempts to get the aggregate root entity associated with the aggregate identifier.
         /// </summary>
         /// <param name="identifier">The aggregate identifier.</param>
         /// <param name="cancellationToken"></param>
         /// <returns>The found <typeparamref name="TAggregateRoot" />, or empty if not found.</returns>
-        public async Task<Optional<TAggregateRoot>> GetOptionalAsync(string identifier, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<Optional<TAggregateRoot>> GetOptionalAsync(string identifier, CancellationToken cancellationToken = default)
         {
+            // Check if the aggregate is already created and present in the UoW
             if (UnitOfWork.TryGet(identifier, out var aggregate))
                 return new Optional<TAggregateRoot>((TAggregateRoot)aggregate.Root);
 
-            var page = await EventStore.ReadStreamForwards(identifier, StreamVersion.Start, 100, cancellationToken);
+            // Otherwise, check if there is a snapshot and hydrate from there
+            var snapshotIdentifier = ConcurrentUnitOfWork.GetSnapshotIdentifier(identifier);
+            var snapshotPage = await EventStore.ReadStreamBackwards(
+                snapshotIdentifier,
+                StreamVersion.End,
+                1,
+                false,
+                cancellationToken);
+
+            var hydrateContainer = new HydrateContainer();
+            if (snapshotPage.Status != PageReadStatus.StreamNotFound)
+            {
+                var snapshotContainerMessage = snapshotPage.Messages.Single();
+                var snapshotContainerData = await snapshotContainerMessage.GetJsonData(cancellationToken); // { info: { position: xxx, type: "" }, data: "" }
+                var snapshotContainer = (SnapshotContainer)EventDeserializer.DeserializeObject(snapshotContainerData, typeof(SnapshotContainer));
+
+                var snapshotType = EventMapping.GetEventType(snapshotContainer.Info.Type);
+                var snapshotData = snapshotContainer.Data;
+
+                hydrateContainer.ReadFrom = snapshotContainer.Info.Position + 1;
+                hydrateContainer.Snapshot = EventDeserializer.DeserializeObject(snapshotData, snapshotType);
+            }
+
+            // Apply events from start, or from the snapshot position
+            var page = await EventStore.ReadStreamForwards(identifier, hydrateContainer.ReadFrom, 100, cancellationToken);
 
             if (page.Status == PageReadStatus.StreamNotFound)
                 return Optional<TAggregateRoot>.Empty;
 
             var root = RootFactory();
+
+            if (hydrateContainer.Snapshot != null)
+                root.HydrateFromSnapshot(hydrateContainer.Snapshot);
+
+            await ParseEvents(root, page, cancellationToken);
+            while (!page.IsEnd)
+            {
+                page = await page.ReadNext(cancellationToken);
+                await ParseEvents(root, page, cancellationToken);
+            }
+
+            UnitOfWork.Attach(new Aggregate(identifier, page.LastStreamVersion, root));
+
+            return new Optional<TAggregateRoot>(root);
+        }
+
+        private async Task ParseEvents(
+            TAggregateRoot root,
+            ReadStreamPage page,
+            CancellationToken cancellationToken)
+        {
             var events = new List<object>();
+
             foreach (var message in page.Messages)
             {
                 var eventType = EventMapping.GetEventType(message.Type);
                 var eventData = await message.GetJsonData(cancellationToken);
                 events.Add(EventDeserializer.DeserializeObject(eventData, eventType));
             }
+
             root.Initialize(events);
-            while (!page.IsEnd)
-            {
-                events.Clear();
-                page = await page.ReadNext(cancellationToken);
-                foreach (var message in page.Messages)
-                {
-                    var eventType = EventMapping.GetEventType(message.Type);
-                    var eventData = await message.GetJsonData(cancellationToken);
-                    events.Add(EventDeserializer.DeserializeObject(eventData, eventType));
-                }
-                root.Initialize(events);
-            }
-            UnitOfWork.Attach(new Aggregate(identifier, page.LastStreamVersion, root));
-            return new Optional<TAggregateRoot>(root);
         }
 
         /// <summary>

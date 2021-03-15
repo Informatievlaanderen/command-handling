@@ -4,6 +4,16 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource
     using System.Collections.Generic;
     using System.Linq;
 
+    //public interface ISnapshotSupport<TSnapshot>
+    //{
+    //    TSnapshot CreateSnapshot();
+    //}
+
+    //public abstract class AggregateRootEntity<TSnapshot> : AggregateRootEntity, ISnapshotSupport<TSnapshot>
+    //{
+    //    public abstract TSnapshot CreateSnapshot();
+    //}
+
     /// <summary>
     /// Base class for aggregate root entities that need some basic infrastructure for tracking state changes.
     /// </summary>
@@ -50,6 +60,17 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource
 
             foreach (var @event in events)
                 Play(@event);
+        }
+
+        public void HydrateFromSnapshot(object snapshot)
+        {
+            if (snapshot == null)
+                throw new ArgumentNullException(nameof(snapshot));
+
+            if (HasChanges())
+                throw new InvalidOperationException("HydrateFromSnapshot cannot be called on an instance with changes.");
+
+            Play(snapshot);
         }
 
         /// <summary>

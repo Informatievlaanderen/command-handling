@@ -59,5 +59,12 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource
         /// <returns>An enumeration of <see cref="Aggregate"/>.</returns>
         [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
         public IEnumerable<Aggregate> GetChanges() => _aggregates.Values.Where(aggregate => aggregate.Root.HasChanges());
+
+        /// <summary>
+        /// Determines the snapshot identifier based on the specified aggregate identifier.
+        /// </summary>
+        /// <param name="identifier">The aggregate identifier.</param>
+        /// <returns>The snapshot identifier for the specified aggregate identifier.</returns>
+        public static string GetSnapshotIdentifier(string identifier) => $"{identifier}-snapshots";
     }
 }

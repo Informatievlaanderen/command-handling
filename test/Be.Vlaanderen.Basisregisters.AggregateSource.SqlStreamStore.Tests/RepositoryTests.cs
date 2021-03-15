@@ -1,6 +1,7 @@
 namespace Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Tests
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using EventHandling;
@@ -279,6 +280,72 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Tests
             var result = await _sut.GetOptionalAsync(_model.KnownIdentifier);
 
             Assert.That(result, Is.EqualTo(Optional<AggregateRootEntityStub>.Empty));
+        }
+    }
+
+    [TestFixture]
+    public class WithSnapshotPresentInStore
+    {
+        private Repository<AggregateRootEntityStub> _sut;
+        private Model _model;
+
+        private readonly IEnumerable _events = new object[]
+        {
+            new SnapshotStub(1),
+            new EventStub(5),
+            new EventStub(6),
+        };
+
+        [SetUp]
+        public void SetUp()
+        {
+            _model = new Model();
+
+            var eventDeserializer = new EventDeserializer(SimpleJson.DeserializeObject);
+            var eventSerializer = new EventSerializer(SimpleJson.SerializeObject);
+            var eventMapping = new EventMapping(new Dictionary<string, Type>
+            {
+                { typeof(SnapshotStub).AssemblyQualifiedName, typeof(SnapshotStub) },
+                { typeof(EventStub).AssemblyQualifiedName, typeof(EventStub) },
+            });
+
+            var snapshotContainer = new SnapshotContainer
+            {
+                Info =
+                {
+                    Position = 4,
+                    Type = typeof(SnapshotStub).AssemblyQualifiedName
+                },
+                Data = eventSerializer.SerializeObject(new SnapshotStub(1))
+            };
+
+            _sut = new RepositoryScenarioBuilder(eventMapping, eventDeserializer)
+                .ScheduleAppendToStream(_model.KnownIdentifier, new EventStub(0))
+                .ScheduleAppendToStream(_model.KnownIdentifier, new EventStub(1))
+                .ScheduleAppendToStream(_model.KnownIdentifier, new EventStub(2))
+                .ScheduleAppendToStream(_model.KnownIdentifier, new EventStub(3))
+                .ScheduleAppendToStream(_model.KnownIdentifier, new EventStub(4))
+                .ScheduleAppendToStream($"{_model.KnownIdentifier}-snapshots", snapshotContainer)
+                .ScheduleAppendToStream(_model.KnownIdentifier, new EventStub(5))
+                .ScheduleAppendToStream(_model.KnownIdentifier, new EventStub(6))
+                .BuildForRepository();
+        }
+
+        [Test]
+        public async Task GetReturnsRootOfKnownId()
+        {
+            var result = await _sut.GetAsync(_model.KnownIdentifier);
+
+            Assert.That(result.RecordedEvents, Is.EquivalentTo(_events));
+        }
+
+        [Test]
+        public async Task GetOptionalReturnsRootForKnownId()
+        {
+            var result = await _sut.GetOptionalAsync(_model.KnownIdentifier);
+
+            Assert.That(result.HasValue, Is.True);
+            Assert.That(result.Value.RecordedEvents, Is.EquivalentTo(_events));
         }
     }
 }

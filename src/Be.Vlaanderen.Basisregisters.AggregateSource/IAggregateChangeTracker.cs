@@ -31,6 +31,23 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource
         IEnumerable<EventWithMetadata> GetChangesWithMetadata();
 
         /// <summary>
+        /// Indicate if snapshot support should be enabled.
+        /// </summary>
+        bool EnableSnapshots { get; }
+
+        /// <summary>
+        /// Indicate after how many state changes a snapshot should be created.
+        /// </summary>
+        int SnapshotInterval { get; }
+
+        /// <summary>
+        /// Gets the current state applied to this instance.
+        /// </summary>
+        /// <returns></returns>
+        [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
+        object CreateSnapshot();
+
+        /// <summary>
         /// Clears the state changes.
         /// </summary>
         void ClearChanges();

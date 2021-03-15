@@ -65,6 +65,6 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource
         /// </summary>
         /// <param name="identifier">The aggregate identifier.</param>
         /// <returns>The snapshot identifier for the specified aggregate identifier.</returns>
-        public static string GetSnapshotIdentifier(string identifier) => $"{identifier}-snapshots";
+        public string GetSnapshotIdentifier(string identifier) => $"{identifier}-snapshots";
     }
 }

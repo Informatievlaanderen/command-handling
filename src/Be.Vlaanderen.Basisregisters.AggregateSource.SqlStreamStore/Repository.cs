@@ -121,7 +121,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore
                 return new Optional<TAggregateRoot>((TAggregateRoot)aggregate.Root);
 
             // Otherwise, check if there is a snapshot and hydrate from there
-            var snapshotIdentifier = ConcurrentUnitOfWork.GetSnapshotIdentifier(identifier);
+            var snapshotIdentifier = UnitOfWork.GetSnapshotIdentifier(identifier);
             var snapshotPage = await EventStore.ReadStreamBackwards(
                 snapshotIdentifier,
                 StreamVersion.End,
@@ -139,7 +139,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore
                 var snapshotType = EventMapping.GetEventType(snapshotContainer.Info.Type);
                 var snapshotData = snapshotContainer.Data;
 
-                hydrateContainer.ReadFrom = snapshotContainer.Info.Position + 1;
+                hydrateContainer.ReadFrom = (int)snapshotContainer.Info.Position + 1; // TODO: Fix this when SSS supports longs for read
                 hydrateContainer.Snapshot = EventDeserializer.DeserializeObject(snapshotData, snapshotType);
             }
 

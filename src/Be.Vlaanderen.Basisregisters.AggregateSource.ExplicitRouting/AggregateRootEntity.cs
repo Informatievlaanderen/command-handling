@@ -4,23 +4,19 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource
     using System.Collections.Generic;
     using System.Linq;
 
-    //public interface ISnapshotSupport<TSnapshot>
-    //{
-    //    TSnapshot CreateSnapshot();
-    //}
-
-    //public abstract class AggregateRootEntity<TSnapshot> : AggregateRootEntity, ISnapshotSupport<TSnapshot>
-    //{
-    //    public abstract TSnapshot CreateSnapshot();
-    //}
-
     /// <summary>
     /// Base class for aggregate root entities that need some basic infrastructure for tracking state changes.
     /// </summary>
     public abstract class AggregateRootEntity : IAggregateRootEntity
     {
+        private const int SnapshotIntervalDefault = 1000;
+
         private readonly EventRecorder _recorder;
         private readonly IConfigureInstanceEventRouter _router;
+
+        public virtual bool EnableSnapshots => false;
+
+        public virtual int SnapshotInterval => SnapshotIntervalDefault;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AggregateRootEntity"/> class.
@@ -131,6 +127,9 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource
             _recorder
                 .Select(e => e is EventWithMetadata ? e : new EventWithMetadata(e)).Cast<EventWithMetadata>()
                 .ToArray();
+
+
+        public virtual object CreateSnapshot() => null;
 
         /// <summary>
         /// Clears the state changes.

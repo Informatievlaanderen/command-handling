@@ -1,6 +1,7 @@
 namespace Be.Vlaanderen.Basisregisters.AggregateSource
 {
     using System.Diagnostics.CodeAnalysis;
+    using Snapshotting;
 
     /// <summary>
     /// Represents the snapshotting operations on an aggregate root entity.
@@ -8,6 +9,11 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource
     [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Snapshotable")]
     public interface ISnapshotable
     {
+        /// <summary>
+        /// Gets the current snapshot strategy.
+        /// </summary>
+        ISnapshotStrategy Strategy { get; }
+
         /// <summary>
         /// Restores a snapshot using the specified <paramref name="state"/> object.
         /// </summary>

@@ -8,6 +8,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Tests
     using Framework;
     using global::SqlStreamStore;
     using NUnit.Framework;
+    using Snapshotting;
     using StreamStoreStore.Json;
 
     [TestFixture]
@@ -24,7 +25,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Tests
         {
             _store = new InMemoryStreamStore(() => DateTime.UtcNow);
             _unitOfWork = new ConcurrentUnitOfWork();
-            _factory = AggregateRootEntityStub.Factory;
+            _factory = () => new AggregateRootEntityStub();
             _eventDeserializer = new EventDeserializer(SimpleJson.DeserializeObject);
             _eventMapping = new EventMapping(new Dictionary<string, Type>());
         }
@@ -110,7 +111,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Tests
         [Test]
         public void AddAttachesToUnitOfWork()
         {
-            var root = AggregateRootEntityStub.Factory();
+            var root = new AggregateRootEntityStub();
 
             _sut.Add(_model.KnownIdentifier, root);
 
@@ -135,7 +136,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Tests
             var eventMapping = new EventMapping(new Dictionary<string, Type>());
 
             _model = new Model();
-            _root = AggregateRootEntityStub.Factory();
+            _root = new AggregateRootEntityStub();
             _sut = new RepositoryScenarioBuilder(eventMapping, eventDeserializer).
                 ScheduleAttachToUnitOfWork(new Aggregate(_model.KnownIdentifier, 0, _root)).
                 BuildForRepository();
@@ -286,7 +287,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Tests
     [TestFixture]
     public class WithSnapshotPresentInStore
     {
-        private Repository<AggregateRootEntityStub> _sut;
+        private Repository<AggregateRootEntitySnapshotableStub> _sut;
         private Model _model;
 
         private readonly IEnumerable _events = new object[]
@@ -328,7 +329,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Tests
                 .ScheduleAppendToStream($"{_model.KnownIdentifier}-snapshots", snapshotContainer)
                 .ScheduleAppendToStream(_model.KnownIdentifier, new EventStub(5))
                 .ScheduleAppendToStream(_model.KnownIdentifier, new EventStub(6))
-                .BuildForRepository();
+                .BuildForRepository<AggregateRootEntitySnapshotableStub>();
         }
 
         [Test]

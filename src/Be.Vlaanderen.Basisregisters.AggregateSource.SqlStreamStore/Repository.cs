@@ -8,6 +8,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore
     using EventHandling;
     using global::SqlStreamStore;
     using global::SqlStreamStore.Streams;
+    using Snapshotting;
 
     public class Repository<TAggregateRoot, TAggregateRootIdentifier> : Repository<TAggregateRoot>, IAsyncRepository<TAggregateRoot, TAggregateRootIdentifier>
         where TAggregateRoot : IAggregateRootEntity
@@ -107,7 +108,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore
 
             return result.Value;
         }
-        
+
         /// <summary>
         /// Attempts to get the aggregate root entity associated with the aggregate identifier.
         /// </summary>
@@ -119,6 +120,11 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore
             // Check if the aggregate is already created and present in the UoW
             if (UnitOfWork.TryGet(identifier, out var aggregate))
                 return new Optional<TAggregateRoot>((TAggregateRoot)aggregate.Root);
+
+            var snapshotSupport = typeof(ISnapshotable).IsAssignableFrom(typeof(TAggregateRoot));
+
+            if (!snapshotSupport)
+                return await GetAggregateAsync(identifier, StreamVersion.Start, null, cancellationToken);
 
             // Otherwise, check if there is a snapshot and hydrate from there
             var snapshotIdentifier = UnitOfWork.GetSnapshotIdentifier(identifier);
@@ -143,16 +149,33 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore
                 hydrateContainer.Snapshot = EventDeserializer.DeserializeObject(snapshotData, snapshotType);
             }
 
+            void HydrateFromSnapshot(TAggregateRoot root)
+            {
+                if (root is ISnapshotable s && hydrateContainer.Snapshot != null)
+                    s.RestoreSnapshot(hydrateContainer.Snapshot);
+            }
+
+            return await GetAggregateAsync(
+                identifier,
+                hydrateContainer.ReadFrom,
+                HydrateFromSnapshot,
+                cancellationToken);
+        }
+
+        private async Task<Optional<TAggregateRoot>> GetAggregateAsync(
+            string identifier,
+            int readFrom,
+            Action<TAggregateRoot>? restoreSnapshot,
+            CancellationToken cancellationToken)
+        {
             // Apply events from start, or from the snapshot position
-            var page = await EventStore.ReadStreamForwards(identifier, hydrateContainer.ReadFrom, 100, cancellationToken);
+            var page = await EventStore.ReadStreamForwards(identifier, readFrom, 100, cancellationToken);
 
             if (page.Status == PageReadStatus.StreamNotFound)
                 return Optional<TAggregateRoot>.Empty;
 
             var root = RootFactory();
-
-            if (hydrateContainer.Snapshot != null)
-                root.HydrateFromSnapshot(hydrateContainer.Snapshot);
+            restoreSnapshot?.Invoke(root);
 
             await ParseEvents(root, page, cancellationToken);
             while (!page.IsEnd)

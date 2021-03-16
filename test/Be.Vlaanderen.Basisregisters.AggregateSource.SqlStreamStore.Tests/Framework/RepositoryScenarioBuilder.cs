@@ -77,16 +77,19 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Tests.Fram
             return this;
         }
 
-        public Repository<AggregateRootEntityStub> BuildForRepository()
+        public Repository<T> BuildForRepository<T>()
+            where T : AggregateRootEntityStub, new ()
         {
             ExecuteScheduledActions();
-            return new Repository<AggregateRootEntityStub>(
-                AggregateRootEntityStub.Factory,
+            return new Repository<T>(
+                () => new T(),
                 _unitOfWork,
                 _eventStore,
                 _eventMapping,
                 _eventDeserializer);
         }
+        public Repository<AggregateRootEntityStub> BuildForRepository()
+            => BuildForRepository<AggregateRootEntityStub>();
 
         private void ExecuteScheduledActions()
         {

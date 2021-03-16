@@ -9,14 +9,9 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource
     /// </summary>
     public abstract class AggregateRootEntity : IAggregateRootEntity
     {
-        private const int SnapshotIntervalDefault = 1000;
-
         private readonly EventRecorder _recorder;
         private readonly IConfigureInstanceEventRouter _router;
 
-        public virtual bool EnableSnapshots => false;
-
-        public virtual int SnapshotInterval => SnapshotIntervalDefault;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AggregateRootEntity"/> class.
@@ -58,7 +53,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource
                 Play(@event);
         }
 
-        public void HydrateFromSnapshot(object snapshot)
+        public void RestoreSnapshot(object snapshot)
         {
             if (snapshot == null)
                 throw new ArgumentNullException(nameof(snapshot));

@@ -2,10 +2,12 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling.SqlStreamStore
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.Immutable;
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
     using AggregateSource;
+    using AggregateSource.Snapshotting;
     using EventHandling;
     using Generators.Guid;
     using global::SqlStreamStore;
@@ -55,7 +57,8 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling.SqlStreamStore
 
             var i = 1;
 
-            var changes = aggregate.Root.GetChangesWithMetadata()
+            var events = aggregate.Root.GetChangesWithMetadata().ToImmutableList();
+            var changes = events
                 .Select(o =>
                     new NewStreamMessage(
                         messageId: Deterministic.Create(Deterministic.Namespaces.Events, $"{message.CommandId}-{i++}"),
@@ -70,51 +73,35 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling.SqlStreamStore
                 changes,
                 ct);
 
-            if (!aggregate.Root.EnableSnapshots)
-                return result.CurrentPosition; // Position of the last event written
-
-            var shouldCreateSnapshot = ShouldCreateSnapshot(
-                result.CurrentPosition - changes.Length,
-                result.CurrentPosition,
-                aggregate.Root.SnapshotInterval);
-
-            if (shouldCreateSnapshot)
+            if (aggregate.Root is ISnapshotable support)
                 await CreateSnapshot(
+                    support,
+                    new SnapshotStrategyContext(
+                        aggregate,
+                        events,
+                        result.CurrentPosition),
                     streamStore,
                     uow,
                     eventMapping,
                     eventSerializer,
-                    aggregate,
-                    result.CurrentPosition,
                     ct);
 
-            return result.CurrentPosition;
-        }
-
-        private static bool ShouldCreateSnapshot(
-            long startPosition,
-            long endPosition,
-            int snapshotInterval)
-        {
-            for (var i = startPosition; i < endPosition; i++)
-            {
-                if (i % snapshotInterval == 0)
-                    return true;
-            }
-
-            return false;
+            return result.CurrentPosition; // Position of the last event written
         }
 
         private static async Task CreateSnapshot(
+            ISnapshotable snapshotSupport,
+            SnapshotStrategyContext context,
             IStreamStore streamStore,
             ConcurrentUnitOfWork uow,
             EventMapping eventMapping,
             EventSerializer eventSerializer,
-            Aggregate aggregate,
-            long snapshotPosition,
             CancellationToken ct)
         {
-            var snapshot = aggregate.Root.CreateSnapshot();
+            if (!snapshotSupport.Strategy.ShouldCreateSnapshot(context))
+                return;
+
+            var snapshot = snapshotSupport.TakeSnapshot();
             if (snapshot == null)
                 throw new InvalidOperationException("Snapshot missing.");
 
@@ -124,16 +111,16 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling.SqlStreamStore
                 Info =
                 {
                     Type = eventMapping.GetEventName(snapshot.GetType()),
-                    Position = snapshotPosition
+                    Position = context.SnapshotPosition
                 }
             };
 
             await streamStore.AppendToStream(
-                uow.GetSnapshotIdentifier(aggregate.Identifier),
+                uow.GetSnapshotIdentifier(context.Aggregate.Identifier),
                 ExpectedVersion.Any,
                 new NewStreamMessage(
-                    Deterministic.Create(Deterministic.Namespaces.Events, $"snapshot-{snapshotPosition}"),
-                    typeof(SnapshotContainer).AssemblyQualifiedName,
+                    Deterministic.Create(Deterministic.Namespaces.Events, $"snapshot-{context.SnapshotPosition}"),
+                    typeof(SnapshotContainer).FullName,
                     eventSerializer.SerializeObject(snapshotContainer)),
                 ct);
         }

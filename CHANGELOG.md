@@ -1,3 +1,10 @@
+## [5.1.1](https://github.com/informatievlaanderen/command-handling/compare/v5.1.0...v5.1.1) (2021-03-16)
+
+
+### Bug Fixes
+
+* use strategy to determine snapshotting ([1223c23](https://github.com/informatievlaanderen/command-handling/commit/1223c23f4e655be5028fbb1a5616103c68ae61bc))
+
 # [5.1.0](https://github.com/informatievlaanderen/command-handling/compare/v5.0.13...v5.1.0) (2021-03-15)
 
 

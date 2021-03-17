@@ -1,3 +1,10 @@
+## [5.1.2](https://github.com/informatievlaanderen/command-handling/compare/v5.1.1...v5.1.2) (2021-03-17)
+
+
+### Bug Fixes
+
+* change type name for snapshot messages ([ac64fd0](https://github.com/informatievlaanderen/command-handling/commit/ac64fd041b2d659445a728ecbde6b58ae93eb5c5))
+
 ## [5.1.1](https://github.com/informatievlaanderen/command-handling/compare/v5.1.0...v5.1.1) (2021-03-16)
 
 

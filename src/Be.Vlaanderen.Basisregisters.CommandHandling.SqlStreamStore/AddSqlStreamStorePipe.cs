@@ -120,7 +120,7 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling.SqlStreamStore
                 ExpectedVersion.Any,
                 new NewStreamMessage(
                     Deterministic.Create(Deterministic.Namespaces.Events, $"snapshot-{context.SnapshotPosition}"),
-                    typeof(SnapshotContainer).FullName,
+                    $"SnapshotContainer<{snapshotContainer.Info.Type}>",
                     eventSerializer.SerializeObject(snapshotContainer)),
                 ct);
         }

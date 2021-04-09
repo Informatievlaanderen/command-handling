@@ -29,7 +29,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Snapshotting
         {
             for (var i = startPosition; i < endPosition; i++)
             {
-                if (i % snapshotInterval == 0)
+                if (i > 0 && i % snapshotInterval == 0)
                     return true;
             }
 

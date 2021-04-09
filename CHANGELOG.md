@@ -1,3 +1,10 @@
+## [5.1.4](https://github.com/informatievlaanderen/command-handling/compare/v5.1.3...v5.1.4) (2021-04-09)
+
+
+### Bug Fixes
+
+* interval strategy now doesn't create snapshot on start ([03cbabf](https://github.com/informatievlaanderen/command-handling/commit/03cbabf51eaa1a398def4c19a2e3df260088a34e))
+
 ## [5.1.3](https://github.com/informatievlaanderen/command-handling/compare/v5.1.2...v5.1.3) (2021-04-09)
 
 

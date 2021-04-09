@@ -32,7 +32,10 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
             if (result.HasValue)
                 return spec.Fail(result.Value);
 
-            var actualEvents = await _factReader.RetrieveFacts(position);
+            var actualEvents =
+                spec.Thens.Length == 0
+                ? await _factReader.RetrieveFacts(position)
+                : await _factReader.RetrieveFactsByStream(position, spec.Thens.First().Identifier);
 
             return actualEvents.SequenceEqual(spec.Thens, new WrappedFactComparerEqualityComparer(_comparer))
                 ? spec.Pass(actualEvents)

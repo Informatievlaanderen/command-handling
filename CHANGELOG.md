@@ -1,3 +1,10 @@
+## [5.1.3](https://github.com/informatievlaanderen/command-handling/compare/v5.1.2...v5.1.3) (2021-04-09)
+
+
+### Bug Fixes
+
+* testing aggregate 'Then' with identifier filters out the specific aggregate ([01d79f7](https://github.com/informatievlaanderen/command-handling/commit/01d79f7a0a6319fc3dac7bcd6652e33541e87771))
+
 ## [5.1.2](https://github.com/informatievlaanderen/command-handling/compare/v5.1.1...v5.1.2) (2021-03-17)
 
 

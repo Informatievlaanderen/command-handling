@@ -214,7 +214,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests
         }
 
         [Test]
-        public void PassesIfExpectedEventsWhereRecordedAndGivensNotEmtpyAndStreamStoreNotEmpty()
+        public void PassesIfExpectedEventsWhereRecordedAndGivensNotEmptyAndStreamStoreNotEmpty()
         {
             var handler = CreateHandlerThatRecords("SomethingHappened", new SomethingHappened());
             _handlerResolver.When()

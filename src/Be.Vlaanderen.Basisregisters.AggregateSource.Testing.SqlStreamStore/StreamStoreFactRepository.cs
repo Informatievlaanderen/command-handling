@@ -44,12 +44,12 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.SqlStreamStore
         public async Task<Fact[]> RetrieveFactsByStream(long fromPositionExclusive, string aggregateIdentifier)
         {
             var results = new List<Fact>();
-            var page = await _streamStore.ReadStreamForwards(new StreamId(aggregateIdentifier), fromPositionExclusive < 0 ? Convert.ToInt32(Position.Start) : Convert.ToInt32(fromPositionExclusive), 10);
-            results.AddRange(page.Messages.Where(m => m.Position != fromPositionExclusive).Select(MapToFact));
+            var page = await _streamStore.ReadAllForwards(fromPositionExclusive < 0 ? Position.Start : fromPositionExclusive, 10);
+            results.AddRange(page.Messages.Where(m => m.Position != fromPositionExclusive && m.StreamId == aggregateIdentifier).Select(MapToFact));
             while (!page.IsEnd)
             {
                 page = await page.ReadNext();
-                results.AddRange(page.Messages.Where(m => m.Position != fromPositionExclusive).Select(MapToFact));
+                results.AddRange(page.Messages.Where(m => m.Position != fromPositionExclusive && m.StreamId == aggregateIdentifier).Select(MapToFact));
             }
 
             return results.ToArray();

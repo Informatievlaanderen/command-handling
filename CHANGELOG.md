@@ -1,3 +1,10 @@
+## [5.1.5](https://github.com/informatievlaanderen/command-handling/compare/v5.1.4...v5.1.5) (2021-04-11)
+
+
+### Bug Fixes
+
+* filter position conflicted by stream filter ([08b4a20](https://github.com/informatievlaanderen/command-handling/commit/08b4a20cc21864ed7fa11c6b426bfac13b8f989d))
+
 ## [5.1.4](https://github.com/informatievlaanderen/command-handling/compare/v5.1.3...v5.1.4) (2021-04-09)
 
 

@@ -3,6 +3,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.SqlStreamStore
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Reflection;
     using System.Threading.Tasks;
     using EventHandling;
     using global::SqlStreamStore;
@@ -30,26 +31,12 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.SqlStreamStore
         public async Task<Fact[]> RetrieveFacts(long fromPositionExclusive)
         {
             var results = new List<Fact>();
-            var page = await _streamStore.ReadAllForwards(fromPositionExclusive < 0 ? Position.Start : fromPositionExclusive, 10);
+            var page = await _streamStore.ReadAllForwards(fromPositionExclusive<0?Position.Start:fromPositionExclusive, 10);
             results.AddRange(page.Messages.Where(m => m.Position != fromPositionExclusive).Select(MapToFact));
             while (!page.IsEnd)
             {
                 page = await page.ReadNext();
                 results.AddRange(page.Messages.Where(m => m.Position != fromPositionExclusive).Select(MapToFact));
-            }
-
-            return results.ToArray();
-        }
-
-        public async Task<Fact[]> RetrieveFactsByStream(long fromPositionExclusive, string aggregateIdentifier)
-        {
-            var results = new List<Fact>();
-            var page = await _streamStore.ReadAllForwards(fromPositionExclusive < 0 ? Position.Start : fromPositionExclusive, 10);
-            results.AddRange(page.Messages.Where(m => m.Position != fromPositionExclusive && m.StreamId == aggregateIdentifier).Select(MapToFact));
-            while (!page.IsEnd)
-            {
-                page = await page.ReadNext();
-                results.AddRange(page.Messages.Where(m => m.Position != fromPositionExclusive && m.StreamId == aggregateIdentifier).Select(MapToFact));
             }
 
             return results.ToArray();
@@ -70,7 +57,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.SqlStreamStore
                             _eventMapping.GetEventName(e.Event.GetType()),
                             _eventSerializer.SerializeObject(e.Event))).ToArray());
 
-            return result?.CurrentPosition ?? await _streamStore.ReadHeadPosition();
+            return result?.CurrentPosition??await _streamStore.ReadHeadPosition();
         }
 
         private Fact MapToFact(StreamMessage streamMessage)

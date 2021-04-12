@@ -5,6 +5,5 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
     public interface IFactReader
     {
         Task<Fact[]> RetrieveFacts(long fromPositionExclusive);
-        Task<Fact[]> RetrieveFactsByStream(long fromPositionExclusive, string aggregateIdentifier);
     }
 }

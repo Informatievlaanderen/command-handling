@@ -1,3 +1,10 @@
+## [5.1.6](https://github.com/informatievlaanderen/command-handling/compare/v5.1.5...v5.1.6) (2021-04-12)
+
+
+### Bug Fixes
+
+* revert commits changing EventSpecTestRunner ([b46fd6f](https://github.com/informatievlaanderen/command-handling/commit/b46fd6f6b8d769049903324dd158b0d2e6d4c811))
+
 ## [5.1.5](https://github.com/informatievlaanderen/command-handling/compare/v5.1.4...v5.1.5) (2021-04-11)
 
 

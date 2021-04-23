@@ -17,8 +17,8 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Snapshotting
                 throw  new ArgumentNullException(nameof(context));
 
             return ShouldCreateSnapshot(
-                context.SnapshotPosition - context.Events.Count,
-                context.SnapshotPosition,
+                context.StreamVersion - context.Events.Count,
+                context.StreamVersion,
                 _interval);
         }
 

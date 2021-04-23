@@ -1,3 +1,10 @@
+# [5.2.0](https://github.com/informatievlaanderen/command-handling/compare/v5.1.6...v5.2.0) (2021-04-23)
+
+
+### Features
+
+* add streamversion to snapshot context + fix interval strategy ([#87](https://github.com/informatievlaanderen/command-handling/issues/87)) ([9e2d5ff](https://github.com/informatievlaanderen/command-handling/commit/9e2d5ff33a0679376514d5371b26de2039dcdfa6))
+
 ## [5.1.6](https://github.com/informatievlaanderen/command-handling/compare/v5.1.5...v5.1.6) (2021-04-12)
 
 

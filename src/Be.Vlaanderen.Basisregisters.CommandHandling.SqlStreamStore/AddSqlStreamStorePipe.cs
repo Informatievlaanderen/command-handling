@@ -79,6 +79,7 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling.SqlStreamStore
                     new SnapshotStrategyContext(
                         aggregate,
                         events,
+                        result.CurrentVersion,
                         result.CurrentPosition),
                     streamStore,
                     uow,

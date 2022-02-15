@@ -77,6 +77,10 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
             return new TestSpecificationBuilder(_context.SetThrows(exception));
         }
 
+        public IScenarioThrowStateBuilder Throws<TException>()
+            where TException : Exception, new()
+            => new TestSpecificationBuilder(_context.SetThrows<TException>());
+
         EventCentricTestSpecification IEventCentricTestSpecificationBuilder.Build()
             => _context.ToEventCentricSpecification();
 

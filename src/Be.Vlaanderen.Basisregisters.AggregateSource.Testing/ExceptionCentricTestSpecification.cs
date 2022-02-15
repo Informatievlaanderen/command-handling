@@ -63,6 +63,17 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
         }
 
         /// <summary>
+        /// Returns a test result that indicates this specification has failed.
+        /// </summary>
+        /// <param name="actual">The actual exception thrown</param>
+        /// <returns>A new <see cref="ExceptionCentricTestResult"/>.</returns>
+        public ExceptionCentricTestResult Fail<TException>()
+            where TException : Exception, new()
+        {
+            return new ExceptionCentricTestResult(this, TestResultState.Failed, new Optional<Exception>(new TException()), Optional<Fact[]>.Empty);
+        }
+
+        /// <summary>
         /// Returns a test result that indicates this specification has failed because different things happened.
         /// </summary>
         /// <param name="actual">The actual events</param>

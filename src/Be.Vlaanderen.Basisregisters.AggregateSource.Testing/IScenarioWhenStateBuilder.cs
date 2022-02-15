@@ -1,4 +1,4 @@
-﻿namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
+namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
 {
     using System;
 
@@ -34,5 +34,13 @@
         /// <param name="exception">The exception thrown.</param>
         /// <returns>A builder continuation.</returns>
         IScenarioThrowStateBuilder Throws(Exception exception);
+
+        /// <summary>
+        /// Throws an exception.
+        /// </summary>
+        /// <param name="exception">The exception thrown.</param>
+        /// <returns>A builder continuation.</returns>
+        IScenarioThrowStateBuilder Throws<TException>()
+            where TException : Exception, new();
     }
 }

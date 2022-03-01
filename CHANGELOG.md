@@ -1,3 +1,16 @@
+# [5.3.0](https://github.com/informatievlaanderen/command-handling/compare/v5.2.1...v5.3.0) (2022-03-01)
+
+
+### Bug Fixes
+
+* eventwithmetadata ctor ([8da0617](https://github.com/informatievlaanderen/command-handling/commit/8da06176e06282381faed251d4f8cb207df83d68))
+* put last commit in comments (didn't build) ([556d775](https://github.com/informatievlaanderen/command-handling/commit/556d775d72312a19f55d5ccf6c3d51db82c40226))
+
+
+### Features
+
+* support Throws<TException> ([06711cc](https://github.com/informatievlaanderen/command-handling/commit/06711ccdabe8c512689781548e311edbc09bb978))
+
 ## [5.2.1](https://github.com/informatievlaanderen/command-handling/compare/v5.2.0...v5.2.1) (2021-05-28)
 
 

@@ -220,14 +220,14 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests
                     return this;
                 }
 
-                public ExceptionCentricTestSpecificationRunnerSetup SpecificationRunFailsBecauseException<TException>()
-                    where TException : Exception, new()
-                {
-                    Moq.Setup(x => x.Run(It.IsAny<ExceptionCentricTestSpecification>()))
-                        .Returns<ExceptionCentricTestSpecification>(spec => spec.Fail<TException>());
+                //public ExceptionCentricTestSpecificationRunnerSetup SpecificationRunFailsBecauseException<TException>()
+                //    where TException : Exception, new()
+                //{
+                //    Moq.Setup(x => x.Run(It.IsAny<ExceptionCentricTestSpecification>()))
+                //        .Returns<ExceptionCentricTestSpecification>(spec => spec.Fail<TException>());
 
-                    return this;
-                }
+                //    return this;
+                //}
 
                 public ExceptionCentricTestSpecificationRunnerSetup SpecificationRunFailsBecauseEvents(Fact[] events)
                 {
@@ -344,61 +344,61 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests
                             .Assert(_runner.Object, new EqualsExceptionComparer(), new ConsoleLogger()));
             }
 
-            [Test]
-            public void WhenSpecificationRunFailsBecauseDifferentExceptionGeneric()
-            {
-                _runner.When()
-                    .SpecificationRunFailsBecauseException<Exception>();
-                Assert.Throws<AssertionException>(
-                    () =>
-                        new Scenario()
-                            .GivenNone()
-                            .When(new DoSomething())
-                            .Throws<Exception>()
-                            .Assert(_runner.Object, new EqualsExceptionComparer(), new ConsoleLogger()));
-            }
+            //[Test]
+            //public void WhenSpecificationRunFailsBecauseDifferentExceptionGeneric()
+            //{
+            //    _runner.When()
+            //        .SpecificationRunFailsBecauseException<Exception>();
+            //    Assert.Throws<AssertionException>(
+            //        () =>
+            //            new Scenario()
+            //                .GivenNone()
+            //                .When(new DoSomething())
+            //                .Throws<Exception>()
+            //                .Assert(_runner.Object, new EqualsExceptionComparer(), new ConsoleLogger()));
+            //}
 
-            [Test]
-            public void WhenSpecificationRunFailsBecauseEventsGeneric()
-            {
-                _runner.When()
-                    .SpecificationRunFailsBecauseEvents(new []{new Fact("1", new SomethingHappened())});
-                Assert.Throws<AssertionException>(
-                    () =>
-                        new Scenario()
-                            .GivenNone()
-                            .When(new DoSomething())
-                            .Throws<Exception>()
-                            .Assert(_runner.Object, new EqualsExceptionComparer(), new ConsoleLogger()));
-            }
+            //[Test]
+            //public void WhenSpecificationRunFailsBecauseEventsGeneric()
+            //{
+            //    _runner.When()
+            //        .SpecificationRunFailsBecauseEvents(new []{new Fact("1", new SomethingHappened())});
+            //    Assert.Throws<AssertionException>(
+            //        () =>
+            //            new Scenario()
+            //                .GivenNone()
+            //                .When(new DoSomething())
+            //                .Throws<Exception>()
+            //                .Assert(_runner.Object, new EqualsExceptionComparer(), new ConsoleLogger()));
+            //}
 
-            [Test]
-            public void WhenSpecificationRunFailsBecauseNoExceptionGeneric()
-            {
-                _runner.When()
-                    .SpecificationRunFails();
-                Assert.Throws<AssertionException>(
-                    () =>
-                        new Scenario()
-                            .GivenNone()
-                            .When(new DoSomething())
-                            .Throws<Exception>()
-                            .Assert(_runner.Object, new EqualsExceptionComparer(), new ConsoleLogger()));
-            }
+            //[Test]
+            //public void WhenSpecificationRunFailsBecauseNoExceptionGeneric()
+            //{
+            //    _runner.When()
+            //        .SpecificationRunFails();
+            //    Assert.Throws<AssertionException>(
+            //        () =>
+            //            new Scenario()
+            //                .GivenNone()
+            //                .When(new DoSomething())
+            //                .Throws<Exception>()
+            //                .Assert(_runner.Object, new EqualsExceptionComparer(), new ConsoleLogger()));
+            //}
 
-            [Test]
-            public void WhenSpecificationRunPassesGeneric()
-            {
-                var expectedException= new Exception();
-                _runner.When().SpecificationRunPasses(expectedException);
-                Assert.DoesNotThrow(
-                    () =>
-                        new Scenario()
-                            .GivenNone()
-                            .When(new DoSomething())
-                            .Throws<Exception>()
-                            .Assert(_runner.Object, new EqualsExceptionComparer(), new ConsoleLogger()));
-            }
+            //[Test]
+            //public void WhenSpecificationRunPassesGeneric()
+            //{
+            //    var expectedException= new Exception();
+            //    _runner.When().SpecificationRunPasses(expectedException);
+            //    Assert.DoesNotThrow(
+            //        () =>
+            //            new Scenario()
+            //                .GivenNone()
+            //                .When(new DoSomething())
+            //                .Throws<Exception>()
+            //                .Assert(_runner.Object, new EqualsExceptionComparer(), new ConsoleLogger()));
+            //}
         }
     }
 }

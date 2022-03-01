@@ -6,9 +6,9 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource
     {
         public object Event { get; }
 
-        public IDictionary<string, object> Metadata { get;}
+        public IDictionary<string, object> Metadata { get; }
 
-        public EventWithMetadata(object @event) : this(@event, null) { }
+        public EventWithMetadata(object @event) : this(@event, new Dictionary<string, object>()) { }
 
         public EventWithMetadata(object @event, IDictionary<string, object> metadata)
         {

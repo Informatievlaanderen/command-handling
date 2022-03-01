@@ -43,9 +43,9 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
         public TestSpecificationBuilderContext SetThrows(Exception exception)
             => new TestSpecificationBuilderContext(_givens, _when, _thens, exception);
 
-        public TestSpecificationBuilderContext SetThrows<TException>()
-            where TException : Exception, new()
-            => new TestSpecificationBuilderContext(_givens, _when, _thens, new TException());
+        //public TestSpecificationBuilderContext SetThrows<TException>()
+        //    where TException : Exception, new()
+        //    => new TestSpecificationBuilderContext(_givens, _when, _thens, new TException());
 
         public EventCentricTestSpecification ToEventCentricSpecification()
             => new EventCentricTestSpecification(_givens, _when, _thens);

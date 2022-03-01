@@ -77,14 +77,14 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
             return new TestSpecificationBuilder(_context.SetThrows(exception));
         }
 
-        /// <summary>
-        /// Throws<TException>()
-        /// </summary>
-        /// <typeparam name="TException"></typeparam>
-        /// <remarks>This creates an exception of type TException by using new(), therefore the exception's message will likely not be the same.</remarks>
-        public IScenarioThrowStateBuilder Throws<TException>()
-            where TException : Exception, new()
-            => new TestSpecificationBuilder(_context.SetThrows<TException>());
+        ///// <summary>
+        ///// Throws<TException>()
+        ///// </summary>
+        ///// <typeparam name="TException"></typeparam>
+        ///// <remarks>This creates an exception of type TException by using new(), therefore the exception's message will likely not be the same.</remarks>
+        //public IScenarioThrowStateBuilder Throws<TException>()
+        //    where TException : Exception, new()
+        //    => new TestSpecificationBuilder(_context.SetThrows<TException>());
 
         EventCentricTestSpecification IEventCentricTestSpecificationBuilder.Build()
             => _context.ToEventCentricSpecification();

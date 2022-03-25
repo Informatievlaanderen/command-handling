@@ -1,3 +1,15 @@
+# [6.0.0](https://github.com/informatievlaanderen/command-handling/compare/v5.3.0...v6.0.0) (2022-03-25)
+
+
+### Features
+
+* move to dotnet 6.0.3 ([1657b9c](https://github.com/informatievlaanderen/command-handling/commit/1657b9c4ec085e718969ed0a734b3543fe6fd0ad))
+
+
+### BREAKING CHANGES
+
+* move to dotnet 6.0.3
+
 # [5.3.0](https://github.com/informatievlaanderen/command-handling/compare/v5.2.1...v5.3.0) (2022-03-01)
 
 

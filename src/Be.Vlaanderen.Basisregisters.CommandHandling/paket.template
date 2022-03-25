@@ -15,8 +15,8 @@ licenseUrl https://opensource.org/licenses/MIT
 description Lightweight infrastructure for doing command handling and eventsourcing using aggregates.
 
 dependencies
-  framework: net5.0
+  framework: net6.0
 
 files
-  bin\Release\net5.0\Be.Vlaanderen.Basisregisters.CommandHandling.dll => lib\net5.0
-  bin\Release\net5.0\Be.Vlaanderen.Basisregisters.CommandHandling.pdb => lib\net5.0
+  bin\Release\net6.0\Be.Vlaanderen.Basisregisters.CommandHandling.dll => lib\net6.0
+  bin\Release\net6.0\Be.Vlaanderen.Basisregisters.CommandHandling.pdb => lib\net6.0

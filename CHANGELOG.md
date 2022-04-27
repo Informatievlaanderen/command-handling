@@ -1,3 +1,10 @@
+## [6.0.1](https://github.com/informatievlaanderen/command-handling/compare/v6.0.0...v6.0.1) (2022-04-27)
+
+
+### Bug Fixes
+
+* redirect sonar to /dev/null ([64a1567](https://github.com/informatievlaanderen/command-handling/commit/64a1567e8a4f1d245a1b223ba476b3963d5b2d2c))
+
 # [6.0.0](https://github.com/informatievlaanderen/command-handling/compare/v5.3.0...v6.0.0) (2022-03-25)
 
 

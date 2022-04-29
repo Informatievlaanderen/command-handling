@@ -1,3 +1,10 @@
+## [6.0.2](https://github.com/informatievlaanderen/command-handling/compare/v6.0.1...v6.0.2) (2022-04-29)
+
+
+### Bug Fixes
+
+* run sonar end when release version != none ([a6ba01c](https://github.com/informatievlaanderen/command-handling/commit/a6ba01caaed325f58dd51eb7f53e5d8406fea7e9))
+
 ## [6.0.1](https://github.com/informatievlaanderen/command-handling/compare/v6.0.0...v6.0.1) (2022-04-27)
 
 

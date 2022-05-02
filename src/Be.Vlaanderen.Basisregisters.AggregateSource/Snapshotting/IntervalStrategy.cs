@@ -9,6 +9,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Snapshotting
         private IntervalStrategy(int interval) => _interval = interval;
 
         public static IntervalStrategy SnapshotEvery(int interval) => new IntervalStrategy(interval);
+
         public static IntervalStrategy Default => SnapshotEvery(1000);
 
         public bool ShouldCreateSnapshot(SnapshotStrategyContext context)

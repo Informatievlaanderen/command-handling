@@ -48,12 +48,16 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling.SqlStreamStore
 
             var aggregate = uow.GetChanges().SingleOrDefault();
             if (aggregate == null)
+            {
                 return -1L;
+            }
 
             var streamStore = getStreamStore();
 
             if (!message.Metadata.ContainsKey("CommandId"))
+            {
                 message.Metadata.Add("CommandId", message.CommandId);
+            }
 
             var i = 1;
 
@@ -74,6 +78,7 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling.SqlStreamStore
                 ct);
 
             if (aggregate.Root is ISnapshotable support)
+            {
                 await CreateSnapshot(
                     support,
                     new SnapshotStrategyContext(
@@ -86,6 +91,7 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling.SqlStreamStore
                     eventMapping,
                     eventSerializer,
                     ct);
+            }
 
             return result.CurrentPosition; // Position of the last event written
         }
@@ -100,11 +106,15 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling.SqlStreamStore
             CancellationToken ct)
         {
             if (!snapshotSupport.Strategy.ShouldCreateSnapshot(context))
+            {
                 return;
+            }
 
             var snapshot = snapshotSupport.TakeSnapshot();
             if (snapshot == null)
+            {
                 throw new InvalidOperationException("Snapshot missing.");
+            }
 
             var snapshotContainer = new SnapshotContainer
             {

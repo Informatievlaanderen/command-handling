@@ -1,12 +1,10 @@
 namespace Be.Vlaanderen.Basisregisters.AggregateSource
 {
-    using System.Diagnostics.CodeAnalysis;
     using Snapshotting;
 
     /// <summary>
     /// Represents the snapshotting operations on an aggregate root entity.
     /// </summary>
-    [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Snapshotable")]
     public interface ISnapshotable
     {
         /// <summary>

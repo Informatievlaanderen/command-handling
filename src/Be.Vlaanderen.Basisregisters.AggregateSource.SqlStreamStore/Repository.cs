@@ -104,7 +104,9 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore
         {
             var result = await GetOptionalAsync(identifier, cancellationToken);
             if (!result.HasValue)
+            {
                 throw new AggregateNotFoundException(identifier, typeof(TAggregateRoot));
+            }
 
             return result.Value;
         }
@@ -119,12 +121,16 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore
         {
             // Check if the aggregate is already created and present in the UoW
             if (UnitOfWork.TryGet(identifier, out var aggregate))
+            {
                 return new Optional<TAggregateRoot>((TAggregateRoot)aggregate.Root);
+            }
 
             var snapshotSupport = typeof(ISnapshotable).IsAssignableFrom(typeof(TAggregateRoot));
 
             if (!snapshotSupport)
+            {
                 return await GetAggregateAsync(identifier, StreamVersion.Start, null, cancellationToken);
+            }
 
             // Otherwise, check if there is a snapshot and hydrate from there
             var snapshotIdentifier = UnitOfWork.GetSnapshotIdentifier(identifier);
@@ -152,7 +158,9 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore
             void HydrateFromSnapshot(TAggregateRoot root)
             {
                 if (root is ISnapshotable s && hydrateContainer.Snapshot != null)
+                {
                     s.RestoreSnapshot(hydrateContainer.Snapshot);
+                }
             }
 
             return await GetAggregateAsync(
@@ -172,7 +180,9 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore
             var page = await EventStore.ReadStreamForwards(identifier, readFrom, 100, cancellationToken);
 
             if (page.Status == PageReadStatus.StreamNotFound)
+            {
                 return Optional<TAggregateRoot>.Empty;
+            }
 
             var root = RootFactory();
             restoreSnapshot?.Invoke(root);

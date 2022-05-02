@@ -14,7 +14,9 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Snapshotting
         public bool ShouldCreateSnapshot(SnapshotStrategyContext context)
         {
             if (context == null)
-                throw  new ArgumentNullException(nameof(context));
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
 
             return ShouldCreateSnapshot(
                 context.StreamVersion - context.Events.Count,
@@ -30,7 +32,9 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Snapshotting
             for (var i = startPosition; i < endPosition; i++)
             {
                 if (i > 0 && i % snapshotInterval == 0)
+                {
                     return true;
+                }
             }
 
             return false;

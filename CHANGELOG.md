@@ -1,3 +1,11 @@
+# [6.1.0](https://github.com/informatievlaanderen/command-handling/compare/v6.0.2...v6.1.0) (2022-05-11)
+
+
+### Features
+
+* add AfterEventsCountStrategy, AfterEventTypeStrategy ([b3ed9b4](https://github.com/informatievlaanderen/command-handling/commit/b3ed9b470e0ba50714c543e86bc6f9c828e4464a))
+* add NoSnapshotStrategy ([56f4314](https://github.com/informatievlaanderen/command-handling/commit/56f431408439126eed6ab38650dc3ba1fa0e5fdd))
+
 ## [6.0.2](https://github.com/informatievlaanderen/command-handling/compare/v6.0.1...v6.0.2) (2022-04-29)
 
 

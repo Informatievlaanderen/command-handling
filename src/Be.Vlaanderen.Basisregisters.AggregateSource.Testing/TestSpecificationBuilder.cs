@@ -17,7 +17,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
 
         private TestSpecificationBuilder(TestSpecificationBuilderContext context) => _context = context;
 
-        public IScenarioGivenStateBuilder Given(params Fact[] facts)
+        public IScenarioGivenStateBuilder Given(params ExpectedFact[] facts)
         {
             if (facts == null)
                 throw new ArgumentNullException(nameof(facts));
@@ -33,7 +33,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
             if (events == null)
                 throw new ArgumentNullException(nameof(events));
 
-            return new TestSpecificationBuilder(_context.AppendGivens(events.Select(@event => new Fact(identifier, @event))));
+            return new TestSpecificationBuilder(_context.AppendGivens(events.Select(@event => new ExpectedFact(identifier, @event))));
         }
 
         public IScenarioGivenNoneStateBuilder GivenNone()
@@ -47,7 +47,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
             return new TestSpecificationBuilder(_context.SetWhen(message));
         }
 
-        public IScenarioThenStateBuilder Then(params Fact[] facts)
+        public IScenarioThenStateBuilder Then(params ExpectedFact[] facts)
         {
             if (facts == null)
                 throw new ArgumentNullException(nameof(facts));
@@ -63,7 +63,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
             if (events == null)
                 throw new ArgumentNullException(nameof(events));
 
-            return new TestSpecificationBuilder(_context.AppendThens(events.Select(@event => new Fact(identifier, @event))));
+            return new TestSpecificationBuilder(_context.AppendThens(events.Select(@event => new ExpectedFact(identifier, @event))));
         }
 
         public IScenarioThenNoneStateBuilder ThenNone()

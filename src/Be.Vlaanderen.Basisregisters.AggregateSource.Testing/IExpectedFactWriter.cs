@@ -2,8 +2,8 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
 {
     using System.Threading.Tasks;
 
-    public interface IFactWriter
+    public interface IExpectedFactWriter
     {
-        Task<long> PersistFacts(Fact[] facts);
+        Task<long> PersistFacts(ExpectedFact[] facts);
     }
 }

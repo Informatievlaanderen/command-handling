@@ -4,14 +4,14 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Tests
     using NUnit.Framework;
 
     [TestFixture]
-    public class FactTests
+    public class ExpectedFactTests
     {
-        private TestFactBuilder _sutBuilder;
+        private TestExpectedFactBuilder _sutBuilder;
 
         [SetUp]
         public void SetUp()
         {
-            _sutBuilder = new TestFactBuilder();
+            _sutBuilder = new TestExpectedFactBuilder();
         }
 
         [Test]
@@ -73,7 +73,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Tests
         [Test]
         public void IsEquatable()
         {
-            Assert.That(_sutBuilder.Build(), Is.InstanceOf<IEquatable<Fact>>());
+            Assert.That(_sutBuilder.Build(), Is.InstanceOf<IEquatable<ExpectedFact>>());
         }
 
         [Test]

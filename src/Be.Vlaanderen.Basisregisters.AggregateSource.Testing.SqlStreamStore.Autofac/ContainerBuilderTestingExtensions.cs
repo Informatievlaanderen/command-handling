@@ -8,11 +8,11 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.SqlStreamStore.Au
     {
         public static void UseAggregateSourceTesting(
             this ContainerBuilder builder,
-            IFactComparer factComparer,
+            IExpectedFactComparer factComparer,
             IExceptionComparer exceptionComparer)
         {
             builder
-                .RegisterType<StreamStoreFactRepository>()
+                .RegisterType<StreamStoreExpectedFactRepository>()
                 .AsImplementedInterfaces();
 
             builder

@@ -99,7 +99,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
             _writer.Indent--;
         }
 
-        private void WriteFacts(IEnumerable<Fact> facts)
+        private void WriteFacts(IEnumerable<ExpectedFact> facts)
         {
             _writer.Indent++;
             using (var enumerator = facts.GetEnumerator())

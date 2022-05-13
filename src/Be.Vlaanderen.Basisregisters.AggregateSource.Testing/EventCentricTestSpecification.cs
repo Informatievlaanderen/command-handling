@@ -10,7 +10,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
         /// <summary>
         /// The events to arrange.
         /// </summary>
-        public Fact[] Givens { get; }
+        public ExpectedFact[] Givens { get; }
 
         /// <summary>
         /// The message to act upon.
@@ -20,7 +20,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
         /// <summary>
         /// The expected events to assert.
         /// </summary>
-        public Fact[] Thens { get; }
+        public ExpectedFact[] Thens { get; }
 
         /// <summary>
         /// Initializes a new <see cref="EventCentricTestSpecification"/> instance.
@@ -28,7 +28,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
         /// <param name="givens">The specification givens.</param>
         /// <param name="when">The specification when.</param>
         /// <param name="thens">The specification thens.</param>
-        public EventCentricTestSpecification(Fact[] givens, object when, Fact[] thens)
+        public EventCentricTestSpecification(ExpectedFact[] givens, object when, ExpectedFact[] thens)
         {
             Givens = givens ?? throw new ArgumentNullException(nameof(givens));
             When = when ?? throw new ArgumentNullException(nameof(when));
@@ -44,18 +44,18 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
             => new EventCentricTestResult(
                 this,
                 TestResultState.Passed,
-                Optional<Fact[]>.Empty,
+                Optional<ExpectedFact[]>.Empty,
                 Optional<Exception>.Empty);
 
         /// <summary>
         /// Returns a test result that indicates this specification has passed.
         /// </summary>
         /// <returns>A new <see cref="EventCentricTestResult"/>.</returns>
-        public EventCentricTestResult Pass(Fact[] actual)
+        public EventCentricTestResult Pass(ExpectedFact[] actual)
             => new EventCentricTestResult(
                 this,
                 TestResultState.Passed,
-                new Optional<Fact[]>(actual),
+                new Optional<ExpectedFact[]>(actual),
                 Optional<Exception>.Empty);
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
             => new EventCentricTestResult(
                 this,
                 TestResultState.Failed,
-                Optional<Fact[]>.Empty,
+                Optional<ExpectedFact[]>.Empty,
                 Optional<Exception>.Empty);
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
         /// </summary>
         /// <param name="actual">The actual events</param>
         /// <returns>A new <see cref="EventCentricTestResult"/>.</returns>
-        public EventCentricTestResult Fail(Fact[] actual)
+        public EventCentricTestResult Fail(ExpectedFact[] actual)
         {
             if (actual == null)
                 throw new ArgumentNullException(nameof(actual));
@@ -82,7 +82,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
             return new EventCentricTestResult(
                 this,
                 TestResultState.Failed,
-                new Optional<Fact[]>(actual),
+                new Optional<ExpectedFact[]>(actual),
                 Optional<Exception>.Empty);
         }
 
@@ -99,7 +99,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
             return new EventCentricTestResult(
                 this,
                 TestResultState.Failed,
-                Optional<Fact[]>.Empty,
+                Optional<ExpectedFact[]>.Empty,
                 new Optional<Exception>(actual));
         }
 

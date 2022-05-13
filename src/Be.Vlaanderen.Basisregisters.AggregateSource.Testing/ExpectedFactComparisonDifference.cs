@@ -3,7 +3,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
     /// <summary>
     /// Represents a difference found between the expected and actual fact.
     /// </summary>
-    public class FactComparisonDifference
+    public class ExpectedFactComparisonDifference
     {
         /// <summary>
         /// Gets the expected fact.
@@ -11,7 +11,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
         /// <value>
         /// The expected fact.
         /// </value>
-        public Fact Expected { get; }
+        public ExpectedFact Expected { get; }
 
         /// <summary>
         /// Gets the actual fact.
@@ -19,7 +19,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
         /// <value>
         /// The actual fact.
         /// </value>
-        public Fact Actual { get; }
+        public ExpectedFact Actual { get; }
 
         /// <summary>
         /// Gets the message.
@@ -30,12 +30,12 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
         public string Message { get; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FactComparisonDifference"/> class.
+        /// Initializes a new instance of the <see cref="ExpectedFactComparisonDifference"/> class.
         /// </summary>
         /// <param name="expected">The expected fact.</param>
         /// <param name="actual">The actual fact.</param>
         /// <param name="message">The message describing the difference.</param>
-        public FactComparisonDifference(Fact expected, Fact actual, string message)
+        public ExpectedFactComparisonDifference(ExpectedFact expected, ExpectedFact actual, string message)
         {
             Expected = expected;
             Actual = actual;

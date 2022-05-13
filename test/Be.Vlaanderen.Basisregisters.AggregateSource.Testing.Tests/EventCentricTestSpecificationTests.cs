@@ -49,9 +49,9 @@
         }
 
         [Theory]
-        public void UsingDefaultConstructorReturnsInstanceWithExpectedProperties(Fact[] givens,
+        public void UsingDefaultConstructorReturnsInstanceWithExpectedProperties(ExpectedFact[] givens,
                                                                                  object when,
-                                                                                 Fact[] thens)
+                                                                                 ExpectedFact[] thens)
         {
             var sut = new EventCentricTestSpecification(givens, when, thens);
 
@@ -61,8 +61,8 @@
         }
 
         [Theory]
-        public void TwoInstancesAreEqualIfTheyHaveTheSameProperties(Fact[] givens, object when,
-                                                                    Fact[] thens)
+        public void TwoInstancesAreEqualIfTheyHaveTheSameProperties(ExpectedFact[] givens, object when,
+                                                                    ExpectedFact[] thens)
         {
             Assert.That(
                 new EventCentricTestSpecification(givens, when, thens),
@@ -70,19 +70,19 @@
         }
 
         [Theory]
-        public void TwoInstancesAreNotEqualIfTheirGivensDiffer(object when, Fact[] thens)
+        public void TwoInstancesAreNotEqualIfTheirGivensDiffer(object when, ExpectedFact[] thens)
         {
             Assert.That(
-                new EventCentricTestSpecification(new[] {new Fact(Model.Identifier1, new object())},
+                new EventCentricTestSpecification(new[] {new ExpectedFact(Model.Identifier1, new object())},
                                                   when, thens),
                 Is.Not.EqualTo(
                     new EventCentricTestSpecification(
-                        new[] {new Fact(Model.Identifier1, new object())}, when, thens)));
+                        new[] {new ExpectedFact(Model.Identifier1, new object())}, when, thens)));
         }
 
         [Theory]
-        public void TwoInstancesAreNotEqualIfTheirWhenDiffers(Fact[] givens,
-                                                              Fact[] thens)
+        public void TwoInstancesAreNotEqualIfTheirWhenDiffers(ExpectedFact[] givens,
+                                                              ExpectedFact[] thens)
         {
             Assert.That(
                 new EventCentricTestSpecification(givens, new object(), thens),
@@ -90,23 +90,23 @@
         }
 
         [Theory]
-        public void TwoInstancesAreNotEqualIfTheirThensDiffer(Fact[] givens, object when)
+        public void TwoInstancesAreNotEqualIfTheirThensDiffer(ExpectedFact[] givens, object when)
         {
             Assert.That(
                 new EventCentricTestSpecification(givens, when,
-                                                  new[] {new Fact(Model.Identifier1, new object())}),
+                                                  new[] {new ExpectedFact(Model.Identifier1, new object())}),
                 Is.Not.EqualTo(new EventCentricTestSpecification(givens, when,
                                                                  new[]
                                                                  {
-                                                                     new Fact(Model.Identifier1,
+                                                                     new ExpectedFact(Model.Identifier1,
                                                                                                new object())
                                                                  })));
         }
 
         [Theory]
-        public void TwoInstancesHaveTheSameHashCodeIfTheyHaveTheSameProperties(Fact[] givens,
+        public void TwoInstancesHaveTheSameHashCodeIfTheyHaveTheSameProperties(ExpectedFact[] givens,
                                                                                object when,
-                                                                               Fact[] thens)
+                                                                               ExpectedFact[] thens)
         {
             Assert.That(
                 new EventCentricTestSpecification(givens, when, thens).GetHashCode(),
@@ -114,19 +114,19 @@
         }
 
         [Theory]
-        public void TwoInstancesHaveDifferentHashCodeIfTheirGivensDiffer(object when, Fact[] thens)
+        public void TwoInstancesHaveDifferentHashCodeIfTheirGivensDiffer(object when, ExpectedFact[] thens)
         {
             Assert.That(
-                new EventCentricTestSpecification(new[] {new Fact(Model.Identifier1, new object())},
+                new EventCentricTestSpecification(new[] {new ExpectedFact(Model.Identifier1, new object())},
                                                   when, thens).GetHashCode(),
                 Is.Not.EqualTo(
                     new EventCentricTestSpecification(
-                        new[] {new Fact(Model.Identifier1, new object())}, when, thens).GetHashCode()));
+                        new[] {new ExpectedFact(Model.Identifier1, new object())}, when, thens).GetHashCode()));
         }
 
         [Theory]
-        public void TwoInstancesHaveDifferentHashCodeIfTheirWhenDiffers(Fact[] givens,
-                                                                        Fact[] thens, Exception throws)
+        public void TwoInstancesHaveDifferentHashCodeIfTheirWhenDiffers(ExpectedFact[] givens,
+                                                                        ExpectedFact[] thens, Exception throws)
         {
             Assert.That(
                 new EventCentricTestSpecification(givens, new object(), thens).GetHashCode(),
@@ -134,15 +134,15 @@
         }
 
         [Theory]
-        public void TwoInstancesHaveDifferentHashCodeIfTheirThensDiffer(Fact[] givens, object when)
+        public void TwoInstancesHaveDifferentHashCodeIfTheirThensDiffer(ExpectedFact[] givens, object when)
         {
             Assert.That(
                 new EventCentricTestSpecification(givens, when,
-                                                  new[] {new Fact(Model.Identifier1, new object())})
+                                                  new[] {new ExpectedFact(Model.Identifier1, new object())})
                     .GetHashCode(),
                 Is.Not.EqualTo(
                     new EventCentricTestSpecification(givens, when,
-                                                      new[] {new Fact(Model.Identifier1, new object())})
+                                                      new[] {new ExpectedFact(Model.Identifier1, new object())})
                         .GetHashCode()));
         }
 
@@ -177,7 +177,7 @@
         {
             var sut = new EventCentricTestSpecification(NoEvents, Message, NoEvents);
 
-            Assert.Throws<ArgumentNullException>(() => { var _ = sut.Fail((Fact[]) null); });
+            Assert.Throws<ArgumentNullException>(() => { var _ = sut.Fail((ExpectedFact[]) null); });
         }
 
         [Test]
@@ -185,14 +185,14 @@
         {
             var sut = new EventCentricTestSpecification(NoEvents, Message, NoEvents);
 
-            var actual = new[] {new Fact(Model.Identifier1, new object())};
+            var actual = new[] {new ExpectedFact(Model.Identifier1, new object())};
 
             var result = sut.Fail(actual);
 
             Assert.That(result.Specification, Is.SameAs(sut));
             Assert.That(result.Passed, Is.False);
             Assert.That(result.Failed, Is.True);
-            Assert.That(result.ButEvents, Is.EqualTo(new Optional<Fact[]>(actual)));
+            Assert.That(result.ButEvents, Is.EqualTo(new Optional<ExpectedFact[]>(actual)));
             Assert.That(result.ButException, Is.EqualTo(Optional<Exception>.Empty));
         }
 
@@ -216,7 +216,7 @@
             Assert.That(result.Specification, Is.SameAs(sut));
             Assert.That(result.Passed, Is.False);
             Assert.That(result.Failed, Is.True);
-            Assert.That(result.ButEvents, Is.EqualTo(Optional<Fact[]>.Empty));
+            Assert.That(result.ButEvents, Is.EqualTo(Optional<ExpectedFact[]>.Empty));
             Assert.That(result.ButException, Is.EqualTo(new Optional<Exception>(actual)));
         }
     }

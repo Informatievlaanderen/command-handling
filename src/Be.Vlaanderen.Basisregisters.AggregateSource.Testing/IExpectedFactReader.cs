@@ -2,8 +2,8 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
 {
     using System.Threading.Tasks;
 
-    public interface IFactReader
+    public interface IExpectedFactReader
     {
-        Task<Fact[]> RetrieveFacts(long fromPositionExclusive);
+        Task<ExpectedFact[]> RetrieveFacts(long fromPositionExclusive);
     }
 }

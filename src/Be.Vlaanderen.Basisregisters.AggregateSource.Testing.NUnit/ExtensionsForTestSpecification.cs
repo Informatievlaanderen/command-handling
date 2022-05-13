@@ -28,20 +28,28 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
         public static void Assert(
             this IEventCentricTestSpecificationBuilder builder,
             IEventCentricTestSpecificationRunner runner,
-            IFactComparer comparer,
+            IExpectedFactComparer comparer,
             ILogger logger)
         {
             if (builder == null)
+            {
                 throw new ArgumentNullException(nameof(builder));
+            }
 
             if (runner == null)
+            {
                 throw new ArgumentNullException(nameof(runner));
+            }
 
             if (comparer == null)
+            {
                 throw new ArgumentNullException(nameof(comparer));
+            }
 
             if (logger == null)
+            {
                 throw new ArgumentNullException(nameof(logger));
+            }
 
             var specification = builder.Build();
             logger.LogTrace($"Given: \r\n{specification.Givens.ToLogStringVerbose()}");
@@ -74,6 +82,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
                     logger.LogTrace($"Actual events: \r\n{result.ButEvents.Value.ToLogStringVerbose()}");
 
                     if (result.ButEvents.Value.Length != result.Specification.Thens.Length)
+                    {
                         using (var writer = new StringWriter())
                         {
                             writer.WriteLine("  Expected: {0} event(s) ({1}),",
@@ -90,6 +99,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
                             throw new Xunit.Sdk.XunitException(writer.ToString());
 #endif
                         }
+                    }
 
                     using (var writer = new StringWriter())
                     {
@@ -99,9 +109,11 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
 
                         writer.WriteLine("  But found the following differences:");
                         foreach (var difference in result.Specification.Thens
-                            .Zip(result.ButEvents.Value, (expected, actual) => new Tuple<Fact, Fact>(expected, actual))
+                            .Zip(result.ButEvents.Value, (expected, actual) => new Tuple<ExpectedFact, ExpectedFact>(expected, actual))
                             .SelectMany(_ => comparer.Compare(_.Item1, _.Item2)))
+                        {
                             writer.WriteLine("    {0}", difference.Message);
+                        }
 
 #if NUNIT
                         throw new NUnit.Framework.AssertionException(writer.ToString());
@@ -133,16 +145,24 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
             ILogger logger)
         {
             if (builder == null)
+            {
                 throw new ArgumentNullException(nameof(builder));
+            }
 
             if (runner == null)
+            {
                 throw new ArgumentNullException(nameof(runner));
+            }
 
             if (comparer == null)
+            {
                 throw new ArgumentNullException(nameof(comparer));
+            }
 
             if (logger == null)
+            {
                 throw new ArgumentNullException(nameof(logger));
+            }
 
             var specification = builder.Build();
             logger.LogTrace($"Given: \r\n{specification.Givens.ToLogStringVerbose()}");
@@ -158,6 +178,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
                     logger.LogTrace($"Actual exception: \r\n{result.ButException.Value.ToLogString(includeStackTrace: true)}");
 
                     if (result.ButException.Value.GetType() != result.Specification.Throws.GetType())
+                    {
                         using (var writer = new StringWriter())
                         {
                             writer.WriteLine("  Expected: {0},", result.Specification.Throws);
@@ -169,6 +190,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
                             throw new Xunit.Sdk.XunitException(writer.ToString());
 #endif
                         }
+                    }
 
                     using (var writer = new StringWriter())
                     {
@@ -176,7 +198,9 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
                         writer.WriteLine("  But found the following differences:");
 
                         foreach (var difference in comparer.Compare(result.Specification.Throws, result.ButException.Value))
+                        {
                             writer.WriteLine("    {0}", difference.Message);
+                        }
 
 #if NUNIT
                         throw new NUnit.Framework.AssertionException(writer.ToString());
@@ -220,7 +244,9 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
             }
 
             if (result.ButException.HasValue)
+            {
                 logger.LogTrace($"Actual exception: \r\n{result.ButException.Value.ToLogString(includeStackTrace: true)}");
+            }
         }
     }
 }

@@ -56,7 +56,7 @@
             {
                 var result = GivenNone().When(new object()).Build().Givens;
 
-                Assert.That(result, Is.EquivalentTo(Fact.Empty));
+                Assert.That(result, Is.EquivalentTo(ExpectedFact.Empty));
             }
         }
     }

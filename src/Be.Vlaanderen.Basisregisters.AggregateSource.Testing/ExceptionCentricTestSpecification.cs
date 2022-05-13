@@ -10,7 +10,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
         /// <summary>
         /// The events to arrange.
         /// </summary>
-        public Fact[] Givens { get; }
+        public ExpectedFact[] Givens { get; }
 
         /// <summary>
         /// The message to act upon.
@@ -28,7 +28,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
         /// <param name="givens">The specification givens.</param>
         /// <param name="when">The specification when.</param>
         /// <param name="throws">The specification exception thrown.</param>
-        public ExceptionCentricTestSpecification(Fact[] givens, object when, Exception throws)
+        public ExceptionCentricTestSpecification(ExpectedFact[] givens, object when, Exception throws)
         {
             Givens = givens ?? throw new ArgumentNullException(nameof(givens));
             When = when ?? throw new ArgumentNullException(nameof(when));
@@ -40,14 +40,14 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
         /// </summary>
         /// <returns>A new <see cref="ExceptionCentricTestResult"/>.</returns>
         public ExceptionCentricTestResult Pass(Exception actual)
-            => new ExceptionCentricTestResult(this, TestResultState.Passed, new Optional<Exception>(actual), Optional<Fact[]>.Empty);
+            => new ExceptionCentricTestResult(this, TestResultState.Passed, new Optional<Exception>(actual), Optional<ExpectedFact[]>.Empty);
 
         /// <summary>
         /// Returns a test result that indicates this specification has failed.
         /// </summary>
         /// <returns>A new <see cref="ExceptionCentricTestResult"/>.</returns>
         public ExceptionCentricTestResult Fail()
-            => new ExceptionCentricTestResult(this, TestResultState.Failed, Optional<Exception>.Empty, Optional<Fact[]>.Empty);
+            => new ExceptionCentricTestResult(this, TestResultState.Failed, Optional<Exception>.Empty, Optional<ExpectedFact[]>.Empty);
 
         /// <summary>
         /// Returns a test result that indicates this specification has failed.
@@ -59,7 +59,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
             if (actual == null)
                 throw new ArgumentNullException(nameof(actual));
 
-            return new ExceptionCentricTestResult(this, TestResultState.Failed, new Optional<Exception>(actual), Optional<Fact[]>.Empty);
+            return new ExceptionCentricTestResult(this, TestResultState.Failed, new Optional<Exception>(actual), Optional<ExpectedFact[]>.Empty);
         }
 
         ///// <summary>
@@ -78,12 +78,12 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
         /// </summary>
         /// <param name="actual">The actual events</param>
         /// <returns>A new <see cref="ExceptionCentricTestResult"/>.</returns>
-        public ExceptionCentricTestResult Fail(Fact[] actual)
+        public ExceptionCentricTestResult Fail(ExpectedFact[] actual)
         {
             if (actual == null)
                 throw new ArgumentNullException(nameof(actual));
 
-            return new ExceptionCentricTestResult(this, TestResultState.Failed, Optional<Exception>.Empty, new Optional<Fact[]>(actual));
+            return new ExceptionCentricTestResult(this, TestResultState.Failed, Optional<Exception>.Empty, new Optional<ExpectedFact[]>(actual));
         }
 
         /// <summary>

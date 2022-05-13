@@ -72,8 +72,8 @@
                 Assert.That(result, Is.EquivalentTo(
                     new[]
                     {
-                        new Fact(Model.Identifier1, events[0]),
-                        new Fact(Model.Identifier1, events[1])
+                        new ExpectedFact(Model.Identifier1, events[0]),
+                        new ExpectedFact(Model.Identifier1, events[1])
                     }));
             }
         }
@@ -81,7 +81,7 @@
         [TestFixture]
         public class WhenBuilderThenFactsTests : ThenFactsFixture
         {
-            protected override IScenarioThenStateBuilder Then(params Fact[] facts)
+            protected override IScenarioThenStateBuilder Then(params ExpectedFact[] facts)
             {
                 return new Scenario().When(new object()).Then(facts);
             }
@@ -90,7 +90,7 @@
         [TestFixture]
         public class ThenFactsBuilderThenFactsTests : ThenFactsFixture
         {
-            protected override IScenarioThenStateBuilder Then(params Fact[] facts)
+            protected override IScenarioThenStateBuilder Then(params ExpectedFact[] facts)
             {
                 return new Scenario().When(new object()).Then("", new object[0]).Then(facts);
             }
@@ -98,14 +98,14 @@
 
         public abstract class ThenFactsFixture
         {
-            protected abstract IScenarioThenStateBuilder Then(params Fact[] facts);
+            protected abstract IScenarioThenStateBuilder Then(params ExpectedFact[] facts);
 
-            Fact _fact;
+            ExpectedFact _fact;
 
             [SetUp]
             public void SetUp()
             {
-                _fact = new Fact(Model.Identifier1, new object());
+                _fact = new ExpectedFact(Model.Identifier1, new object());
             }
 
             [Test]
@@ -142,8 +142,8 @@
             {
                 var facts = new[]
                 {
-                    new Fact(Model.Identifier1, new object()),
-                    new Fact(Model.Identifier2, new object())
+                    new ExpectedFact(Model.Identifier1, new object()),
+                    new ExpectedFact(Model.Identifier2, new object())
                 };
 
                 var result = Then(facts).Build().Thens;
@@ -202,7 +202,7 @@
             {
                 var result = ThenNone().Build().Thens;
 
-                Assert.That(result, Is.EquivalentTo(Fact.Empty));
+                Assert.That(result, Is.EquivalentTo(ExpectedFact.Empty));
             }
         }
     }

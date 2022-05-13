@@ -17,7 +17,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests
                 _logger = Console.WriteLine;
             }
 
-            public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
+            public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception, string> formatter)
             {
                 _logger(formatter(state, exception));
             }
@@ -38,12 +38,14 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests
         {
             private Mocking<IEventCentricTestSpecificationRunner, EventCentricTestSpecificationRunnerSetup> _runner;
 
-            private class EqualsFactComparer : IFactComparer
+            private class EqualsExpectedFactComparer : IExpectedFactComparer
             {
-                public IEnumerable<FactComparisonDifference> Compare(Fact expected, Fact actual)
+                public IEnumerable<ExpectedFactComparisonDifference> Compare(ExpectedFact expected, ExpectedFact actual)
                 {
                     if (!expected.Equals(actual))
-                        yield return new FactComparisonDifference(expected, actual, "-");
+                    {
+                        yield return new ExpectedFactComparisonDifference(expected, actual, "-");
+                    }
                 }
             }
 
@@ -60,7 +62,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests
 
             private class EventCentricTestSpecificationRunnerSetup : MockingSetup<IEventCentricTestSpecificationRunner>
             {
-                public EventCentricTestSpecificationRunnerSetup SpecificationRunFailsWithEvents(Fact[] events)
+                public EventCentricTestSpecificationRunnerSetup SpecificationRunFailsWithEvents(ExpectedFact[] events)
                 {
                     Moq.Setup(x => x.Run(It.IsAny<EventCentricTestSpecification>()))
                         .Returns<EventCentricTestSpecification>(spec => spec.Fail(events));
@@ -84,7 +86,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests
                     return this;
                 }
 
-                public EventCentricTestSpecificationRunnerSetup SpecificationRunPassesWithEvents(Fact[] events)
+                public EventCentricTestSpecificationRunnerSetup SpecificationRunPassesWithEvents(ExpectedFact[] events)
                 {
                     Moq.Setup(x => x.Run(It.IsAny<EventCentricTestSpecification>()))
                         .Returns<EventCentricTestSpecification>(spec => spec.Pass(events));
@@ -103,14 +105,14 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests
             public void BuilderCanNotBeNull()
             {
                 Assert.Throws<ArgumentNullException>(
-                    () => ((IEventCentricTestSpecificationBuilder) null).Assert(_runner.Object, new EqualsFactComparer(), new ConsoleLogger()));
+                    () => ((IEventCentricTestSpecificationBuilder) null).Assert(_runner.Object, new EqualsExpectedFactComparer(), new ConsoleLogger()));
             }
 
             [Test]
             public void RunnnerCanNotBeNull()
             {
                 Assert.Throws<ArgumentNullException>(
-                    () => NullBuilder.Instance.Assert(null, new EqualsFactComparer(), new ConsoleLogger()));
+                    () => NullBuilder.Instance.Assert(null, new EqualsExpectedFactComparer(), new ConsoleLogger()));
             }
 
             [Test]
@@ -124,31 +126,31 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests
             public void LoggerCanNotBeNull()
             {
                 Assert.Throws<ArgumentNullException>(
-                    () => NullBuilder.Instance.Assert(_runner.Object, new EqualsFactComparer(), null));
+                    () => NullBuilder.Instance.Assert(_runner.Object, new EqualsExpectedFactComparer(), null));
             }
 
             [Test]
             public void WhenSpecificationRunFailsWithEventCountDifference()
             {
                 _runner.When().SpecificationRunFailsWithEvents(new[]
-                    {new Fact("1", new SomethingHappened()), new Fact("1", new SomethingElseHappened())});
+                    {new ExpectedFact("1", new SomethingHappened()), new ExpectedFact("1", new SomethingElseHappened())});
 
                 Assert.Throws<AssertionException>(
                     () =>
                         new Scenario().GivenNone().When(new DoSomething()).Then("1", new SomethingHappened())
-                            .Assert(_runner.Object, new EqualsFactComparer(), new ConsoleLogger()));
+                            .Assert(_runner.Object, new EqualsExpectedFactComparer(), new ConsoleLogger()));
             }
 
             [Test]
             public void WhenSpecificationRunFailsWithEventDifferences()
             {
                 _runner.When().SpecificationRunFailsWithEvents(new[]
-                    {new Fact("1", new SomethingElseHappened())});
+                    {new ExpectedFact("1", new SomethingElseHappened())});
 
                 Assert.Throws<AssertionException>(
                     () =>
                         new Scenario().GivenNone().When(new DoSomething()).Then("1", new SomethingHappened())
-                            .Assert(_runner.Object, new EqualsFactComparer(), new ConsoleLogger()));
+                            .Assert(_runner.Object, new EqualsExpectedFactComparer(), new ConsoleLogger()));
             }
 
             [Test]
@@ -159,7 +161,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests
                 Assert.Throws<AssertionException>(
                     () =>
                         new Scenario().GivenNone().When(new DoSomething()).Then("1", new SomethingHappened())
-                            .Assert(_runner.Object, new EqualsFactComparer(), new ConsoleLogger()));
+                            .Assert(_runner.Object, new EqualsExpectedFactComparer(), new ConsoleLogger()));
             }
 
             [Test]
@@ -169,18 +171,18 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests
 
                 Assert.DoesNotThrow(() =>
                     new Scenario().GivenNone().When(new DoSomething()).Then("1", new SomethingHappened())
-                        .Assert(_runner.Object, new EqualsFactComparer(), new ConsoleLogger()));
+                        .Assert(_runner.Object, new EqualsExpectedFactComparer(), new ConsoleLogger()));
             }
 
             [Test]
             public void WhenSpecificationRunPassesWithEvents()
             {
                 _runner.When().SpecificationRunPassesWithEvents(new[]
-                    {new Fact("1", new SomethingHappened())});
+                    {new ExpectedFact("1", new SomethingHappened())});
 
                 Assert.DoesNotThrow(() =>
                     new Scenario().GivenNone().When(new DoSomething()).Then("1", new SomethingHappened())
-                        .Assert(_runner.Object, new EqualsFactComparer(), new ConsoleLogger()));
+                        .Assert(_runner.Object, new EqualsExpectedFactComparer(), new ConsoleLogger()));
             }
 
         }
@@ -195,7 +197,9 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests
                 public IEnumerable<ExceptionComparisonDifference> Compare(Exception expected, Exception actual)
                 {
                     if (!expected.Equals(actual))
+                    {
                         yield return new ExceptionComparisonDifference(expected, actual, "-");
+                    }
                 }
             }
 
@@ -229,7 +233,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests
                 //    return this;
                 //}
 
-                public ExceptionCentricTestSpecificationRunnerSetup SpecificationRunFailsBecauseEvents(Fact[] events)
+                public ExceptionCentricTestSpecificationRunnerSetup SpecificationRunFailsBecauseEvents(ExpectedFact[] events)
                 {
                     Moq.Setup(x => x.Run(It.IsAny<ExceptionCentricTestSpecification>()))
                         .Returns<ExceptionCentricTestSpecification>(spec => spec.Fail(events));
@@ -306,7 +310,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests
             public void WhenSpecificationRunFailsBecauseEvents()
             {
                 _runner.When()
-                    .SpecificationRunFailsBecauseEvents(new []{new Fact("1", new SomethingHappened())});
+                    .SpecificationRunFailsBecauseEvents(new []{new ExpectedFact("1", new SomethingHappened())});
                 Assert.Throws<AssertionException>(
                     () =>
                         new Scenario()

@@ -6,12 +6,12 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
 
     public class EventCentricTestSpecificationRunner : IEventCentricTestSpecificationRunner
     {
-        private readonly IFactComparer _comparer;
-        private readonly IFactWriter _factWriter;
-        private readonly IFactReader _factReader;
+        private readonly IExpectedFactComparer _comparer;
+        private readonly IExpectedFactWriter _factWriter;
+        private readonly IExpectedFactReader _factReader;
         private readonly IHandlerResolver _handlerResolver;
 
-        public EventCentricTestSpecificationRunner(IFactComparer comparer, IFactWriter factWriter, IFactReader factReader, IHandlerResolver handlerResolver)
+        public EventCentricTestSpecificationRunner(IExpectedFactComparer comparer, IExpectedFactWriter factWriter, IExpectedFactReader factReader, IHandlerResolver handlerResolver)
         {
             _comparer = comparer ?? throw new ArgumentNullException(nameof(comparer));
             _factWriter = factWriter ?? throw new ArgumentNullException(nameof(factWriter));
@@ -30,11 +30,13 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
             var result = await Catch.Exception(async () => await handleCommand(spec.When));
 
             if (result.HasValue)
+            {
                 return spec.Fail(result.Value);
+            }
 
             var actualEvents = await _factReader.RetrieveFacts(position);
 
-            return actualEvents.SequenceEqual(spec.Thens, new WrappedFactComparerEqualityComparer(_comparer))
+            return actualEvents.SequenceEqual(spec.Thens, new WrappedExpectedFactComparerEqualityComparer(_comparer))
                 ? spec.Pass(actualEvents)
                 : spec.Fail(actualEvents);
         }

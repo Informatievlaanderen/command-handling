@@ -19,7 +19,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.SqlStreamStore.Au
 
         protected IEventCentricTestSpecificationRunner EventCentricTestSpecificationRunner => Container.Resolve<IEventCentricTestSpecificationRunner>();
 
-        protected IFactComparer FactComparer => Container.Resolve<IFactComparer>();
+        protected IExpectedFactComparer FactComparer => Container.Resolve<IExpectedFactComparer>();
 
         protected IExceptionComparer ExceptionComparer => Container.Resolve<IExceptionComparer>();
 
@@ -37,7 +37,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.SqlStreamStore.Au
                 ConfigureCommandHandling(containerBuilder);
                 containerBuilder.RegisterModule(new SqlStreamStoreModule());
 
-                containerBuilder.UseAggregateSourceTesting(CreateFactComparer(), CreateExceptionComparer());
+                containerBuilder.UseAggregateSourceTesting(CreateExpectedFactComparer(), CreateExceptionComparer());
 
                 containerBuilder.RegisterInstance(testOutputHelper);
                 containerBuilder.RegisterType<XUnitLogger>().AsImplementedInterfaces();
@@ -51,10 +51,10 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.SqlStreamStore.Au
         protected abstract void ConfigureCommandHandling(ContainerBuilder builder);
         protected abstract void ConfigureEventHandling(ContainerBuilder builder);
 
-        protected virtual IFactComparer CreateFactComparer()
+        protected virtual IExpectedFactComparer CreateExpectedFactComparer()
         {
             var comparer = new CompareLogic();
-            return new CompareNetObjectsBasedFactComparer(comparer);
+            return new CompareNetObjectsBasedExpectedFactComparer(comparer);
         }
 
         protected virtual IExceptionComparer CreateExceptionComparer()

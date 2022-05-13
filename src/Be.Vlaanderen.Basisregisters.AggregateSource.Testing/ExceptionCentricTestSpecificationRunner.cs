@@ -7,11 +7,11 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
     public class ExceptionCentricTestSpecificationRunner : IExceptionCentricTestSpecificationRunner
     {
         private readonly IExceptionComparer _comparer;
-        private readonly IFactWriter _factWriter;
-        private readonly IFactReader _factReader;
+        private readonly IExpectedFactWriter _factWriter;
+        private readonly IExpectedFactReader _factReader;
         private readonly IHandlerResolver _handlerResolver;
 
-        public ExceptionCentricTestSpecificationRunner(IExceptionComparer comparer, IFactWriter factWriter, IFactReader factReader, IHandlerResolver handlerResolver)
+        public ExceptionCentricTestSpecificationRunner(IExceptionComparer comparer, IExpectedFactWriter factWriter, IExpectedFactReader factReader, IHandlerResolver handlerResolver)
         {
             _comparer = comparer ?? throw new ArgumentNullException(nameof(comparer));
             _factWriter = factWriter ?? throw new ArgumentNullException(nameof(factWriter));
@@ -32,7 +32,9 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
             var actualEvents = await _factReader.RetrieveFacts(position);
 
             if (!result.HasValue)
+            {
                 return actualEvents.Any() ? spec.Fail(actualEvents) : spec.Fail();
+            }
 
             var actualException = result.Value;
 

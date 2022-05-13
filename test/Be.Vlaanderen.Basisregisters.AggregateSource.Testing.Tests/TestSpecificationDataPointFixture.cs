@@ -6,23 +6,23 @@
     public abstract class TestSpecificationDataPointFixture
     {
         [Datapoint]
-        public static Fact[] NoEvents = new Fact[0];
+        public static ExpectedFact[] NoEvents = new ExpectedFact[0];
 
         [Datapoint]
-        public static Fact[] OneEvent = new[] { new Fact("Aggregate/" + Guid.NewGuid(), new object()) };
+        public static ExpectedFact[] OneEvent = new[] { new ExpectedFact("Aggregate/" + Guid.NewGuid(), new object()) };
 
         [Datapoint]
-        public static Fact[] TwoEventsOfDifferentSources = new[]
+        public static ExpectedFact[] TwoEventsOfDifferentSources = new[]
         {
-            new Fact("Aggregate/" + Guid.NewGuid(), new object()),
-            new Fact("Aggregate/" + Guid.NewGuid(), new object())
+            new ExpectedFact("Aggregate/" + Guid.NewGuid(), new object()),
+            new ExpectedFact("Aggregate/" + Guid.NewGuid(), new object())
         };
 
         [Datapoint]
-        public static Fact[] TwoEventsOfTheSameSource = new[]
+        public static ExpectedFact[] TwoEventsOfTheSameSource = new[]
         {
-            new Fact("Aggregate/" + new Guid("C8F75337-62BA-41F0-B57B-10171388FD6F"), new object()),
-            new Fact("Aggregate/" + new Guid("C8F75337-62BA-41F0-B57B-10171388FD6F"), new object())
+            new ExpectedFact("Aggregate/" + new Guid("C8F75337-62BA-41F0-B57B-10171388FD6F"), new object()),
+            new ExpectedFact("Aggregate/" + new Guid("C8F75337-62BA-41F0-B57B-10171388FD6F"), new object())
         };
 
         [Datapoint] public static object Message = new object();

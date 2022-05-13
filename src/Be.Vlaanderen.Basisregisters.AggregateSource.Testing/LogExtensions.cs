@@ -12,14 +12,14 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
     {
         public static JsonSerializerSettings LogJsonSerializerSettings = new JsonSerializerSettings();
 
-        public static string ToLogStringShort(this Fact[] facts)
+        public static string ToLogStringShort(this ExpectedFact[] facts)
             => string.Join(
                 Environment.NewLine,
                 facts
                     .GroupBy(f => f.Identifier)
                     .Select(group => $"{group.Key}: {string.Join(", ", group.Select(f => f.Event.GetType().Name))}"));
 
-        public static string ToLogStringVerbose(this Fact[] facts, Formatting formatting = Formatting.Indented)
+        public static string ToLogStringVerbose(this ExpectedFact[] facts, Formatting formatting = Formatting.Indented)
             => facts.Select(f => new { f.Identifier, Event = f.Event.ToAnonymousWithTypeInfo() }).ToLogStringLimited(formatting, int.MaxValue);
 
         public static string ToLogStringLimited<T>(this IEnumerable<T> objects, Formatting formatting = Formatting.Indented, int max = 5)

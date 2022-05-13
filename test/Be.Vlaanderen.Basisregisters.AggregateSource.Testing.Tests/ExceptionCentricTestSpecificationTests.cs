@@ -49,7 +49,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests
         }
 
         [Theory]
-        public void UsingDefaultConstructorReturnsInstanceWithExpectedProperties(Fact[] givens,
+        public void UsingDefaultConstructorReturnsInstanceWithExpectedProperties(ExpectedFact[] givens,
                                                                                  object when, Exception throws)
         {
             var sut = new ExceptionCentricTestSpecification(givens, when, throws);
@@ -60,7 +60,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests
         }
 
         [Theory]
-        public void TwoInstancesAreEqualIfTheyHaveTheSameProperties(Fact[] givens, object when,
+        public void TwoInstancesAreEqualIfTheyHaveTheSameProperties(ExpectedFact[] givens, object when,
                                                                     Exception throws)
         {
             Assert.That(
@@ -73,14 +73,14 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests
         {
             Assert.That(
                 new ExceptionCentricTestSpecification(
-                    new[] {new Fact(Model.Identifier1, new object())}, when, throws),
+                    new[] {new ExpectedFact(Model.Identifier1, new object())}, when, throws),
                 Is.Not.EqualTo(
                     new ExceptionCentricTestSpecification(
-                        new[] {new Fact(Model.Identifier1, new object())}, when, throws)));
+                        new[] {new ExpectedFact(Model.Identifier1, new object())}, when, throws)));
         }
 
         [Theory]
-        public void TwoInstancesAreNotEqualIfTheirWhenDiffers(Fact[] givens, Exception throws)
+        public void TwoInstancesAreNotEqualIfTheirWhenDiffers(ExpectedFact[] givens, Exception throws)
         {
             Assert.That(
                 new ExceptionCentricTestSpecification(givens, new object(), throws),
@@ -88,7 +88,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests
         }
 
         [Theory]
-        public void TwoInstancesAreNotEqualIfTheirThrowsDiffers(Fact[] givens, object when)
+        public void TwoInstancesAreNotEqualIfTheirThrowsDiffers(ExpectedFact[] givens, object when)
         {
             Assert.That(
                 new ExceptionCentricTestSpecification(givens, when, new Exception()),
@@ -96,7 +96,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests
         }
 
         [Theory]
-        public void TwoInstancesHaveTheSameHashCodeIfTheyHaveTheSameProperties(Fact[] givens,
+        public void TwoInstancesHaveTheSameHashCodeIfTheyHaveTheSameProperties(ExpectedFact[] givens,
                                                                                object when, Exception throws)
         {
             Assert.That(
@@ -109,14 +109,14 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests
         {
             Assert.That(
                 new ExceptionCentricTestSpecification(
-                    new[] {new Fact(Model.Identifier1, new object())}, when, throws).GetHashCode(),
+                    new[] {new ExpectedFact(Model.Identifier1, new object())}, when, throws).GetHashCode(),
                 Is.Not.EqualTo(
                     new ExceptionCentricTestSpecification(
-                        new[] {new Fact(Model.Identifier1, new object())}, when, throws).GetHashCode()));
+                        new[] {new ExpectedFact(Model.Identifier1, new object())}, when, throws).GetHashCode()));
         }
 
         [Theory]
-        public void TwoInstancesHaveDifferentHashCodeIfTheirWhenDiffers(Fact[] givens, Exception throws)
+        public void TwoInstancesHaveDifferentHashCodeIfTheirWhenDiffers(ExpectedFact[] givens, Exception throws)
         {
             Assert.That(
                 new ExceptionCentricTestSpecification(givens, new object(), throws).GetHashCode(),
@@ -124,7 +124,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests
         }
 
         [Theory]
-        public void TwoInstancesHaveDifferentHashCodeIfTheirThrowsDiffers(Fact[] givens, object when)
+        public void TwoInstancesHaveDifferentHashCodeIfTheirThrowsDiffers(ExpectedFact[] givens, object when)
         {
             Assert.That(
                 new ExceptionCentricTestSpecification(givens, when, new Exception()).GetHashCode(),
@@ -183,7 +183,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests
         {
             var sut = new ExceptionCentricTestSpecification(NoEvents, Message, Exception);
 
-            Assert.Throws<ArgumentNullException>(() => { var _ = sut.Fail((Fact[]) null); });
+            Assert.Throws<ArgumentNullException>(() => { var _ = sut.Fail((ExpectedFact[]) null); });
         }
 
         [Test]
@@ -191,14 +191,14 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests
         {
             var sut = new ExceptionCentricTestSpecification(NoEvents, Message, Exception);
 
-            var actual = new[] {new Fact(Model.Identifier1, new object())};
+            var actual = new[] {new ExpectedFact(Model.Identifier1, new object())};
 
             var result = sut.Fail(actual);
 
             Assert.That(result.Specification, Is.SameAs(sut));
             Assert.That(result.Passed, Is.False);
             Assert.That(result.Failed, Is.True);
-            Assert.That(result.ButEvents, Is.EqualTo(new Optional<Fact[]>(actual)));
+            Assert.That(result.ButEvents, Is.EqualTo(new Optional<ExpectedFact[]>(actual)));
             Assert.That(result.ButException, Is.EqualTo(Optional<Exception>.Empty));
         }
     }

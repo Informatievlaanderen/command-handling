@@ -6,23 +6,23 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
 
     internal class TestSpecificationBuilderContext
     {
-        private readonly Fact[] _givens;
-        private readonly Fact[] _thens;
+        private readonly ExpectedFact[] _givens;
+        private readonly ExpectedFact[] _thens;
         private readonly object _when;
         private readonly Exception _throws;
 
         public TestSpecificationBuilderContext()
         {
-            _givens = Fact.Empty;
-            _thens = Fact.Empty;
+            _givens = ExpectedFact.Empty;
+            _thens = ExpectedFact.Empty;
             _when = null;
             _throws = null;
         }
 
         private TestSpecificationBuilderContext(
-            Fact[] givens,
+            ExpectedFact[] givens,
             object when,
-            Fact[] thens,
+            ExpectedFact[] thens,
             Exception throws)
         {
             _givens = givens;
@@ -31,13 +31,13 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
             _throws = throws;
         }
 
-        public TestSpecificationBuilderContext AppendGivens(IEnumerable<Fact> facts)
+        public TestSpecificationBuilderContext AppendGivens(IEnumerable<ExpectedFact> facts)
             => new TestSpecificationBuilderContext(_givens.Concat(facts).ToArray(), _when, _thens, _throws);
 
         public TestSpecificationBuilderContext SetWhen(object message)
             => new TestSpecificationBuilderContext(_givens, message, _thens, _throws);
 
-        public TestSpecificationBuilderContext AppendThens(IEnumerable<Fact> facts)
+        public TestSpecificationBuilderContext AppendThens(IEnumerable<ExpectedFact> facts)
             => new TestSpecificationBuilderContext(_givens, _when, _thens.Concat(facts).ToArray(), _throws);
 
         public TestSpecificationBuilderContext SetThrows(Exception exception)

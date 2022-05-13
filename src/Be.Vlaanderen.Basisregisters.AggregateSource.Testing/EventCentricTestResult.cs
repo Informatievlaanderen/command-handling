@@ -39,7 +39,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
         /// <value>
         /// The events.
         /// </value>
-        public Optional<Fact[]> ButEvents { get; }
+        public Optional<ExpectedFact[]> ButEvents { get; }
 
         /// <summary>
         /// Gets the exception that happened instead of the expected events, or empty if no exception happened at all.
@@ -59,7 +59,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
         internal EventCentricTestResult(
             EventCentricTestSpecification specification,
             TestResultState state,
-            Optional<Fact[]> actualEvents,
+            Optional<ExpectedFact[]> actualEvents,
             Optional<Exception> actualException)
         {
             Specification = specification;

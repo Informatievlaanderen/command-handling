@@ -12,7 +12,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
         /// <param name="events">The events that occurred.</param>
         /// <returns>A builder of facts.</returns>
         /// <exception cref="System.ArgumentNullException">Thrown when the <paramref name="identifier"/> or <paramref name="events"/> is <c>null</c>.</exception>
-        public static FactsBuilder That(string identifier, params object[] events) => new FactsBuilder().That(identifier, events);
+        public static ExpectedFactsBuilder That(string identifier, params object[] events) => new ExpectedFactsBuilder().That(identifier, events);
 
         /// <summary>
         /// Defines a set of facts that happened.
@@ -20,6 +20,6 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
         /// <param name="facts">The facts that occurred.</param>
         /// <returns>A builder of facts.</returns>
         /// <exception cref="System.ArgumentNullException">Thrown when the <paramref name="facts"/> is <c>null</c>.</exception>
-        public static FactsBuilder That(params Fact[] facts) => new FactsBuilder().That(facts);
+        public static ExpectedFactsBuilder That(params ExpectedFact[] facts) => new ExpectedFactsBuilder().That(facts);
     }
 }

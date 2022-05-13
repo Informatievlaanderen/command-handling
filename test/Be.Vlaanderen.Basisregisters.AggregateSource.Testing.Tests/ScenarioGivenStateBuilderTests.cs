@@ -72,8 +72,8 @@
                 Assert.That(result, Is.EquivalentTo(
                     new[]
                     {
-                        new Fact(Model.Identifier1, events[0]),
-                        new Fact(Model.Identifier1, events[1])
+                        new ExpectedFact(Model.Identifier1, events[0]),
+                        new ExpectedFact(Model.Identifier1, events[1])
                     }));
             }
         }
@@ -81,7 +81,7 @@
         [TestFixture]
         public class ScenarioGivenFactsTests : GivenFactsFixture
         {
-            protected override IScenarioGivenStateBuilder Given(params Fact[] facts)
+            protected override IScenarioGivenStateBuilder Given(params ExpectedFact[] facts)
             {
                 return new Scenario().Given(facts);
             }
@@ -90,7 +90,7 @@
         [TestFixture]
         public class GivenStateBuilderGivenFactsTests : GivenFactsFixture
         {
-            protected override IScenarioGivenStateBuilder Given(params Fact[] facts)
+            protected override IScenarioGivenStateBuilder Given(params ExpectedFact[] facts)
             {
                 return new Scenario().Given(Model.Identifier1, new object[0]).Given(facts);
             }
@@ -98,14 +98,14 @@
 
         public abstract class GivenFactsFixture
         {
-            protected abstract IScenarioGivenStateBuilder Given(params Fact[] facts);
+            protected abstract IScenarioGivenStateBuilder Given(params ExpectedFact[] facts);
 
-            Fact _fact;
+            ExpectedFact _fact;
 
             [SetUp]
             public void SetUp()
             {
-                _fact = new Fact(Model.Identifier1, new object());
+                _fact = new ExpectedFact(Model.Identifier1, new object());
             }
 
             [Test]
@@ -143,8 +143,8 @@
             {
                 var facts = new[]
                 {
-                    new Fact(Model.Identifier1, new object()),
-                    new Fact(Model.Identifier2, new object())
+                    new ExpectedFact(Model.Identifier1, new object()),
+                    new ExpectedFact(Model.Identifier2, new object())
                 };
 
                 var result = Given(facts).When(new object()).Build().Givens;

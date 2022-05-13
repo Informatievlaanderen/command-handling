@@ -9,7 +9,6 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests
     using global::SqlStreamStore;
     using global::SqlStreamStore.Streams;
     using KellermanSoftware.CompareNetObjects;
-    using Moq;
     using Newtonsoft.Json;
     using NUnit.Framework;
     using SqlStreamStore;
@@ -18,11 +17,11 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests
     [TestFixture]
     public class ExceptionCentricTestSpecificationRunnerTests
     {
-        private class FactComparer : IComparer<Fact>
+        private class FactComparer : IComparer<ExpectedFact>
         {
-            public int Compare(Fact x, Fact y)
+            public int Compare(ExpectedFact x, ExpectedFact y)
             {
-                return new CompareNetObjectsBasedFactComparer(new CompareLogic()).Compare(x, y).Any() ? 1 : 0;
+                return new CompareNetObjectsBasedExpectedFactComparer(new CompareLogic()).Compare(x, y).Any() ? 1 : 0;
             }
         }
 
@@ -33,15 +32,15 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests
             var eventMapping = new EventMapping(new Dictionary<string, Type>
             {
                 { "SomethingHappened", typeof(SomethingHappened) },
-                { "SomethingElseHappened", typeof(SomethingElseHappened) },
+                { "SomethingElseHappened", typeof(SomethingElseHappened) }
             });
             var eventSerializer = new EventSerializer(JsonConvert.SerializeObject);
             var eventDeserializer = new EventDeserializer(JsonConvert.DeserializeObject);
 
-            _factRepository = new StreamStoreFactRepository(store, eventMapping, eventSerializer, eventDeserializer);
+            _factRepository = new StreamStoreExpectedFactRepository(store, eventMapping, eventSerializer, eventDeserializer);
 
             _handlerFactory = (eventType, @event) =>
-                 async (command) =>
+                 async command =>
                      (await store.AppendToStream(
                          (command as DoSomething).Identifier,
                          ExpectedVersion.Any,
@@ -50,7 +49,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests
             _handlerResolver = new Mocking<IHandlerResolver, HandlerResolverSetup>();
         }
 
-        private StreamStoreFactRepository _factRepository;
+        private StreamStoreExpectedFactRepository _factRepository;
         private Func<string, object, Func<object, Task<long>>> _handlerFactory;
         private Mocking<IHandlerResolver, HandlerResolverSetup> _handlerResolver;
 
@@ -108,7 +107,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests
             var expectedException = new Exception();
             _handlerResolver.When().ResolvesDummyHandler();
 
-            var result = Run(new ExceptionCentricTestSpecification(new Fact[0], new DoSomething(){Identifier = "1"}, expectedException));
+            var result = Run(new ExceptionCentricTestSpecification(Array.Empty<ExpectedFact>(), new DoSomething { Identifier = "1" }, expectedException));
 
             Assert.IsTrue(result.Failed);
             Assert.IsFalse(result.ButException.HasValue);
@@ -122,12 +121,12 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests
             var identifier = "1";
             _handlerResolver.When().ResolvesHandler(CreateHandlerThatRecords("SomethingHappened", new SomethingHappened()));
 
-            var result = Run(new ExceptionCentricTestSpecification(new Fact[0], new DoSomething(){Identifier = identifier}, expectedException));
+            var result = Run(new ExceptionCentricTestSpecification(Array.Empty<ExpectedFact>(), new DoSomething { Identifier = identifier }, expectedException));
 
             Assert.IsTrue(result.Failed);
             Assert.IsFalse(result.ButException.HasValue);
             Assert.IsTrue(result.ButEvents.HasValue);
-            Assert.That(result.ButEvents.Value, Is.EqualTo(new[] { new Fact(identifier, new SomethingHappened()) }).Using(new FactComparer()));
+            Assert.That(result.ButEvents.Value, Is.EqualTo(new[] { new ExpectedFact(identifier, new SomethingHappened()) }).Using(new FactComparer()));
         }
 
         [Test]
@@ -137,7 +136,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests
             var actualException = new Exception("not the expected exception");
             _handlerResolver.When().HandlerThrows(actualException);
 
-            var result = Run(new ExceptionCentricTestSpecification(new Fact[0], new DoSomething(), expectedException));
+            var result = Run(new ExceptionCentricTestSpecification(Array.Empty<ExpectedFact>(), new DoSomething(), expectedException));
 
             Assert.IsTrue(result.Failed);
             Assert.IsTrue(result.ButException.HasValue);
@@ -151,7 +150,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests
 
             _handlerResolver.When().HandlerThrows(expectedException);
 
-            var result = Run(new ExceptionCentricTestSpecification(new Fact[0], new DoSomething(), expectedException));
+            var result = Run(new ExceptionCentricTestSpecification(Array.Empty<ExpectedFact>(), new DoSomething(), expectedException));
 
             Assert.IsTrue(result.Passed);
             Assert.IsTrue(result.ButException.HasValue);

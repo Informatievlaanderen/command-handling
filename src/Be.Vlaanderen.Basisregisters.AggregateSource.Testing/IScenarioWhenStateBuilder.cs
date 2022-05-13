@@ -12,7 +12,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
         /// </summary>
         /// <param name="facts">The facts that should have occurred.</param>
         /// <returns>A builder continuation.</returns>
-        IScenarioThenStateBuilder Then(params Fact[] facts);
+        IScenarioThenStateBuilder Then(params ExpectedFact[] facts);
 
         /// <summary>
         /// Then events should have occurred.

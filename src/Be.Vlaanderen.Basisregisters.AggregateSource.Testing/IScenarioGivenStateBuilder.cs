@@ -10,7 +10,7 @@
         /// </summary>
         /// <param name="facts">The facts that occurred.</param>
         /// <returns>A builder continuation.</returns>
-        IScenarioGivenStateBuilder Given(params Fact[] facts);
+        IScenarioGivenStateBuilder Given(params ExpectedFact[] facts);
 
         /// <summary>
         /// Given the following events occured.

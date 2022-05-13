@@ -2,7 +2,6 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
@@ -10,7 +9,6 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests
     using global::SqlStreamStore;
     using global::SqlStreamStore.Streams;
     using KellermanSoftware.CompareNetObjects;
-    using Moq;
     using Newtonsoft.Json;
     using NUnit.Framework;
     using SqlStreamStore;
@@ -19,11 +17,11 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests
     [TestFixture]
     public class EventCentricTestSpecificationRunnerTests
     {
-        private class FactComparer : IComparer<Fact>
+        private class ExpectedFactComparer : IComparer<ExpectedFact>
         {
-            public int Compare(Fact x, Fact y)
+            public int Compare(ExpectedFact x, ExpectedFact y)
             {
-                return new CompareNetObjectsBasedFactComparer(new CompareLogic()).Compare(x, y).Any() ? 1 : 0;
+                return new CompareNetObjectsBasedExpectedFactComparer(new CompareLogic()).Compare(x, y).Any() ? 1 : 0;
             }
         }
 
@@ -39,10 +37,10 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests
             var eventSerializer = new EventSerializer(JsonConvert.SerializeObject);
             var eventDeserializer = new EventDeserializer(JsonConvert.DeserializeObject);
 
-            _factRepository = new StreamStoreFactRepository(store, eventMapping, eventSerializer, eventDeserializer);
+            _factRepository = new StreamStoreExpectedFactRepository(store, eventMapping, eventSerializer, eventDeserializer);
 
-            _handlerFactory = (eventType, @events) =>
-                async (command) =>
+            _handlerFactory = (eventType, events) =>
+                async command =>
                 {
                     long position = 0;
                     foreach (var @event in events)
@@ -62,13 +60,13 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests
             //_handlerResolver.When().ResolvesHandler(_handlerFactory);
         }
 
-        private StreamStoreFactRepository _factRepository;
+        private StreamStoreExpectedFactRepository _factRepository;
         private Func<string, object[], Func<object, Task<long>>> _handlerFactory;
         private Mocking<IHandlerResolver, HandlerResolverSetup> _handlerResolver;
 
         private EventCentricTestResult Run(EventCentricTestSpecification specification)
         {
-            return new EventCentricTestSpecificationRunner(CreateFactComparer(), _factRepository, _factRepository,
+            return new EventCentricTestSpecificationRunner(CreateExpectedFactComparer(), _factRepository, _factRepository,
                 _handlerResolver.Object).Run(specification);
         }
 
@@ -82,9 +80,9 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests
             return _handlerFactory(eventType, events);
         }
 
-        protected virtual IFactComparer CreateFactComparer()
+        protected virtual IExpectedFactComparer CreateExpectedFactComparer()
         {
-            return new CompareNetObjectsBasedFactComparer(new CompareLogic());
+            return new CompareNetObjectsBasedExpectedFactComparer(new CompareLogic());
         }
 
         [Test]
@@ -97,21 +95,21 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests
         [Test]
         public void FactWriterCannotBeNull()
         {
-            Assert.Throws<ArgumentNullException>(() => new EventCentricTestSpecificationRunner(CreateFactComparer(), null,
+            Assert.Throws<ArgumentNullException>(() => new EventCentricTestSpecificationRunner(CreateExpectedFactComparer(), null,
                 _factRepository, _handlerResolver.Object));
         }
 
         [Test]
         public void FactReaderCannotBeNull()
         {
-            Assert.Throws<ArgumentNullException>(() => new EventCentricTestSpecificationRunner(CreateFactComparer(), _factRepository,
+            Assert.Throws<ArgumentNullException>(() => new EventCentricTestSpecificationRunner(CreateExpectedFactComparer(), _factRepository,
                 null, _handlerResolver.Object));
         }
 
         [Test]
         public void HandlerResolverCannotBeNull()
         {
-            Assert.Throws<ArgumentNullException>(() => new EventCentricTestSpecificationRunner(CreateFactComparer(), _factRepository,
+            Assert.Throws<ArgumentNullException>(() => new EventCentricTestSpecificationRunner(CreateExpectedFactComparer(), _factRepository,
                 _factRepository, null));
         }
 
@@ -121,9 +119,9 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests
             _handlerResolver.When().ResolvesDummyHandler();
 
             var identifier = "1";
-            var expectedEvents = new[] { new Fact(identifier, new SomethingHappened()) };
+            var expectedEvents = new[] { new ExpectedFact(identifier, new SomethingHappened()) };
 
-            var result = Run(new EventCentricTestSpecification(new Fact[0], new DoSomething { Identifier = identifier }, expectedEvents));
+            var result = Run(new EventCentricTestSpecification(Array.Empty<ExpectedFact>(), new DoSomething { Identifier = identifier }, expectedEvents));
 
             Assert.IsTrue(result.Failed);
             Assert.IsTrue(result.ButEvents.HasValue);
@@ -136,9 +134,9 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests
             _handlerResolver.When().HandlerThrows(actualException);
 
             var identifier = "1";
-            var expectedEvents = new[] { new Fact(identifier, new SomethingHappened()) };
+            var expectedEvents = new[] { new ExpectedFact(identifier, new SomethingHappened()) };
 
-            var result = Run(new EventCentricTestSpecification(new Fact[0], new DoSomething() { Identifier = identifier }, expectedEvents));
+            var result = Run(new EventCentricTestSpecification(Array.Empty<ExpectedFact>(), new DoSomething { Identifier = identifier }, expectedEvents));
 
             Assert.IsTrue(result.Failed);
             Assert.IsTrue(result.ButException.HasValue);
@@ -152,13 +150,13 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests
                 .ResolvesHandler(CreateHandlerThatRecords("SomethingElseHappened", new SomethingElseHappened()));
 
             var identifier = "1";
-            var expectedEvents = new[] { new Fact(identifier, new SomethingHappened()) };
+            var expectedEvents = new[] { new ExpectedFact(identifier, new SomethingHappened()) };
 
-            var result = Run(new EventCentricTestSpecification(new Fact[0], new DoSomething() { Identifier = identifier }, expectedEvents));
+            var result = Run(new EventCentricTestSpecification(Array.Empty<ExpectedFact>(), new DoSomething { Identifier = identifier }, expectedEvents));
 
             Assert.IsTrue(result.Failed);
             Assert.IsTrue(result.ButEvents.HasValue);
-            Assert.That(result.ButEvents.Value, Is.EqualTo(new[] { new Fact(identifier, new SomethingElseHappened()) }).Using(new FactComparer()));
+            Assert.That(result.ButEvents.Value, Is.EqualTo(new[] { new ExpectedFact(identifier, new SomethingElseHappened()) }).Using(new ExpectedFactComparer()));
         }
 
         [Test]
@@ -168,13 +166,13 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests
                 .ResolvesHandler(CreateHandlerThatRecords("SomethingHappened", new SomethingHappened()));
 
             var identifier = "1";
-            var expectedEvents = new[] { new Fact(identifier, new SomethingHappened()) };
+            var expectedEvents = new[] { new ExpectedFact(identifier, new SomethingHappened()) };
 
-            var result = Run(new EventCentricTestSpecification(new Fact[0], new DoSomething() { Identifier = identifier }, expectedEvents));
+            var result = Run(new EventCentricTestSpecification(Array.Empty<ExpectedFact>(), new DoSomething { Identifier = identifier }, expectedEvents));
 
             Assert.IsTrue(result.Passed);
             Assert.IsTrue(result.ButEvents.HasValue);
-            Assert.That(result.ButEvents.Value, Is.EqualTo(expectedEvents).Using(new FactComparer()));
+            Assert.That(result.ButEvents.Value, Is.EqualTo(expectedEvents).Using(new ExpectedFactComparer()));
         }
 
         [Test]
@@ -184,13 +182,13 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests
                 .ResolvesHandler(CreateHandlerThatRecords("SomethingHappened", new SomethingHappened()));
 
             var identifier = "1";
-            var expectedEvents = new[] { new Fact(identifier, new SomethingHappened()) };
+            var expectedEvents = new[] { new ExpectedFact(identifier, new SomethingHappened()) };
 
-            var result = Run(new EventCentricTestSpecification(new Fact[]{new Fact(identifier, new SomethingHappened())}, new DoSomething() { Identifier = identifier }, expectedEvents));
+            var result = Run(new EventCentricTestSpecification(new[]{new ExpectedFact(identifier, new SomethingHappened())}, new DoSomething { Identifier = identifier }, expectedEvents));
 
             Assert.IsTrue(result.Passed);
             Assert.IsTrue(result.ButEvents.HasValue);
-            Assert.That(result.ButEvents.Value, Is.EqualTo(expectedEvents).Using(new FactComparer()));
+            Assert.That(result.ButEvents.Value, Is.EqualTo(expectedEvents).Using(new ExpectedFactComparer()));
         }
 
         [Test]
@@ -201,16 +199,16 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests
                 .ResolvesHandler(handler);
 
             var identifier = "1";
-            var expectedEvents = new[] { new Fact(identifier, new SomethingHappened()) };
+            var expectedEvents = new[] { new ExpectedFact(identifier, new SomethingHappened()) };
 
             //put something in the event store
-            handler(new DoSomething() { Identifier = identifier });
+            handler(new DoSomething { Identifier = identifier });
 
-            var result = Run(new EventCentricTestSpecification(new Fact[0], new DoSomething() { Identifier = identifier }, expectedEvents));
+            var result = Run(new EventCentricTestSpecification(Array.Empty<ExpectedFact>(), new DoSomething { Identifier = identifier }, expectedEvents));
 
             Assert.IsTrue(result.Passed);
             Assert.IsTrue(result.ButEvents.HasValue);
-            Assert.That(result.ButEvents.Value, Is.EqualTo(expectedEvents).Using(new FactComparer()));
+            Assert.That(result.ButEvents.Value, Is.EqualTo(expectedEvents).Using(new ExpectedFactComparer()));
         }
 
         [Test]
@@ -221,17 +219,17 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests
                 .ResolvesHandler(handler);
 
             var identifier = "1";
-            var expectedEvents = new[] { new Fact(identifier, new SomethingHappened()) };
+            var expectedEvents = new[] { new ExpectedFact(identifier, new SomethingHappened()) };
 
             //put something in the event store
-            handler(new DoSomething() { Identifier = identifier });
-            handler(new DoSomething() { Identifier = identifier });
+            handler(new DoSomething { Identifier = identifier });
+            handler(new DoSomething { Identifier = identifier });
 
-            var result = Run(new EventCentricTestSpecification(new Fact[] { new Fact(identifier, new SomethingHappened()) }, new DoSomething() { Identifier = identifier }, expectedEvents));
+            var result = Run(new EventCentricTestSpecification(new[] { new ExpectedFact(identifier, new SomethingHappened()) }, new DoSomething { Identifier = identifier }, expectedEvents));
 
             Assert.IsTrue(result.Passed);
             Assert.IsTrue(result.ButEvents.HasValue);
-            Assert.That(result.ButEvents.Value, Is.EqualTo(expectedEvents).Using(new FactComparer()));
+            Assert.That(result.ButEvents.Value, Is.EqualTo(expectedEvents).Using(new ExpectedFactComparer()));
         }
 
         [Test]
@@ -241,13 +239,13 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests
                 .ResolvesHandler(CreateHandlerThatRecords("SomethingHappened", Enumerable.Repeat(new SomethingHappened(), 17).ToArray()));
 
             var identifier = "1";
-            var expectedEvents = Enumerable.Repeat(new Fact(identifier, new SomethingHappened()),17).ToArray();
+            var expectedEvents = Enumerable.Repeat(new ExpectedFact(identifier, new SomethingHappened()),17).ToArray();
 
-            var result = Run(new EventCentricTestSpecification(new Fact[] { new Fact(identifier, new SomethingHappened()) }, new DoSomething() { Identifier = identifier }, expectedEvents));
+            var result = Run(new EventCentricTestSpecification(new[] { new ExpectedFact(identifier, new SomethingHappened()) }, new DoSomething { Identifier = identifier }, expectedEvents));
 
             Assert.IsTrue(result.Passed);
             Assert.IsTrue(result.ButEvents.HasValue);
-            Assert.That(result.ButEvents.Value, Is.EqualTo(expectedEvents).Using(new FactComparer()));
+            Assert.That(result.ButEvents.Value, Is.EqualTo(expectedEvents).Using(new ExpectedFactComparer()));
         }
     }
 }

@@ -6,20 +6,20 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource
     /// <summary>
     /// Represents the fact that an event happened to what is identified by the identifier.
     /// </summary>
-    public struct Fact : IEquatable<Fact>
+    public readonly struct ExpectedFact : IEquatable<ExpectedFact>
     {
         /// <summary>
         /// Returns an empty array of facts.
         /// </summary>
-        public static readonly Fact[] Empty = new Fact[0];
+        public static ExpectedFact[] Empty => Array.Empty<ExpectedFact>();
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Fact"/> struct.
+        /// Initializes a new instance of the <see cref="ExpectedFact"/> struct.
         /// </summary>
         /// <param name="identifier">The identifier.</param>
         /// <param name="event">The event.</param>
         /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="identifier"/> or <paramref name="event"/> is <c>null</c>.</exception>
-        public Fact(string identifier, object @event)
+        public ExpectedFact(string identifier, object @event)
         {
             Identifier = identifier ?? throw new ArgumentNullException(nameof(identifier));
             Event = @event ?? throw new ArgumentNullException(nameof(@event));
@@ -48,7 +48,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource
         /// <returns>
         ///   <c>true</c> if the specified <see cref="T:Be.Vlaanderen.Basisregisters.AggregateSource.Fact" /> is equal to this instance; otherwise, <c>false</c>.
         /// </returns>
-        public bool Equals(Fact other) => Identifier.Equals(other.Identifier) && Event.Equals(other.Event);
+        public bool Equals(ExpectedFact other) => Identifier.Equals(other.Identifier) && Event.Equals(other.Event);
 
         /// <summary>
         /// Determines whether the specified <see cref="System.Object" /> is equal to this instance.
@@ -57,12 +57,14 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource
         /// <returns>
         ///   <c>true</c> if the specified <see cref="System.Object" /> is equal to this instance; otherwise, <c>false</c>.
         /// </returns>
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (obj is null || obj.GetType() != GetType())
+            {
                 return false;
+            }
 
-            return Equals((Fact)obj);
+            return Equals((ExpectedFact)obj);
         }
 
         /// <summary>
@@ -78,6 +80,6 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource
         /// </summary>
         /// <param name="fact">The fact.</param>
         /// <returns>An tuple containing the fact data.</returns>
-        public static implicit operator Tuple<string, object>(Fact fact) => new Tuple<string, object>(fact.Identifier, fact.Event);
+        public static implicit operator Tuple<string, object>(ExpectedFact fact) => new Tuple<string, object>(fact.Identifier, fact.Event);
     }
 }

@@ -15,7 +15,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
         /// A builder continuation.
         /// </returns>
         /// <exception cref="System.ArgumentNullException">facts</exception>
-        public IScenarioGivenStateBuilder Given(params Fact[] facts)
+        public IScenarioGivenStateBuilder Given(params ExpectedFact[] facts)
         {
             if (facts == null)
                 throw new ArgumentNullException(nameof(facts));

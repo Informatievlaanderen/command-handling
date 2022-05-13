@@ -47,7 +47,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
         /// <value>
         /// The events.
         /// </value>
-        public Optional<Fact[]> ButEvents { get; }
+        public Optional<ExpectedFact[]> ButEvents { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ExceptionCentricTestResult"/> class.
@@ -60,7 +60,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
             ExceptionCentricTestSpecification specification,
             TestResultState state,
             Optional<Exception> actualException,
-            Optional<Fact[]> actualEvents)
+            Optional<ExpectedFact[]> actualEvents)
         {
             Specification = specification;
             _state = state;

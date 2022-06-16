@@ -10,7 +10,8 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Autofac
     {
         private readonly string _eventsConnectionString;
         private readonly string _schema;
-        private readonly Action<MsSqlStreamStoreSettings> _settingsFunc;
+        private readonly Action<MsSqlStreamStoreSettings> _streamStoreSettingsFunc;
+        private readonly Action<MsSqlSnapshotStoreSettings> _snapshotSettingsFunc;
 
         /// <summary>
         /// Register an in-memory SqlStreamStore
@@ -35,10 +36,25 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Autofac
             string eventsConnectionString,
             string schema,
             Action<MsSqlStreamStoreSettings> settingsFunc)
+            : this(eventsConnectionString, schema, settingsFunc, null) { }
+
+        /// <summary>
+        /// Register a SQL Server SqlStreamStore
+        /// </summary>
+        /// <param name="eventsConnectionString"></param>
+        /// <param name="schema"></param>
+        /// <param name="streamStoreSettingsFunc"></param>
+        /// <param name="snapshotSettingsFunc"></param>
+        public SqlStreamStoreModule(
+            string eventsConnectionString,
+            string schema,
+            Action<MsSqlStreamStoreSettings> streamStoreSettingsFunc,
+            Action<MsSqlSnapshotStoreSettings> snapshotSettingsFunc)
         {
             _eventsConnectionString = eventsConnectionString;
             _schema = schema;
-            _settingsFunc = settingsFunc;
+            _streamStoreSettingsFunc = streamStoreSettingsFunc;
+            _snapshotSettingsFunc = snapshotSettingsFunc;
         }
 
         protected override void Load(ContainerBuilder builder)
@@ -58,15 +74,23 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Autofac
             }
             else
             {
-                var settings = new MsSqlStreamStoreSettings(_eventsConnectionString) { Schema = _schema };
+                var streamStoreSettings = new MsSqlStreamStoreSettings(_eventsConnectionString) { Schema = _schema };
+                var snapshotStoreSettings = new MsSqlSnapshotStoreSettings(_eventsConnectionString) { Schema = _schema };
 
-                _settingsFunc?.Invoke(settings);
+                _streamStoreSettingsFunc?.Invoke(streamStoreSettings);
+                _snapshotSettingsFunc?.Invoke(snapshotStoreSettings);
 
-                builder.RegisterInstance(settings);
+                builder.RegisterInstance(streamStoreSettings);
                 builder.RegisterType<MsSqlStreamStore>()
                     .As<MsSqlStreamStore>()
                     .As<IStreamStore>()
                     .As<IReadonlyStreamStore>()
+                    .SingleInstance();
+
+                builder.RegisterInstance(snapshotStoreSettings);
+                builder.RegisterType<MsSqlSnapshotStore>()
+                    .As<MsSqlSnapshotStore>()
+                    .As<ISnapshotStore>()
                     .SingleInstance();
             }
         }

@@ -76,6 +76,31 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore
         public EventMapping EventMapping { get; }
 
         /// <summary>
+        /// Gets the snapshot store to use.
+        /// </summary>
+        public ISnapshotStore? SnapshotStore { get; }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Repository{TAggregateRoot}"/> class.
+        /// </summary>
+        /// <param name="rootFactory">The aggregate root entity factory.</param>
+        /// <param name="unitOfWork">The unit of work to interact with.</param>
+        /// <param name="eventStore">The event store to use.</param>
+        /// <param name="eventMapping">The event mapping.</param>
+        /// <param name="eventDeserializer">The event deserializer.</param>
+        /// <param name="snapshotStore">The snapshot store to use.</param>
+        /// <exception cref="System.ArgumentNullException">Thrown when the <paramref name="rootFactory"/> or <paramref name="unitOfWork"/> or <paramref name="eventStore"/> or <paramref name="snapshotStore"/> is null.</exception>
+        public Repository(Func<TAggregateRoot> rootFactory, ConcurrentUnitOfWork unitOfWork, IStreamStore eventStore, EventMapping eventMapping, EventDeserializer eventDeserializer, ISnapshotStore snapshotStore)
+        {
+            RootFactory = rootFactory ?? throw new ArgumentNullException(nameof(rootFactory));
+            UnitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+            EventStore = eventStore ?? throw new ArgumentNullException(nameof(eventStore));
+            EventMapping = eventMapping ?? throw new ArgumentNullException(nameof(eventMapping));
+            EventDeserializer = eventDeserializer ?? throw new ArgumentNullException(nameof(eventDeserializer));
+            SnapshotStore = snapshotStore ?? throw new ArgumentNullException(nameof(snapshotStore));
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Repository{TAggregateRoot}"/> class.
         /// </summary>
         /// <param name="rootFactory">The aggregate root entity factory.</param>
@@ -91,6 +116,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore
             EventStore = eventStore ?? throw new ArgumentNullException(nameof(eventStore));
             EventMapping = eventMapping ?? throw new ArgumentNullException(nameof(eventMapping));
             EventDeserializer = eventDeserializer ?? throw new ArgumentNullException(nameof(eventDeserializer));
+            SnapshotStore = null;
         }
 
         /// <summary>
@@ -132,27 +158,49 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore
                 return await GetAggregateAsync(identifier, StreamVersion.Start, null, cancellationToken);
             }
 
-            // Otherwise, check if there is a snapshot and hydrate from there
-            var snapshotIdentifier = UnitOfWork.GetSnapshotIdentifier(identifier);
-            var snapshotPage = await EventStore.ReadStreamBackwards(
-                snapshotIdentifier,
-                StreamVersion.End,
-                1,
-                false,
-                cancellationToken);
-
             var hydrateContainer = new HydrateContainer();
-            if (snapshotPage.Status != PageReadStatus.StreamNotFound)
+            if (SnapshotStore is not null)
             {
-                var snapshotContainerMessage = snapshotPage.Messages.Single();
-                var snapshotContainerData = await snapshotContainerMessage.GetJsonData(cancellationToken); // { info: { position: xxx, type: "" }, data: "" }
-                var snapshotContainer = (SnapshotContainer)EventDeserializer.DeserializeObject(snapshotContainerData, typeof(SnapshotContainer));
+                var snapshotContainer = await SnapshotStore.FindLatestSnapshotAsync(identifier, cancellationToken);
+                if (snapshotContainer is not null)
+                {
+                    var snapshotType = EventMapping.GetEventType(snapshotContainer.Info.Type);
+                    var snapshotData = snapshotContainer.Data;
 
-                var snapshotType = EventMapping.GetEventType(snapshotContainer.Info.Type);
-                var snapshotData = snapshotContainer.Data;
+                    hydrateContainer.ReadFrom =
+                        (int)snapshotContainer.Info.Position + 1; // TODO: Fix this when SSS supports longs for read
+                    hydrateContainer.Snapshot = EventDeserializer.DeserializeObject(snapshotData, snapshotType);
+                }
+            }
+            else
+            {
+                // Otherwise, check if there is a snapshot in the event store and hydrate from there
+                var snapshotIdentifier = UnitOfWork.GetSnapshotIdentifier(identifier);
+                var snapshotPage = await EventStore.ReadStreamBackwards(
+                    snapshotIdentifier,
+                    StreamVersion.End,
+                    1,
+                    false,
+                    cancellationToken);
 
-                hydrateContainer.ReadFrom = (int)snapshotContainer.Info.Position + 1; // TODO: Fix this when SSS supports longs for read
-                hydrateContainer.Snapshot = EventDeserializer.DeserializeObject(snapshotData, snapshotType);
+                
+                if (snapshotPage.Status != PageReadStatus.StreamNotFound)
+                {
+                    var snapshotContainerMessage = snapshotPage.Messages.Single();
+                    var snapshotContainerData =
+                        await snapshotContainerMessage
+                            .GetJsonData(cancellationToken); // { info: { position: xxx, type: "" }, data: "" }
+                    var snapshotContainer =
+                        (SnapshotContainer)EventDeserializer.DeserializeObject(snapshotContainerData,
+                            typeof(SnapshotContainer));
+
+                    var snapshotType = EventMapping.GetEventType(snapshotContainer.Info.Type);
+                    var snapshotData = snapshotContainer.Data;
+
+                    hydrateContainer.ReadFrom =
+                        (int)snapshotContainer.Info.Position + 1; // TODO: Fix this when SSS supports longs for read
+                    hydrateContainer.Snapshot = EventDeserializer.DeserializeObject(snapshotData, snapshotType);
+                }
             }
 
             void HydrateFromSnapshot(TAggregateRoot root)

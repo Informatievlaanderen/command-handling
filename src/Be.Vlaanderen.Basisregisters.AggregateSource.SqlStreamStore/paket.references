@@ -1,4 +1,5 @@
 SqlStreamStore
+Microsoft.Data.SqlClient
 
 Be.Vlaanderen.Basisregisters.EventHandling
 

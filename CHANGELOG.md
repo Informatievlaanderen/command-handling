@@ -1,3 +1,10 @@
+## [6.2.1](https://github.com/informatievlaanderen/command-handling/compare/v6.2.0...v6.2.1) (2022-06-17)
+
+
+### Bug Fixes
+
+* read snapshot correct column, add repository ctor ([f1cd6fe](https://github.com/informatievlaanderen/command-handling/commit/f1cd6fea4cf33a9be107d71bdf872de810798601))
+
 # [6.2.0](https://github.com/informatievlaanderen/command-handling/compare/v6.1.0...v6.2.0) (2022-06-17)
 
 

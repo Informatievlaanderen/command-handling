@@ -1,3 +1,10 @@
+# [6.2.0](https://github.com/informatievlaanderen/command-handling/compare/v6.1.0...v6.2.0) (2022-06-17)
+
+
+### Features
+
+* add snapshot support in separate table ([428a511](https://github.com/informatievlaanderen/command-handling/commit/428a5111033fe4f350d146896a6b32fa4272b3d1))
+
 # [6.1.0](https://github.com/informatievlaanderen/command-handling/compare/v6.0.2...v6.1.0) (2022-05-11)
 
 

@@ -61,7 +61,6 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore
             await using var command = new SqlCommand(_scripts.SaveSnapshotScript(), connection);
             command.CommandTimeout = _settings.CommandTimeout;
             command.Parameters.Add(new SqlParameter("streamId", SqlDbType.Char, 42) { Value = sqlStreamId.Id });
-            command.Parameters.AddWithValue("streamIdOriginal", sqlStreamId.IdOriginal);
             command.Parameters.AddWithValue("created", GetUtcNow());
             command.Parameters.AddWithValue("snapshotBlob", _eventSerializer.SerializeObject(snapshot));
 

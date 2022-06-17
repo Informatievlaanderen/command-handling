@@ -9,7 +9,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Autofac
 
     public class SqlSnapshotStoreModule : Module
     {
-        private readonly string _eventsConnectionString;
+        private readonly string _snapshotConnectionString;
         private readonly string _schema;
         private readonly Action<MsSqlSnapshotStoreSettings> _settingsFunc;
 
@@ -21,23 +21,23 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Autofac
         /// <summary>
         /// Register a SQL Server SqlStreamStore
         /// </summary>
-        /// <param name="eventsConnectionString"></param>
+        /// <param name="snapshotConnectionString"></param>
         /// <param name="schema"></param>
-        public SqlSnapshotStoreModule(string eventsConnectionString, string schema) :
-            this(eventsConnectionString, schema, null) { }
+        public SqlSnapshotStoreModule(string snapshotConnectionString, string schema) :
+            this(snapshotConnectionString, schema, null) { }
 
         /// <summary>
         /// Register a SQL Server SqlStreamStore
         /// </summary>
-        /// <param name="eventsConnectionString"></param>
+        /// <param name="snapshotConnectionString"></param>
         /// <param name="schema"></param>
         /// <param name="settingsFunc"></param>
         public SqlSnapshotStoreModule(
-            string eventsConnectionString,
+            string snapshotConnectionString,
             string schema,
             Action<MsSqlSnapshotStoreSettings> settingsFunc)
         {
-            _eventsConnectionString = eventsConnectionString;
+            _snapshotConnectionString = snapshotConnectionString;
             _schema = schema;
             _settingsFunc = settingsFunc;
         }
@@ -49,7 +49,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Autofac
                 .As(typeof(IAsyncRepository<>))
                 .InstancePerLifetimeScope();
 
-            if (string.IsNullOrWhiteSpace(_eventsConnectionString))
+            if (string.IsNullOrWhiteSpace(_snapshotConnectionString))
             {
                 builder.RegisterType<InMemorySnapshotStore>()
                     .As<InMemorySnapshotStore>()
@@ -58,7 +58,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Autofac
             }
             else
             {
-                var settings = new MsSqlSnapshotStoreSettings(_eventsConnectionString) { Schema = _schema };
+                var settings = new MsSqlSnapshotStoreSettings(_snapshotConnectionString) { Schema = _schema };
 
                 _settingsFunc?.Invoke(settings);
 

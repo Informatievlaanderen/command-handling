@@ -91,9 +91,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore
             }
 
             await reader.ReadAsync(cancellationToken).NotOnCapturedContext();
-            //var streamId = reader.GetString(0);
-            //var created = reader.GetDateTime(1);
-            var snapshotContainerData = await reader.GetTextReader(2).ReadToEndAsync();
+            var snapshotContainerData = await reader.GetTextReader(1).ReadToEndAsync();
 
             return (SnapshotContainer)_eventDeserializer.DeserializeObject(snapshotContainerData,
                 typeof(SnapshotContainer));

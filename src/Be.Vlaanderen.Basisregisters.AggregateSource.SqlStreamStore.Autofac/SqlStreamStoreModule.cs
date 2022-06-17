@@ -5,6 +5,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Autofac
     using SqlStreamStore;
     using global::Autofac;
     using global::SqlStreamStore;
+    using Snapshotting;
 
     public class SqlStreamStoreModule : Module
     {

@@ -3,40 +3,41 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Autofac
     using System;
     using AggregateSource;
     using global::Autofac;
-    using global::SqlStreamStore;
+    using Snapshotting;
+    using Snapshotting.InMemory;
     using SqlStreamStore;
 
-    public class SqlStreamStoreModule : Module
+    public class SqlSnapshotStoreModule : Module
     {
-        private readonly string _eventsConnectionString;
+        private readonly string _snapshotConnectionString;
         private readonly string _schema;
-        private readonly Action<MsSqlStreamStoreSettings> _settingsFunc;
+        private readonly Action<MsSqlSnapshotStoreSettings> _settingsFunc;
 
         /// <summary>
         /// Register an in-memory SqlStreamStore
         /// </summary>
-        public SqlStreamStoreModule() { }
+        public SqlSnapshotStoreModule() { }
 
         /// <summary>
         /// Register a SQL Server SqlStreamStore
         /// </summary>
-        /// <param name="eventsConnectionString"></param>
+        /// <param name="snapshotConnectionString"></param>
         /// <param name="schema"></param>
-        public SqlStreamStoreModule(string eventsConnectionString, string schema) :
-            this(eventsConnectionString, schema, null) { }
+        public SqlSnapshotStoreModule(string snapshotConnectionString, string schema) :
+            this(snapshotConnectionString, schema, null) { }
 
         /// <summary>
         /// Register a SQL Server SqlStreamStore
         /// </summary>
-        /// <param name="eventsConnectionString"></param>
+        /// <param name="snapshotConnectionString"></param>
         /// <param name="schema"></param>
         /// <param name="settingsFunc"></param>
-        public SqlStreamStoreModule(
-            string eventsConnectionString,
+        public SqlSnapshotStoreModule(
+            string snapshotConnectionString,
             string schema,
-            Action<MsSqlStreamStoreSettings> settingsFunc)
+            Action<MsSqlSnapshotStoreSettings> settingsFunc)
         {
-            _eventsConnectionString = eventsConnectionString;
+            _snapshotConnectionString = snapshotConnectionString;
             _schema = schema;
             _settingsFunc = settingsFunc;
         }
@@ -48,25 +49,23 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Autofac
                 .As(typeof(IAsyncRepository<>))
                 .InstancePerLifetimeScope();
 
-            if (string.IsNullOrWhiteSpace(_eventsConnectionString))
+            if (string.IsNullOrWhiteSpace(_snapshotConnectionString))
             {
-                builder.RegisterType<InMemoryStreamStore>()
-                    .As<InMemoryStreamStore>()
-                    .As<IStreamStore>()
-                    .As<IReadonlyStreamStore>()
+                builder.RegisterType<InMemorySnapshotStore>()
+                    .As<InMemorySnapshotStore>()
+                    .As<ISnapshotStore>()
                     .SingleInstance();
             }
             else
             {
-                var settings = new MsSqlStreamStoreSettings(_eventsConnectionString) { Schema = _schema };
+                var settings = new MsSqlSnapshotStoreSettings(_snapshotConnectionString) { Schema = _schema };
 
                 _settingsFunc?.Invoke(settings);
 
                 builder.RegisterInstance(settings);
-                builder.RegisterType<MsSqlStreamStore>()
-                    .As<MsSqlStreamStore>()
-                    .As<IStreamStore>()
-                    .As<IReadonlyStreamStore>()
+                builder.RegisterType<MsSqlSnapshotStore>()
+                    .As<MsSqlSnapshotStore>()
+                    .As<ISnapshotStore>()
                     .SingleInstance();
             }
         }

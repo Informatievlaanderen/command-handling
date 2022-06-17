@@ -20,7 +20,8 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling.SqlStreamStore
             Func<IStreamStore> getStreamStore,
             Func<ConcurrentUnitOfWork> getUnitOfWork,
             EventMapping eventMapping,
-            EventSerializer eventSerializer)
+            EventSerializer eventSerializer,
+            Func<ISnapshotStore>? getSnapshotStore = null)
         {
             return commandHandlerBuilder.Pipe(next => async (commandMessage, ct) =>
             {
@@ -28,6 +29,7 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling.SqlStreamStore
 
                 return await AddSqlStreamStore(
                     getStreamStore,
+                    getSnapshotStore,
                     getUnitOfWork,
                     eventMapping,
                     eventSerializer,
@@ -38,6 +40,7 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling.SqlStreamStore
 
         private static async Task<long> AddSqlStreamStore(
             Func<IStreamStore> getStreamStore,
+            Func<ISnapshotStore>? getSnapshotStore,
             Func<ConcurrentUnitOfWork> getUnitOfWork,
             EventMapping eventMapping,
             EventSerializer eventSerializer,
@@ -87,6 +90,7 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling.SqlStreamStore
                         result.CurrentVersion,
                         result.CurrentPosition),
                     streamStore,
+                    getSnapshotStore?.Invoke(),
                     uow,
                     eventMapping,
                     eventSerializer,
@@ -100,6 +104,7 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling.SqlStreamStore
             ISnapshotable snapshotSupport,
             SnapshotStrategyContext context,
             IStreamStore streamStore,
+            ISnapshotStore? snapshotStore,
             ConcurrentUnitOfWork uow,
             EventMapping eventMapping,
             EventSerializer eventSerializer,
@@ -126,14 +131,21 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling.SqlStreamStore
                 }
             };
 
-            await streamStore.AppendToStream(
-                uow.GetSnapshotIdentifier(context.Aggregate.Identifier),
-                ExpectedVersion.Any,
-                new NewStreamMessage(
-                    Deterministic.Create(Deterministic.Namespaces.Events, $"snapshot-{context.SnapshotPosition}"),
-                    $"SnapshotContainer<{snapshotContainer.Info.Type}>",
-                    eventSerializer.SerializeObject(snapshotContainer)),
-                ct);
+            if (snapshotStore is not null)
+            {
+                await snapshotStore.SaveSnapshotAsync(context.Aggregate.Identifier, snapshotContainer, ct);
+            }
+            else
+            {
+                await streamStore.AppendToStream(
+                    uow.GetSnapshotIdentifier(context.Aggregate.Identifier),
+                    ExpectedVersion.Any,
+                    new NewStreamMessage(
+                        Deterministic.Create(Deterministic.Namespaces.Events, $"snapshot-{context.SnapshotPosition}"),
+                        $"SnapshotContainer<{snapshotContainer.Info.Type}>",
+                        eventSerializer.SerializeObject(snapshotContainer)),
+                    ct);
+            }
         }
 
         private static IDictionary<string, object> GetMetadata(

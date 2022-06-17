@@ -17,7 +17,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore
         }
 
         /// <summary>
-        ///     The log name used for the any log messages.
+        ///     The log name used for any log messages.
         /// </summary>
         public string LogName { get; set; } = "MsSqlSnapshotStore";
 

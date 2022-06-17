@@ -22,6 +22,15 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore
             EventDeserializer eventDeserializer)
             : base(factory, unitOfWork, eventStore, eventMapping, eventDeserializer) { }
 
+        public Repository(
+            Func<TAggregateRoot> factory,
+            ConcurrentUnitOfWork unitOfWork,
+            IStreamStore eventStore,
+            ISnapshotStore snapshotStore,
+            EventMapping eventMapping,
+            EventDeserializer eventDeserializer)
+            : base(factory, unitOfWork, eventStore, eventMapping, eventDeserializer, snapshotStore) { }
+
         public Task<TAggregateRoot> GetAsync(TAggregateRootIdentifier identifier, CancellationToken cancellationToken = default)
             => base.GetAsync(identifier, cancellationToken);
 

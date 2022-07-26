@@ -1,3 +1,10 @@
+## [6.2.2](https://github.com/informatievlaanderen/command-handling/compare/v6.2.1...v6.2.2) (2022-07-26)
+
+
+### Bug Fixes
+
+* make DomainException Serialiable-conformant ([0fa3131](https://github.com/informatievlaanderen/command-handling/commit/0fa3131651804fe7d2bccb126c91ed47c9d72ffa))
+
 ## [6.2.1](https://github.com/informatievlaanderen/command-handling/compare/v6.2.0...v6.2.1) (2022-06-17)
 
 

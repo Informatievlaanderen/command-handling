@@ -314,13 +314,15 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Tests
             {
                 Info =
                 {
-                    Position = 4,
+                    StreamVersion = 4,
                     Type = typeof(SnapshotStub).AssemblyQualifiedName
                 },
                 Data = eventSerializer.SerializeObject(new SnapshotStub(1))
             };
 
             _sut = new RepositoryScenarioBuilder(eventMapping, eventDeserializer)
+                .ScheduleAppendToStream(_model.UnknownIdentifier, new EventStub(0))
+                .ScheduleAppendToStream(_model.UnknownIdentifier, new EventStub(1))
                 .ScheduleAppendToStream(_model.KnownIdentifier, new EventStub(0))
                 .ScheduleAppendToStream(_model.KnownIdentifier, new EventStub(1))
                 .ScheduleAppendToStream(_model.KnownIdentifier, new EventStub(2))
@@ -329,7 +331,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Tests
                 .ScheduleAppendToStream($"{_model.KnownIdentifier}-snapshots", snapshotContainer)
                 .ScheduleAppendToStream(_model.KnownIdentifier, new EventStub(5))
                 .ScheduleAppendToStream(_model.KnownIdentifier, new EventStub(6))
-                .BuildForRepository<AggregateRootEntitySnapshotableStub>();
+                .BuildForRepository<AggregateRootEntitySnapshotableStub>(true);
         }
 
         [Test]

@@ -1,3 +1,16 @@
+# [7.0.0](https://github.com/informatievlaanderen/command-handling/compare/v6.2.2...v7.0.0) (2022-08-24)
+
+
+### Bug Fixes
+
+* restore snapshot use version instead of position ([6ee104b](https://github.com/informatievlaanderen/command-handling/commit/6ee104beed5009b197cc914b3c1023e685caef94))
+
+
+### BREAKING CHANGES
+
+* - SnapshotStrategyContext no longer has SnapshotPosition
+- SnapShotInfo Position renamed to StreamVersion
+
 ## [6.2.2](https://github.com/informatievlaanderen/command-handling/compare/v6.2.1...v6.2.2) (2022-07-26)
 
 

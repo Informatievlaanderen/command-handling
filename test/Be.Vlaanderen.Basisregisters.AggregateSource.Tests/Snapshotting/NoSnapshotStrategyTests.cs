@@ -10,7 +10,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Tests.Snapshotting
         public void NeverTakeSnapshot()
         {
             var strategy = (ISnapshotStrategy)new NoSnapshotStrategy();
-            var ctx = new SnapshotStrategyContext(new Aggregate("1", 1, new AggregateRootEntityStub()), ImmutableList<EventWithMetadata>.Empty, 1, 0);
+            var ctx = new SnapshotStrategyContext(new Aggregate("1", 1, new AggregateRootEntityStub()), ImmutableList<EventWithMetadata>.Empty, 1);
             var result = strategy.ShouldCreateSnapshot(ctx);
 
             Assert.False(result);

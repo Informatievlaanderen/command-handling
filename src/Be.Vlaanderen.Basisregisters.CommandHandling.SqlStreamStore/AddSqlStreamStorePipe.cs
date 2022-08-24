@@ -87,8 +87,7 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling.SqlStreamStore
                     new SnapshotStrategyContext(
                         aggregate,
                         events,
-                        result.CurrentVersion,
-                        result.CurrentPosition),
+                        result.CurrentVersion),
                     streamStore,
                     getSnapshotStore?.Invoke(),
                     uow,
@@ -127,7 +126,7 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling.SqlStreamStore
                 Info =
                 {
                     Type = eventMapping.GetEventName(snapshot.GetType()),
-                    Position = context.SnapshotPosition
+                    StreamVersion = context.StreamVersion
                 }
             };
 
@@ -141,7 +140,7 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling.SqlStreamStore
                     uow.GetSnapshotIdentifier(context.Aggregate.Identifier),
                     ExpectedVersion.Any,
                     new NewStreamMessage(
-                        Deterministic.Create(Deterministic.Namespaces.Events, $"snapshot-{context.SnapshotPosition}"),
+                        Deterministic.Create(Deterministic.Namespaces.Events, $"snapshot-{context.Aggregate.Identifier}-{context.StreamVersion}"),
                         $"SnapshotContainer<{snapshotContainer.Info.Type}>",
                         eventSerializer.SerializeObject(snapshotContainer)),
                     ct);

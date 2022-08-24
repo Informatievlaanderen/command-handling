@@ -177,7 +177,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore
                     var snapshotData = snapshotContainer.Data;
 
                     hydrateContainer.ReadFrom =
-                        (int)snapshotContainer.Info.Position + 1; // TODO: Fix this when SSS supports longs for read
+                        (int)snapshotContainer.Info.StreamVersion + 1; // TODO: Fix this when SSS supports longs for read
                     hydrateContainer.Snapshot = EventDeserializer.DeserializeObject(snapshotData, snapshotType);
                 }
             }
@@ -207,7 +207,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore
                     var snapshotData = snapshotContainer.Data;
 
                     hydrateContainer.ReadFrom =
-                        (int)snapshotContainer.Info.Position + 1; // TODO: Fix this when SSS supports longs for read
+                        (int)snapshotContainer.Info.StreamVersion + 1; // TODO: Fix this when SSS supports longs for read
                     hydrateContainer.Snapshot = EventDeserializer.DeserializeObject(snapshotData, snapshotType);
                 }
             }

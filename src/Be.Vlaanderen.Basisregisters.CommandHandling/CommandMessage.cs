@@ -2,12 +2,13 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.Immutable;
     using System.Linq;
 
     public class CommandMessage
     {
         public readonly Guid CommandId;
-        public readonly IDictionary<string, object> Metadata = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
+        public readonly ImmutableDictionary<string, object>? Metadata = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase).ToImmutableDictionary();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandMessage"/> class.
@@ -16,12 +17,16 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling
         /// <param name="metadata">The metadata.</param>
         public CommandMessage(
             Guid commandId,
-            IDictionary<string, object> metadata = null)
+            IDictionary<string, object>? metadata = null)
         {
             CommandId = commandId;
 
             if (metadata != null)
-                Metadata = metadata.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+            {
+                Metadata = metadata
+                    .ToDictionary(kvp => kvp.Key, kvp => kvp.Value)
+                    .ToImmutableDictionary();
+            }
         }
     }
 
@@ -43,6 +48,6 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling
         public CommandMessage(
             Guid commandId,
             TCommand command,
-            IDictionary<string, object> metadata = null) : base(commandId, metadata) => Command = command;
+            IDictionary<string, object>? metadata = null) : base(commandId, metadata) => Command = command;
     }
 }

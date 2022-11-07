@@ -57,9 +57,14 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling.SqlStreamStore
 
             var streamStore = getStreamStore();
 
+            if (message.Metadata is null)
+            {
+                return -1;
+            }
+
             if (!message.Metadata.ContainsKey("CommandId"))
             {
-                message.Metadata.Add("CommandId", message.CommandId);
+                _ = message.Metadata.Add("CommandId", message.CommandId);
             }
 
             var i = 1;

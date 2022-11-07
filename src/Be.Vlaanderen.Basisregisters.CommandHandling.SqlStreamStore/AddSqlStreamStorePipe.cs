@@ -57,12 +57,7 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling.SqlStreamStore
 
             var streamStore = getStreamStore();
 
-            if (message.Metadata is null)
-            {
-                return -1;
-            }
-
-            if (!message.Metadata.ContainsKey("CommandId"))
+            if (message.Metadata is not null && !message.Metadata.ContainsKey("CommandId"))
             {
                 _ = message.Metadata.Add("CommandId", message.CommandId);
             }
@@ -153,18 +148,18 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling.SqlStreamStore
         }
 
         private static IDictionary<string, object> GetMetadata(
-            IDictionary<string, object> commandMetadata,
-            IDictionary<string, object> eventMetadata)
+            IDictionary<string, object>? commandMetadata,
+            IDictionary<string, object>? eventMetadata)
         {
-            // Merge metadata, event metadata takes presedence over commandmetadata
-            return eventMetadata == null
-                ? commandMetadata
-                : eventMetadata.Union(commandMetadata, new KeyValuePairComparer<string, object>()).ToDictionary(x => x.Key, x => x.Value);
+            // Merge metadata, event metadata takes precedence over commandmetadata
+            var cmdMetadata = commandMetadata ?? new Dictionary<string, object>();
+            return (eventMetadata ?? cmdMetadata)
+                .Union(cmdMetadata, new KeyValuePairComparer<string, object>()).ToDictionary(x => x.Key, x => x.Value);
         }
 
-        private class KeyValuePairComparer<TKey, TValue> : IEqualityComparer<KeyValuePair<TKey, TValue>>
+        private sealed class KeyValuePairComparer<TKey, TValue> : IEqualityComparer<KeyValuePair<TKey, TValue>>
         {
-            public bool Equals(KeyValuePair<TKey, TValue> x, KeyValuePair<TKey, TValue> y) => x.Key.Equals(y.Key);
+            public bool Equals(KeyValuePair<TKey, TValue> x, KeyValuePair<TKey, TValue> y) => x.Key is not null && x.Key.Equals(y.Key);
 
             public int GetHashCode(KeyValuePair<TKey, TValue> x) => x.GetHashCode();
         }

@@ -10,7 +10,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
 
     public static class LogExtensions
     {
-        public static JsonSerializerSettings LogJsonSerializerSettings = new JsonSerializerSettings();
+        public static JsonSerializerSettings LogJsonSerializerSettings => new JsonSerializerSettings();
 
         public static string ToLogStringShort(this Fact[] facts)
             => string.Join(
@@ -48,7 +48,9 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
         private static bool IsOfTypeAnonymous(this Type type)
         {
             if (type == null)
+            {
                 throw new ArgumentNullException(nameof(type));
+            }
 
             // HACK: The only way to detect anonymous types right now.
             return Attribute.IsDefined(type, typeof(CompilerGeneratedAttribute), false) &&

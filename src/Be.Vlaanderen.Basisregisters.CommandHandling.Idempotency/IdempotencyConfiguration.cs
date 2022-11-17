@@ -6,12 +6,12 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling.Idempotency
 
     public class IdempotencyConfiguration
     {
-        public static string Section = "Idempotency";
+        public const string Section = "Idempotency";
 
         [JsonConverter(typeof(TimestampConverter))]
         public DateTime Created => DateTime.Now;
 
-        public string ConnectionString { get; set; }
+        public string? ConnectionString { get; set; }
 
         public IdempotencyConfiguration Obfuscate()
         {

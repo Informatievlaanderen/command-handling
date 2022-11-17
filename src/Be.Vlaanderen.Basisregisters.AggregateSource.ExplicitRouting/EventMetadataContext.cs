@@ -21,6 +21,8 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource
         }
 
         protected virtual void Dispose(bool disposing)
-        { }
+        {
+            // nothing to dispose
+        }
     }
 }

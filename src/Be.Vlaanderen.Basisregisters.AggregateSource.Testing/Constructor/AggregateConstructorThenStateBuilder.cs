@@ -17,7 +17,9 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Constructor
 		public IAggregateConstructorThenStateBuilder Then(params object[] events)
 		{
 			if (events == null)
-			    throw new ArgumentNullException(nameof(events));
+            {
+                throw new ArgumentNullException(nameof(events));
+            }
 
             return new AggregateConstructorThenStateBuilder(_sutFactory, _thens.Concat(events).ToArray());
 		}

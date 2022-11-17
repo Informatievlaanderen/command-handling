@@ -1,11 +1,11 @@
-﻿namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
+namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
 {
     using System;
 
     /// <summary>
     /// The when state within the test specification building process.
     /// </summary>
-    public interface IAggregateQueryWhenStateBuilder<TResult>
+    public interface IAggregateQueryWhenStateBuilder<in TResult>
     {
         /// <summary>
         /// Then a result is returned.

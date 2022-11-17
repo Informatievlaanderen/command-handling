@@ -18,12 +18,14 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling
             Guid commandId,
             object command,
             IDictionary<string, object> metadata = null,
-            CancellationToken cancellationToken = default(CancellationToken))
+            CancellationToken cancellationToken = default)
         {
             if (command == null)
+            {
                 throw new ArgumentNullException(nameof(command));
+            }
 
-            metadata = metadata ?? new Dictionary<string, object>();
+            metadata ??= new Dictionary<string, object>();
 
             var eventType = command.GetType();
             var dispatchMethod = DispatchInternalMethod.MakeGenericMethod(eventType);
@@ -52,7 +54,9 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling
             var commandMessage = new CommandMessage<TCommand>(commandId, command, metadata);
             var handler =  handlerResolver.Resolve<TCommand>();
             if (handler == null)
-                throw new ApplicationException($"No handler was found for command {typeof(TCommand).FullName}");
+            {
+                throw new InvalidOperationException($"No handler was found for command {typeof(TCommand).FullName}");
+            }
 
             return await handler(commandMessage, cancellationToken);
         }

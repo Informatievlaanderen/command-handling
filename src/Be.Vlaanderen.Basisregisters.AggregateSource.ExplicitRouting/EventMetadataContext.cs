@@ -14,6 +14,13 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource
 
         public static void Add(string key, object value) => MetadataAsync.Value[key] = value;
 
-        public void Dispose() { }
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        { }
     }
 }

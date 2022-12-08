@@ -1,3 +1,26 @@
+# [7.1.0](https://github.com/informatievlaanderen/command-handling/compare/v7.0.0...v7.1.0) (2022-12-08)
+
+
+### Bug Fixes
+
+* add braces ([fe1ca32](https://github.com/informatievlaanderen/command-handling/commit/fe1ca3251853fc3273d6d95d8d1ce93f67a69bcd))
+* add nuget to dependabot ([65e8d8e](https://github.com/informatievlaanderen/command-handling/commit/65e8d8e9e3336756940f93b69c22a04d7c2ad372))
+* don't throw general exceptions ([999b4b7](https://github.com/informatievlaanderen/command-handling/commit/999b4b7a3ee6472f89a6a34475935809dd6e8523))
+* empty methods ([c7a4c68](https://github.com/informatievlaanderen/command-handling/commit/c7a4c68505fee7ff5d30fad7fb8656262883739e))
+* field to property ([8b20aef](https://github.com/informatievlaanderen/command-handling/commit/8b20aefb78cd070d8cced86d81a51c7f968a26c9))
+* implement Dispose correctly ([0059703](https://github.com/informatievlaanderen/command-handling/commit/00597036eb243e00290943909f5a792f3bcc8562))
+* make type parameter contravariant ([90eec7b](https://github.com/informatievlaanderen/command-handling/commit/90eec7bb95c6a04926effd9bed3a759d283c4fc5))
+* message.Metadata is optional ([ac4133e](https://github.com/informatievlaanderen/command-handling/commit/ac4133e8104bf464d655a47bde7a2f9f49343ecf))
+* seal utility classes ([b053873](https://github.com/informatievlaanderen/command-handling/commit/b053873b6b33faf4e631f451e82c5bde5de24fff))
+* use .Add return value ([0a994f4](https://github.com/informatievlaanderen/command-handling/commit/0a994f421b140515180952f2a400ffa110391cd5))
+* use immutable dictionary ([e241854](https://github.com/informatievlaanderen/command-handling/commit/e24185499303f99eb8997c397215b6126da18af0))
+* use VBR_SONAR_TOKEN ([f7158df](https://github.com/informatievlaanderen/command-handling/commit/f7158dfc9f0870ce8e5d7dcb03ce47b844066cdc))
+
+
+### Features
+
+* add extension to execute idempotency not just on applicationbuilder ([64b1d4e](https://github.com/informatievlaanderen/command-handling/commit/64b1d4efc986be774c00bdb59f38d8cde548e828))
+
 # [7.0.0](https://github.com/informatievlaanderen/command-handling/compare/v6.2.2...v7.0.0) (2022-08-24)
 
 

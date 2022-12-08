@@ -1,5 +1,6 @@
 namespace Be.Vlaanderen.Basisregisters.CommandHandling.Idempotency
 {
+    using System;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.DependencyInjection;
@@ -8,10 +9,17 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling.Idempotency
     {
         public static IApplicationBuilder UseIdempotencyDatabaseMigrations(this IApplicationBuilder app)
         {
-            var loggerFactory = app.ApplicationServices.GetService<ILoggerFactory>();
-            var connectionInfo = app.ApplicationServices.GetService<IdempotencyConnectionInfo>();
-            var migrationsInfo = app.ApplicationServices.GetService<IdempotencyMigrationsTableInfo>();
-            var tableInfo = app.ApplicationServices.GetService<IdempotencyTableInfo>();
+            app.ApplicationServices.MigrateIdempotencyDatabase();
+
+            return app;
+        }
+
+        public static void MigrateIdempotencyDatabase(this IServiceProvider serviceProvider)
+        {
+            var loggerFactory = serviceProvider.GetService<ILoggerFactory>();
+            var connectionInfo = serviceProvider.GetService<IdempotencyConnectionInfo>();
+            var migrationsInfo = serviceProvider.GetService<IdempotencyMigrationsTableInfo>();
+            var tableInfo = serviceProvider.GetService<IdempotencyTableInfo>();
 
             MigrationsHelper.Run(
                 connectionInfo.ConnectionString,
@@ -19,8 +27,6 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling.Idempotency
                 migrationsInfo.TableName,
                 tableInfo,
                 loggerFactory);
-
-            return app;
         }
     }
 }

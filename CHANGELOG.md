@@ -1,3 +1,11 @@
+## [7.1.1](https://github.com/informatievlaanderen/command-handling/compare/v7.1.0...v7.1.1) (2022-12-28)
+
+
+### Bug Fixes
+
+* add Microsoft.Extensions.DependencyInjection ([81c2c31](https://github.com/informatievlaanderen/command-handling/commit/81c2c31d36971a3efdbe2dd2b92eda5756459044))
+* update build.fsx ([fbee21c](https://github.com/informatievlaanderen/command-handling/commit/fbee21c70fa3f4057f342bde1e2b0ea718790108))
+
 # [7.1.0](https://github.com/informatievlaanderen/command-handling/compare/v7.0.0...v7.1.0) (2022-12-08)
 
 

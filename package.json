@@ -1,6 +1,6 @@
 {
   "name": "command-handling",
-  "version": "7.1.0",
+  "version": "7.1.1",
   "description": "Lightweight infrastructure for doing command handling and eventsourcing using aggregates.",
   "author": "Basisregisters Vlaanderen",
   "license": "MIT",

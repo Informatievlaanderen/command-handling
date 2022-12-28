@@ -2,6 +2,8 @@ framework: net6.0
 source https://api.nuget.org/v3/index.json
 
 // PRODUCTION STUFF
+nuget Be.Vlaanderen.Basisregisters.DependencyInjection 1.0.2
+
 nuget SqlStreamStore 1.2.0
 nuget SqlStreamStore.MsSql 1.2.0
 

@@ -105,9 +105,11 @@ jobs:
         node packages/Be.Vlaanderen.Basisregisters.Build.Pipeline/Content/ci-nuget.js dist/$REPONAME/$AGGREGATESOURCE.ExplicitRouting.$SEMVER.nupkg
         node packages/Be.Vlaanderen.Basisregisters.Build.Pipeline/Content/ci-nuget.js dist/$REPONAME/$AGGREGATESOURCE.SqlStreamStore.$SEMVER.nupkg
         node packages/Be.Vlaanderen.Basisregisters.Build.Pipeline/Content/ci-nuget.js dist/$REPONAME/$AGGREGATESOURCE.SqlStreamStore.Autofac.$SEMVER.nupkg
+        node packages/Be.Vlaanderen.Basisregisters.Build.Pipeline/Content/ci-nuget.js dist/$REPONAME/$AGGREGATESOURCE.SqlStreamStore.Microsoft.$SEMVER.nupkg
         node packages/Be.Vlaanderen.Basisregisters.Build.Pipeline/Content/ci-nuget.js dist/$REPONAME/$AGGREGATESOURCE.Testing.$SEMVER.nupkg
         node packages/Be.Vlaanderen.Basisregisters.Build.Pipeline/Content/ci-nuget.js dist/$REPONAME/$AGGREGATESOURCE.Testing.SqlStreamStore.$SEMVER.nupkg
         node packages/Be.Vlaanderen.Basisregisters.Build.Pipeline/Content/ci-nuget.js dist/$REPONAME/$AGGREGATESOURCE.Testing.SqlStreamStore.Autofac.$SEMVER.nupkg
+        node packages/Be.Vlaanderen.Basisregisters.Build.Pipeline/Content/ci-nuget.js dist/$REPONAME/$AGGREGATESOURCE.Testing.SqlStreamStore.Microsoft.$SEMVER.nupkg
         node packages/Be.Vlaanderen.Basisregisters.Build.Pipeline/Content/ci-nuget.js dist/$REPONAME/$AGGREGATESOURCE.Testing.CommandHandling.$SEMVER.nupkg
         node packages/Be.Vlaanderen.Basisregisters.Build.Pipeline/Content/ci-nuget.js dist/$REPONAME/$AGGREGATESOURCE.Testing.NUnit.$SEMVER.nupkg
         node packages/Be.Vlaanderen.Basisregisters.Build.Pipeline/Content/ci-nuget.js dist/$REPONAME/$AGGREGATESOURCE.Testing.Xunit.$SEMVER.nupkg

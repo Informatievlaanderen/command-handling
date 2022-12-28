@@ -36,6 +36,8 @@ NUGET
       Newtonsoft.Json (>= 13.0.1)
     Be.Vlaanderen.Basisregisters.Converters.TrimString (3.0)
       Newtonsoft.Json (>= 13.0.1)
+    Be.Vlaanderen.Basisregisters.DependencyInjection (1.0.2)
+      Microsoft.Extensions.DependencyInjection.Abstractions (>= 6.0)
     Be.Vlaanderen.Basisregisters.EventHandling (4.0)
       Be.Vlaanderen.Basisregisters.Converters.TrimString (>= 3.0)
       Newtonsoft.Json (>= 13.0.1)

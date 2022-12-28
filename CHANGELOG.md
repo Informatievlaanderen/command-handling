@@ -1,3 +1,10 @@
+## [7.1.2](https://github.com/informatievlaanderen/command-handling/compare/v7.1.1...v7.1.2) (2022-12-28)
+
+
+### Bug Fixes
+
+* add IdemPotency.Microsoft nuget package ([3aef7b1](https://github.com/informatievlaanderen/command-handling/commit/3aef7b1d41e7be702e0fc7c795d11a8715e7dce3))
+
 ## [7.1.1](https://github.com/informatievlaanderen/command-handling/compare/v7.1.0...v7.1.1) (2022-12-28)
 
 

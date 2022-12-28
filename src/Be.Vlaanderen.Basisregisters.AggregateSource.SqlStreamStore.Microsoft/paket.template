@@ -1,0 +1,28 @@
+type file
+version 1.0.0
+
+id Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Microsoft
+title Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Microsoft
+
+authors Basisregisters Vlaanderen
+owners Digitaal Vlaanderen <https://vlaanderen.be/digitaal-vlaanderen>
+copyright Copyright (c) Digitaal Vlaanderen
+requireLicenseAcceptance false
+projectUrl https://github.com/Informatievlaanderen/command-handling
+iconUrl https://raw.githubusercontent.com/Informatievlaanderen/build-pipeline/master/logo.png
+licenseUrl https://opensource.org/licenses/MIT
+
+description Lightweight infrastructure for doing command handling and eventsourcing using aggregates.
+
+dependencies
+  framework: net6.0
+    Be.Vlaanderen.Basisregisters.AggregateSource CURRENTVERSION
+    Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore CURRENTVERSION
+
+    SqlStreamStore >= LOCKEDVERSION
+    SqlStreamStore.MsSql >= LOCKEDVERSION
+    Be.Vlaanderen.Basisregisters.DependencyInjection >= LOCKEDVERSION
+
+files
+  bin\Release\net6.0\Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Microsoft.dll => lib\net6.0
+  bin\Release\net6.0\Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Microsoft.pdb => lib\net6.0

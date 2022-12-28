@@ -1,0 +1,7 @@
+Be.Vlaanderen.Basisregisters.DependencyInjection
+
+SqlStreamStore
+SqlStreamStore.MsSql
+
+SourceLink.Embed.AllSourceFiles
+SourceLink.Copy.PdbFiles

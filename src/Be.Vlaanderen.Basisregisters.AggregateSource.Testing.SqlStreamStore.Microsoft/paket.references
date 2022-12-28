@@ -1,0 +1,7 @@
+Be.Vlaanderen.Basisregisters.DependencyInjection
+
+xunit
+Microsoft.Extensions.Logging
+
+SourceLink.Embed.AllSourceFiles
+SourceLink.Copy.PdbFiles

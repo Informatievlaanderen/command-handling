@@ -1,0 +1,13 @@
+Microsoft.Data.SqlClient
+Microsoft.Extensions.Configuration
+Microsoft.Extensions.Options.ConfigurationExtensions
+Microsoft.EntityFrameworkCore.SqlServer
+
+Newtonsoft.Json
+
+Be.Vlaanderen.Basisregisters.DependencyInjection
+
+Be.Vlaanderen.Basisregisters.Converters.Timestamp
+
+SourceLink.Embed.AllSourceFiles
+SourceLink.Copy.PdbFiles

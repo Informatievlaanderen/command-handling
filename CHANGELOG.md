@@ -1,3 +1,10 @@
+## [7.1.3](https://github.com/informatievlaanderen/command-handling/compare/v7.1.2...v7.1.3) (2022-12-28)
+
+
+### Bug Fixes
+
+* use bumped event-handling ([a028e3a](https://github.com/informatievlaanderen/command-handling/commit/a028e3a69aca832fa928ec2df0210330aba7233d))
+
 ## [7.1.2](https://github.com/informatievlaanderen/command-handling/compare/v7.1.1...v7.1.2) (2022-12-28)
 
 

@@ -1,3 +1,10 @@
+## [7.1.4](https://github.com/informatievlaanderen/command-handling/compare/v7.1.3...v7.1.4) (2022-12-31)
+
+
+### Bug Fixes
+
+* bump dependencies ([0aa755c](https://github.com/informatievlaanderen/command-handling/commit/0aa755c083177ee82dde755e812f28c097cb5ff6))
+
 ## [7.1.3](https://github.com/informatievlaanderen/command-handling/compare/v7.1.2...v7.1.3) (2022-12-28)
 
 

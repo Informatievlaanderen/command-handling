@@ -1,15 +1,27 @@
 namespace Be.Vlaanderen.Basisregisters.CommandHandling.Idempotency
 {
     using System;
-    using Autofac;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
 
-    public class IdempotencyModule : Module
+    public class IdempotencyModule
     {
         public IdempotencyModule(
             IServiceCollection services,
+            string connectionString,
+            IdempotencyMigrationsTableInfo migrationsTableInfo,
+            IdempotencyTableInfo idempotencyTableInfo,
+            ILoggerFactory loggerFactory)
+        {
+            services.ConfigureIdempotency(connectionString, migrationsTableInfo, idempotencyTableInfo, loggerFactory);
+        }
+    }
+
+    public static class IdempotencyExtensions
+    {
+        public static IServiceCollection ConfigureIdempotency(
+            this IServiceCollection services,
             string connectionString,
             IdempotencyMigrationsTableInfo migrationsTableInfo,
             IdempotencyTableInfo idempotencyTableInfo,
@@ -35,6 +47,8 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling.Idempotency
                 Environment.NewLine +
                 "\tTableName: {TableName}",
                 nameof(IdempotencyContext), migrationsTableInfo.Schema, migrationsTableInfo.TableName);
+
+            return services;
         }
     }
 }

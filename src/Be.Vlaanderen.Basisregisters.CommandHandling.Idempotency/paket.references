@@ -5,8 +5,6 @@ Microsoft.EntityFrameworkCore.SqlServer
 
 Newtonsoft.Json
 
-Autofac.Extensions.DependencyInjection
-
 Be.Vlaanderen.Basisregisters.Converters.Timestamp
 
 SourceLink.Embed.AllSourceFiles

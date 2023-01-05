@@ -62,6 +62,8 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Microsoft
                 services.AddSingleton<MsSqlSnapshotStore, MsSqlSnapshotStore>();
                 services.AddSingleton<ISnapshotStore, MsSqlSnapshotStore>();
             }
+
+            services.AddTransient<Func<ISnapshotStore>>(c => c.GetRequiredService<ISnapshotStore>);
         }
     }
 }

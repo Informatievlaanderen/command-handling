@@ -21,8 +21,6 @@ dependencies
     Be.Vlaanderen.Basisregisters.AggregateSource.Testing.SqlStreamStore CURRENTVERSION
     Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Microsoft CURRENTVERSION
 
-    Be.Vlaanderen.Basisregisters.DependencyInjection >= LOCKEDVERSION
-
 files
   bin\Release\net6.0\Be.Vlaanderen.Basisregisters.AggregateSource.Testing.SqlStreamStore.Microsoft.dll => lib\net6.0
   bin\Release\net6.0\Be.Vlaanderen.Basisregisters.AggregateSource.Testing.SqlStreamStore.Microsoft.pdb => lib\net6.0

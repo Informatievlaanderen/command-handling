@@ -63,6 +63,9 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Microsoft
                 services.AddSingleton<IStreamStore, MsSqlStreamStore>();
                 services.AddSingleton<IReadonlyStreamStore, MsSqlStreamStore>();
             }
+
+            services.AddTransient<Func<IStreamStore>>(c => c.GetRequiredService<IStreamStore>);
+            services.AddTransient<Func<IReadonlyStreamStore>>(c => c.GetRequiredService<IReadonlyStreamStore>);
         }
     }
 }

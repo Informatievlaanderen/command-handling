@@ -192,7 +192,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore
                     false,
                     cancellationToken);
 
-                
+
                 if (snapshotPage.Status != PageReadStatus.StreamNotFound)
                 {
                     var snapshotContainerMessage = snapshotPage.Messages.Single();

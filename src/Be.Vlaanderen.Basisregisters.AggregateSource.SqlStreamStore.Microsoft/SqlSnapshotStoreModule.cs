@@ -1,11 +1,8 @@
 namespace Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Microsoft
 {
     using System;
-    using AggregateSource;
     using DependencyInjection;
     using global::Microsoft.Extensions.DependencyInjection;
-    using Snapshotting;
-    using Snapshotting.InMemory;
     using SqlStreamStore;
 
     public class SqlSnapshotStoreModule : IServiceCollectionModule
@@ -45,25 +42,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Microsoft
 
         public void Load(IServiceCollection services)
         {
-            services.AddScoped(typeof(IAsyncRepository<>), typeof(Repository<>));
-
-            if (string.IsNullOrWhiteSpace(_snapshotConnectionString))
-            {
-                services.AddSingleton<InMemorySnapshotStore, InMemorySnapshotStore>();
-                services.AddSingleton<ISnapshotStore, InMemorySnapshotStore>();
-            }
-            else
-            {
-                var settings = new MsSqlSnapshotStoreSettings(_snapshotConnectionString) { Schema = _schema };
-
-                _settingsFunc?.Invoke(settings);
-
-                services.AddTransient(_ => settings);
-                services.AddSingleton<MsSqlSnapshotStore, MsSqlSnapshotStore>();
-                services.AddSingleton<ISnapshotStore, MsSqlSnapshotStore>();
-            }
-
-            services.AddTransient<Func<ISnapshotStore>>(c => c.GetRequiredService<ISnapshotStore>);
+            services.ConfigureSqlStreamStore(_snapshotConnectionString, _schema, _settingsFunc);
         }
     }
 }

@@ -1,6 +1,0 @@
-cd /src/EF
-
-dotnet ef dbcontext info --startup-project ./ --project ../Be.Vlaanderen.Basisregisters.CommandHandling.Idempotency/
-dotnet ef dbcontext list --startup-project ./ --project ../Be.Vlaanderen.Basisregisters.CommandHandling.Idempotency/
-dotnet ef migrations add <NAME> --startup-project ./ --project ../Be.Vlaanderen.Basisregisters.CommandHandling.Idempotency/
-dotnet ef migrations list --startup-project ./ --project ../Be.Vlaanderen.Basisregisters.CommandHandling.Idempotency/

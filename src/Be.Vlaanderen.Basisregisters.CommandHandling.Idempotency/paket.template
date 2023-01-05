@@ -23,7 +23,6 @@ dependencies
     Microsoft.Extensions.Options.ConfigurationExtensions >= LOCKEDVERSION
     Microsoft.EntityFrameworkCore.SqlServer >= LOCKEDVERSION
     Newtonsoft.Json >= LOCKEDVERSION
-    Autofac.Extensions.DependencyInjection >= LOCKEDVERSION
 
 files
   bin\Release\net6.0\Be.Vlaanderen.Basisregisters.CommandHandling.Idempotency.dll => lib\net6.0

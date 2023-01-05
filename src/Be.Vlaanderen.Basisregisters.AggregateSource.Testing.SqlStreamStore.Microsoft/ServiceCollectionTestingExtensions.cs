@@ -11,17 +11,16 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.SqlStreamStore.Mi
             IFactComparer factComparer,
             IExceptionComparer exceptionComparer)
         {
-            services.AddTransient<StreamStoreFactRepository>();
+            services.AddTransient<IFactReader, StreamStoreFactRepository>();
+            services.AddTransient<IFactWriter, StreamStoreFactRepository>();
 
-            services.AddTransient<ReflectionBasedHandlerResolver>();
+            services.AddTransient<IHandlerResolver, ReflectionBasedHandlerResolver>();
 
             services.AddTransient(_ => factComparer);
-
             services.AddTransient(_ => exceptionComparer);
 
-            services.AddTransient<ExceptionCentricTestSpecificationRunner>();
-
-            services.AddTransient<EventCentricTestSpecificationRunner>();
+            services.AddTransient<IExceptionCentricTestSpecificationRunner, ExceptionCentricTestSpecificationRunner>();
+            services.AddTransient<IEventCentricTestSpecificationRunner, EventCentricTestSpecificationRunner>();
         }
     }
 }

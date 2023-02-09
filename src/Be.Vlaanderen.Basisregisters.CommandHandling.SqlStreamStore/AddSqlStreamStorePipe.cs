@@ -59,7 +59,7 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling.SqlStreamStore
 
             if (message.Metadata is not null && !message.Metadata.ContainsKey("CommandId"))
             {
-                _ = message.Metadata.Add("CommandId", message.CommandId);
+                message.Metadata.Add("CommandId", message.CommandId);
             }
 
             var i = 1;

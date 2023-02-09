@@ -15,7 +15,7 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling
                     throw new ArgumentException($"Element with key '{key}' already exists.");
                 }
 
-                _ = metadata.Add(key, value);
+                metadata.Add(key, value);
             }
         }
 

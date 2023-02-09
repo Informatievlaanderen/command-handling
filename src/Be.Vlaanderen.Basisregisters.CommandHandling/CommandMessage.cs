@@ -8,7 +8,7 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling
     public class CommandMessage
     {
         public readonly Guid CommandId;
-        public readonly ImmutableDictionary<string, object>? Metadata = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase).ToImmutableDictionary();
+        public readonly IDictionary<string, object>? Metadata = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandMessage"/> class.
@@ -23,9 +23,7 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling
 
             if (metadata != null)
             {
-                Metadata = metadata
-                    .ToDictionary(kvp => kvp.Key, kvp => kvp.Value)
-                    .ToImmutableDictionary();
+                Metadata = metadata.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
             }
         }
     }

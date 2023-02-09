@@ -1,3 +1,27 @@
+# [8.0.0](https://github.com/informatievlaanderen/command-handling/compare/v7.1.4...v8.0.0) (2023-02-09)
+
+
+### Bug Fixes
+
+* build errors ([d098a76](https://github.com/informatievlaanderen/command-handling/commit/d098a76c0918a917d6ccbd5fb6a4ec28d4a3a5f6))
+* correct registration microsoft ioc ([3a96aaa](https://github.com/informatievlaanderen/command-handling/commit/3a96aaa46edb10d4776c411aae02a26114f16948))
+* revert using ImmutableDictionary ([69b61a6](https://github.com/informatievlaanderen/command-handling/commit/69b61a6f96ba57e6d9ea649e7863304f6bacf4c6))
+
+
+### Code Refactoring
+
+* remove microsoft and autofac from idempotency ([a941449](https://github.com/informatievlaanderen/command-handling/commit/a941449599afe7dcae3d973984ffaa9105a345c2))
+
+
+### Features
+
+* add direct registration extension ([d75d5b8](https://github.com/informatievlaanderen/command-handling/commit/d75d5b8981696d8d0987a7e3d121530fade8ddfb))
+
+
+### BREAKING CHANGES
+
+* remove autofac dependency from idempotency
+
 ## [7.1.4](https://github.com/informatievlaanderen/command-handling/compare/v7.1.3...v7.1.4) (2022-12-31)
 
 

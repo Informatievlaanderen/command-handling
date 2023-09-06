@@ -1,3 +1,10 @@
+# [8.1.0](https://github.com/informatievlaanderen/command-handling/compare/v8.0.0...v8.1.0) (2023-09-06)
+
+
+### Features
+
+* add snapshot verifier ([d4ca9d5](https://github.com/informatievlaanderen/command-handling/commit/d4ca9d572947223b2930bcf478de28a90f628658))
+
 # [8.0.0](https://github.com/informatievlaanderen/command-handling/compare/v7.1.4...v8.0.0) (2023-02-09)
 
 

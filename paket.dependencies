@@ -1,8 +1,11 @@
 framework: net6.0
+strategy: min
 source https://api.nuget.org/v3/index.json
 
 // PRODUCTION STUFF
 nuget Be.Vlaanderen.Basisregisters.DependencyInjection 1.0.3
+
+nuget Dapper 2.0.123
 
 nuget SqlStreamStore 1.2.0
 nuget SqlStreamStore.MsSql 1.2.0
@@ -10,6 +13,7 @@ nuget SqlStreamStore.MsSql 1.2.0
 nuget Microsoft.Extensions.Logging 6.0.0
 nuget Microsoft.Extensions.Configuration 6.0.1
 nuget Microsoft.Extensions.Options.ConfigurationExtensions 6.0.0
+nuget Microsoft.Extensions.Hosting 6.0.0
 
 nuget Microsoft.EntityFrameworkCore 6.0.3
 nuget Microsoft.EntityFrameworkCore.SqlServer 6.0.3

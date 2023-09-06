@@ -38,6 +38,7 @@ Target.create "Lib_Build" (fun _ ->
   buildSource "Be.Vlaanderen.Basisregisters.CommandHandling"
   buildSource "Be.Vlaanderen.Basisregisters.CommandHandling.Idempotency"
   buildSource "Be.Vlaanderen.Basisregisters.CommandHandling.SqlStreamStore"
+  buildSource "Be.Vlaanderen.Basisregisters.SnapshotVerifier"
   buildTest "Be.Vlaanderen.Basisregisters.AggregateSource.Tests"
   buildTest "Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Tests"
   buildTest "Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests"
@@ -69,6 +70,7 @@ Target.create "Lib_Publish" (fun _ ->
   publishSource "Be.Vlaanderen.Basisregisters.CommandHandling"
   publishSource "Be.Vlaanderen.Basisregisters.CommandHandling.Idempotency"
   publishSource "Be.Vlaanderen.Basisregisters.CommandHandling.SqlStreamStore"
+  publishSource "Be.Vlaanderen.Basisregisters.SnapshotVerifier"
 )
 
 Target.create "Lib_Pack" (fun _ -> pack "Be.Vlaanderen.Basisregisters.CommandHandling")

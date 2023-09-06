@@ -67,6 +67,8 @@ namespace Be.Vlaanderen.Basisregisters.SnapshotVerifier
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            _logger.LogInformation("Starting snapshot verifier");
+
             if (!await _snapshotStoreQueries.DoesTableExist())
             {
                 _logger.LogError("Snapshot table does not exist");
@@ -86,19 +88,22 @@ namespace Be.Vlaanderen.Basisregisters.SnapshotVerifier
 
             foreach (var idToVerify in idsToVerify)
             {
+                _logger.LogInformation("Verifying snapshot for {SnapshotId}", idToVerify.SnapshotId);
+
                 var aggregateBySnapshot = await GetAggregateBySnapshot(idToVerify.SnapshotId);
                 if (aggregateBySnapshot is null)
                 {
-                    _logger.LogError("Could not retrieve snapshot blob for snapshot id {SnapshotId}",
-                        idToVerify.SnapshotId);
+                    _logger.LogCritical("Could not retrieve snapshot blob for snapshot id {SnapshotId}", idToVerify.SnapshotId);
                     continue;
                 }
 
-                var aggregateByEvents = await GetAggregateByEvents(_streamIdFactory(aggregateBySnapshot.Aggregate),
-                    (int)aggregateBySnapshot.StreamVersion, stoppingToken);
+                var aggregateByEvents = await GetAggregateByEvents(
+                    _streamIdFactory(aggregateBySnapshot.Aggregate),
+                    (int)aggregateBySnapshot.StreamVersion,
+                    stoppingToken);
                 if (aggregateByEvents is null)
                 {
-                    _logger.LogError("Could not retrieve stream from stream store for {StreamId}", idToVerify.StreamId);
+                    _logger.LogCritical("Could not retrieve stream from stream store for {StreamId}", idToVerify.StreamId);
                     continue;
                 }
 
@@ -108,13 +113,12 @@ namespace Be.Vlaanderen.Basisregisters.SnapshotVerifier
                         .Concat(_membersToIgnore).ToList()
                 });
 
-
                 var verificationState = new SnapshotVerificationState(idToVerify.SnapshotId);
 
                 var comparisonResult = compareLogic.Compare(aggregateBySnapshot.Aggregate, aggregateByEvents);
                 if (!comparisonResult.AreEqual)
                 {
-                    _logger.LogError("Snapshot {SnapshotId} does not match aggregate from events", idToVerify.SnapshotId);
+                    _logger.LogCritical("Snapshot {SnapshotId} does not match aggregate from events", idToVerify.SnapshotId);
                     verificationState.Status = SnapshotStateStatus.Failed;
                     verificationState.Differences = comparisonResult.DifferencesString;
                     _snapshotVerificationNotifier?.NotifyInvalidSnapshot(idToVerify.SnapshotId, comparisonResult.DifferencesString);
@@ -126,6 +130,8 @@ namespace Be.Vlaanderen.Basisregisters.SnapshotVerifier
 
                 await _snapshotVerificationRepository.AddVerificationState(verificationState, stoppingToken);
             }
+
+            _logger.LogInformation("Stopping snapshot verifier");
 
             _applicationLifetime.StopApplication();
         }

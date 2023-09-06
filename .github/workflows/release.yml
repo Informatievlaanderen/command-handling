@@ -116,7 +116,7 @@ jobs:
         node packages/Be.Vlaanderen.Basisregisters.Build.Pipeline/Content/ci-nuget.js dist/$REPONAME/$COMMANDHANDLING.$SEMVER.nupkg
         node packages/Be.Vlaanderen.Basisregisters.Build.Pipeline/Content/ci-nuget.js dist/$REPONAME/$COMMANDHANDLING.Idempotency.$SEMVER.nupkg
         node packages/Be.Vlaanderen.Basisregisters.Build.Pipeline/Content/ci-nuget.js dist/$REPONAME/$COMMANDHANDLING.SqlStreamStore.$SEMVER.nupkg
-        node packages/Be.Vlaanderen.Basisregisters.Build.Pipeline/Content/ci-nuget.js dist/$REPONAME/SnapshotVerifier.$SEMVER.nupkg
+        node packages/Be.Vlaanderen.Basisregisters.Build.Pipeline/Content/ci-nuget.js dist/$REPONAME/Be.Vlaanderen.Basisregisters.SnapshotVerifier.$SEMVER.nupkg
       env:
         REPONAME: Be.Vlaanderen.Basisregisters.CommandHandling
         COMMANDHANDLING: Be.Vlaanderen.Basisregisters.CommandHandling

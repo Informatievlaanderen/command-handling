@@ -5,7 +5,7 @@
     using Dapper;
     using Microsoft.Data.SqlClient;
 
-    public class SnapshotVerificationRepository
+    public class SnapshotVerificationRepository : ISnapshotVerificationRepository
     {
         private readonly string _connectionString;
         private readonly Scripts _scripts;
@@ -30,10 +30,12 @@
             cancellationToken.ThrowIfCancellationRequested();
 
             await using var connection = new SqlConnection(_connectionString);
-            return await connection.ExecuteScalarAsync<int?>($"SELECT MAX(SnapshotId) FROM {_scripts.SchemaWithTableName}");
+            return await connection.ExecuteScalarAsync<int?>(
+                $"SELECT MAX(SnapshotId) FROM {_scripts.SchemaWithTableName}");
         }
 
-        public async Task AddVerificationState(SnapshotVerificationState verificationState, CancellationToken cancellationToken = default)
+        public async Task AddVerificationState(SnapshotVerificationState verificationState,
+            CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
 

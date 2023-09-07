@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\..\packages\Be.Vlaanderen.Basisregisters.Build.Pipeline\Content\Be.Vlaanderen.Basisregisters.Build.Pipeline.Settings.Test.props" />
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Be.Vlaanderen.Basisregisters.AggregateSource.ExplicitRouting\Be.Vlaanderen.Basisregisters.AggregateSource.ExplicitRouting.csproj" />
+    <ProjectReference Include="..\..\src\Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Autofac\Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Autofac.csproj" />
+    <ProjectReference Include="..\..\src\Be.Vlaanderen.Basisregisters.AggregateSource.Testing.SqlStreamStore.Autofac\Be.Vlaanderen.Basisregisters.AggregateSource.Testing.SqlStreamStore.Autofac.csproj" />
+    <ProjectReference Include="..\..\src\Be.Vlaanderen.Basisregisters.SnapshotVerifier\Be.Vlaanderen.Basisregisters.SnapshotVerifier.csproj" />
+    <ProjectReference Include="..\Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore\Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.csproj" />
+  </ItemGroup>
+
+  <Import Project="..\..\.paket\Paket.Restore.targets" />
+</Project>

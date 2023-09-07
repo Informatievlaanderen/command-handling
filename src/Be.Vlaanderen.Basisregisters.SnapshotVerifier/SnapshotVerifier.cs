@@ -5,62 +5,44 @@ namespace Be.Vlaanderen.Basisregisters.SnapshotVerifier
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
-    using Be.Vlaanderen.Basisregisters.AggregateSource;
-    using Be.Vlaanderen.Basisregisters.AggregateSource.Snapshotting;
-    using Be.Vlaanderen.Basisregisters.EventHandling;
+    using AggregateSource;
     using KellermanSoftware.CompareNetObjects;
     using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Logging;
-    using SqlStreamStore;
-    using SqlStreamStore.Streams;
 
     public class SnapshotVerifier<TAggregateRoot, TStreamId> : BackgroundService
         where TAggregateRoot : class, IAggregateRootEntity, ISnapshotable
         where TStreamId : class
     {
         private readonly IHostApplicationLifetime _applicationLifetime;
-
-        private readonly MsSqlSnapshotStoreQueries _snapshotStoreQueries;
-        private readonly EventDeserializer _eventDeserializer;
-        private readonly EventMapping _eventMapping;
-        private readonly IReadonlyStreamStore _streamStore;
-
-        private readonly Func<TAggregateRoot> _aggregateRootFactory;
         private readonly Func<TAggregateRoot, TStreamId> _streamIdFactory;
-
         private readonly List<string> _membersToIgnore;
-        private readonly SnapshotVerificationRepository _snapshotVerificationRepository;
-
         private readonly ISnapshotVerificationNotifier? _snapshotVerificationNotifier;
+        private readonly ISnapshotVerificationRepository _snapshotVerificationRepository;
+        private readonly IAggregateSnapshotRepository<TAggregateRoot> _aggregateSnapshotRepository;
+        private readonly IAggregateEventsRepository<TAggregateRoot, TStreamId> _aggregateEventsRepository;
         private readonly ILogger<SnapshotVerifier<TAggregateRoot, TStreamId>> _logger;
 
         public SnapshotVerifier(
             IHostApplicationLifetime applicationLifetime,
-            EventDeserializer eventDeserializer,
-            EventMapping eventMapping,
-            IReadonlyStreamStore streamStore,
-            Func<TAggregateRoot> aggregateRootFactory,
             Func<TAggregateRoot, TStreamId> streamIdFactory,
-            MsSqlSnapshotStoreQueries snapshotStoreQueries,
-            SnapshotVerificationRepository snapshotVerificationRepository,
             List<string> membersToIgnore,
+            ISnapshotVerificationRepository snapshotVerificationRepository,
+            IAggregateSnapshotRepository<TAggregateRoot> aggregateSnapshotRepository,
+            IAggregateEventsRepository<TAggregateRoot, TStreamId> aggregateEventsRepository,
             ISnapshotVerificationNotifier? snapshotVerificationNotifier,
             ILoggerFactory loggerFactory)
         {
             _applicationLifetime = applicationLifetime;
 
-            _eventDeserializer = eventDeserializer;
-            _eventMapping = eventMapping;
-            _streamStore = streamStore;
-
-            _aggregateRootFactory = aggregateRootFactory;
             _streamIdFactory = streamIdFactory;
 
-            _snapshotStoreQueries = snapshotStoreQueries;
             _snapshotVerificationRepository = snapshotVerificationRepository;
 
             _membersToIgnore = membersToIgnore;
             _snapshotVerificationNotifier = snapshotVerificationNotifier;
+            _aggregateSnapshotRepository = aggregateSnapshotRepository;
+            _aggregateEventsRepository = aggregateEventsRepository;
 
             _logger = loggerFactory.CreateLogger<SnapshotVerifier<TAggregateRoot, TStreamId>>();
         }
@@ -69,19 +51,12 @@ namespace Be.Vlaanderen.Basisregisters.SnapshotVerifier
         {
             _logger.LogInformation("Starting snapshot verifier");
 
-            if (!await _snapshotStoreQueries.DoesTableExist())
-            {
-                _logger.LogError("Snapshot table does not exist");
-                _applicationLifetime.StopApplication();
-                return;
-            }
-
             var lastProcessedSnapshotId = await _snapshotVerificationRepository.MaxSnapshotId(stoppingToken);
+            var idsToVerify =
+                await _aggregateSnapshotRepository.GetSnapshotsSinceId(lastProcessedSnapshotId, stoppingToken);
 
-            var idsToVerify = (await _snapshotStoreQueries.GetSnapshotIdsToVerify(lastProcessedSnapshotId))?.ToList();
-            if (idsToVerify is null || !idsToVerify.Any())
+            if (!idsToVerify.Any())
             {
-                _logger.LogInformation("Could not retrieve snapshot ids to verify");
                 _applicationLifetime.StopApplication();
                 return;
             }
@@ -90,20 +65,23 @@ namespace Be.Vlaanderen.Basisregisters.SnapshotVerifier
             {
                 _logger.LogInformation("Verifying snapshot for {SnapshotId}", idToVerify.SnapshotId);
 
-                var aggregateBySnapshot = await GetAggregateBySnapshot(idToVerify.SnapshotId);
+                var aggregateBySnapshot =
+                    await _aggregateSnapshotRepository.GetAggregateBySnapshot(idToVerify.SnapshotId);
                 if (aggregateBySnapshot is null)
                 {
-                    _logger.LogCritical("Could not retrieve snapshot blob for snapshot id {SnapshotId}", idToVerify.SnapshotId);
+                    _logger.LogCritical("Could not retrieve snapshot blob for snapshot id {SnapshotId}",
+                        idToVerify.SnapshotId);
                     continue;
                 }
 
-                var aggregateByEvents = await GetAggregateByEvents(
+                var aggregateByEvents = await _aggregateEventsRepository.GetAggregateByEvents(
                     _streamIdFactory(aggregateBySnapshot.Aggregate),
                     (int)aggregateBySnapshot.StreamVersion,
                     stoppingToken);
                 if (aggregateByEvents is null)
                 {
-                    _logger.LogCritical("Could not retrieve stream from stream store for {StreamId}", idToVerify.StreamId);
+                    _logger.LogCritical("Could not retrieve stream from stream store for {StreamId}",
+                        idToVerify.StreamId);
                     continue;
                 }
 
@@ -118,10 +96,12 @@ namespace Be.Vlaanderen.Basisregisters.SnapshotVerifier
                 var comparisonResult = compareLogic.Compare(aggregateBySnapshot.Aggregate, aggregateByEvents);
                 if (!comparisonResult.AreEqual)
                 {
-                    _logger.LogCritical("Snapshot {SnapshotId} does not match aggregate from events", idToVerify.SnapshotId);
+                    _logger.LogCritical("Snapshot {SnapshotId} does not match aggregate from events",
+                        idToVerify.SnapshotId);
                     verificationState.Status = SnapshotStateStatus.Failed;
                     verificationState.Differences = comparisonResult.DifferencesString;
-                    _snapshotVerificationNotifier?.NotifyInvalidSnapshot(idToVerify.SnapshotId, comparisonResult.DifferencesString);
+                    _snapshotVerificationNotifier?.NotifyInvalidSnapshot(idToVerify.SnapshotId,
+                        comparisonResult.DifferencesString);
                 }
                 else
                 {
@@ -135,68 +115,5 @@ namespace Be.Vlaanderen.Basisregisters.SnapshotVerifier
 
             _applicationLifetime.StopApplication();
         }
-
-        private async Task<AggregateWithVersion?> GetAggregateBySnapshot(int idToVerify)
-        {
-            var snapshotBlob = await _snapshotStoreQueries.GetSnapshotBlob(idToVerify);
-            if (snapshotBlob is null)
-            {
-                return null;
-            }
-
-            var snapshotContainer =
-                (SnapshotContainer)_eventDeserializer.DeserializeObject(snapshotBlob, typeof(SnapshotContainer));
-            var snapshotType = _eventMapping.GetEventType(snapshotContainer.Info.Type);
-            var snapshot = _eventDeserializer.DeserializeObject(snapshotContainer.Data, snapshotType);
-
-            var snapshotAggregate = _aggregateRootFactory.Invoke();
-            snapshotAggregate.RestoreSnapshot(snapshot);
-            return new AggregateWithVersion(snapshotAggregate, snapshotContainer.Info.StreamVersion);
-        }
-
-        private async Task<TAggregateRoot?> GetAggregateByEvents(
-            TStreamId streamId,
-            int snapshotAggregateStreamVersion,
-            CancellationToken stoppingToken)
-        {
-            var page = await _streamStore.ReadStreamBackwards(streamId.ToString(), snapshotAggregateStreamVersion, 100,
-                stoppingToken);
-            if (page.Status == PageReadStatus.StreamNotFound)
-            {
-                return null;
-            }
-
-            var aggregate = _aggregateRootFactory.Invoke();
-            var events = new List<object>();
-            events.AddRange(await ParseEvents(page, stoppingToken));
-            while (!page.IsEnd)
-            {
-                page = await page.ReadNext(stoppingToken);
-                events.AddRange(await ParseEvents(page, stoppingToken));
-            }
-
-            events.Reverse(); // events are read backwards, so reverse them to get them in the correct order
-            aggregate.Initialize(events);
-
-            return aggregate;
-        }
-
-        private async Task<IEnumerable<object>> ParseEvents(
-            ReadStreamPage page,
-            CancellationToken cancellationToken)
-        {
-            var events = new List<object>();
-
-            foreach (var message in page.Messages)
-            {
-                var eventType = _eventMapping.GetEventType(message.Type);
-                var eventData = await message.GetJsonData(cancellationToken);
-                events.Add(_eventDeserializer.DeserializeObject(eventData, eventType));
-            }
-
-            return events;
-        }
-
-        private record AggregateWithVersion(TAggregateRoot Aggregate, long StreamVersion);
     }
 }

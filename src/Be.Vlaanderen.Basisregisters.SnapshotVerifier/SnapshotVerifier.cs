@@ -34,16 +34,12 @@ namespace Be.Vlaanderen.Basisregisters.SnapshotVerifier
             ILoggerFactory loggerFactory)
         {
             _applicationLifetime = applicationLifetime;
-
             _streamIdFactory = streamIdFactory;
-
-            _snapshotVerificationRepository = snapshotVerificationRepository;
-
             _membersToIgnore = membersToIgnore;
-            _snapshotVerificationNotifier = snapshotVerificationNotifier;
+            _snapshotVerificationRepository = snapshotVerificationRepository;
             _aggregateSnapshotRepository = aggregateSnapshotRepository;
             _aggregateEventsRepository = aggregateEventsRepository;
-
+            _snapshotVerificationNotifier = snapshotVerificationNotifier;
             _logger = loggerFactory.CreateLogger<SnapshotVerifier<TAggregateRoot, TStreamId>>();
         }
 
@@ -52,8 +48,7 @@ namespace Be.Vlaanderen.Basisregisters.SnapshotVerifier
             _logger.LogInformation("Starting snapshot verifier");
 
             var lastProcessedSnapshotId = await _snapshotVerificationRepository.MaxSnapshotId(stoppingToken);
-            var idsToVerify =
-                await _aggregateSnapshotRepository.GetSnapshotsSinceId(lastProcessedSnapshotId, stoppingToken);
+            var idsToVerify = await _aggregateSnapshotRepository.GetSnapshotsSinceId(lastProcessedSnapshotId);
 
             if (!idsToVerify.Any())
             {
@@ -88,7 +83,10 @@ namespace Be.Vlaanderen.Basisregisters.SnapshotVerifier
                 var compareLogic = new CompareLogic(new ComparisonConfig
                 {
                     MembersToIgnore = new List<string> { "_recorder", "_router", "_applier", "_lastEvent", "Strategy" }
-                        .Concat(_membersToIgnore).ToList()
+                        .Concat(_membersToIgnore).ToList(),
+                    ComparePrivateFields = true,
+                    CompareBackingFields = false, // ONLY ignores compiler-generated backing fields.
+                    ComparePrivateProperties = true
                 });
 
                 var verificationState = new SnapshotVerificationState(idToVerify.SnapshotId);
@@ -100,8 +98,7 @@ namespace Be.Vlaanderen.Basisregisters.SnapshotVerifier
                         idToVerify.SnapshotId);
                     verificationState.Status = SnapshotStateStatus.Failed;
                     verificationState.Differences = comparisonResult.DifferencesString;
-                    _snapshotVerificationNotifier?.NotifyInvalidSnapshot(idToVerify.SnapshotId,
-                        comparisonResult.DifferencesString);
+                    _snapshotVerificationNotifier?.NotifyInvalidSnapshot(idToVerify.SnapshotId, comparisonResult.DifferencesString);
                 }
                 else
                 {

@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Threading;
     using System.Threading.Tasks;
     using AggregateSource;
     using AggregateSource.Snapshotting;
@@ -35,9 +34,7 @@
             _logger = loggerFactory.CreateLogger<AggregateSnapshotRepository<TAggregateRoot>>();
         }
 
-        public async Task<IReadOnlyList<SnapshotIdentifier>> GetSnapshotsSinceId(
-            int? snapshotId,
-            CancellationToken cancellationToken)
+        public async Task<IReadOnlyList<SnapshotIdentifier>> GetSnapshotsSinceId(int? snapshotId)
         {
             if (!await _snapshotStoreQueries.DoesTableExist())
             {

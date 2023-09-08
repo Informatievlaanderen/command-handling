@@ -1,3 +1,10 @@
+## [8.1.3](https://github.com/informatievlaanderen/command-handling/compare/v8.1.2...v8.1.3) (2023-09-08)
+
+
+### Bug Fixes
+
+* snapshot verifier compare collections ([53e4dce](https://github.com/informatievlaanderen/command-handling/commit/53e4dcebc1f3e787479cc6a7ad3e6cd65c1c1985))
+
 ## [8.1.2](https://github.com/informatievlaanderen/command-handling/compare/v8.1.1...v8.1.2) (2023-09-08)
 
 

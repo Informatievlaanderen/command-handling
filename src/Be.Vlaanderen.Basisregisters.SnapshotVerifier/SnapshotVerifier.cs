@@ -17,16 +17,33 @@ namespace Be.Vlaanderen.Basisregisters.SnapshotVerifier
         private readonly IHostApplicationLifetime _applicationLifetime;
         private readonly Func<TAggregateRoot, TStreamId> _streamIdFactory;
         private readonly List<string> _membersToIgnore;
+        private readonly Dictionary<Type, IEnumerable<string>> _collectionMatchingSpec;
         private readonly ISnapshotVerificationNotifier? _snapshotVerificationNotifier;
         private readonly ISnapshotVerificationRepository _snapshotVerificationRepository;
         private readonly IAggregateSnapshotRepository<TAggregateRoot> _aggregateSnapshotRepository;
         private readonly IAggregateEventsRepository<TAggregateRoot, TStreamId> _aggregateEventsRepository;
         private readonly ILogger<SnapshotVerifier<TAggregateRoot, TStreamId>> _logger;
 
+        /// <summary>
+        /// SnapshotVerifier.
+        /// </summary>
+        /// <param name="applicationLifetime"></param>
+        /// <param name="streamIdFactory"></param>
+        /// <param name="membersToIgnore"></param>
+        /// <param name="collectionMatchingSpec">
+        /// Sometimes one wants to match items between collections by some key first, and then compare the matched objects.
+        /// Without this, the comparer basically says there is no match in collection B for any given item in collection A that doesn't Compare with a result of true.
+        /// </param>
+        /// <param name="snapshotVerificationRepository"></param>
+        /// <param name="aggregateSnapshotRepository"></param>
+        /// <param name="aggregateEventsRepository"></param>
+        /// <param name="snapshotVerificationNotifier"></param>
+        /// <param name="loggerFactory"></param>
         public SnapshotVerifier(
             IHostApplicationLifetime applicationLifetime,
             Func<TAggregateRoot, TStreamId> streamIdFactory,
             List<string> membersToIgnore,
+            Dictionary<Type, IEnumerable<string>> collectionMatchingSpec,
             ISnapshotVerificationRepository snapshotVerificationRepository,
             IAggregateSnapshotRepository<TAggregateRoot> aggregateSnapshotRepository,
             IAggregateEventsRepository<TAggregateRoot, TStreamId> aggregateEventsRepository,
@@ -36,6 +53,7 @@ namespace Be.Vlaanderen.Basisregisters.SnapshotVerifier
             _applicationLifetime = applicationLifetime;
             _streamIdFactory = streamIdFactory;
             _membersToIgnore = membersToIgnore;
+            _collectionMatchingSpec = collectionMatchingSpec;
             _snapshotVerificationRepository = snapshotVerificationRepository;
             _aggregateSnapshotRepository = aggregateSnapshotRepository;
             _aggregateEventsRepository = aggregateEventsRepository;
@@ -56,7 +74,7 @@ namespace Be.Vlaanderen.Basisregisters.SnapshotVerifier
                 return;
             }
 
-            foreach (var idToVerify in idsToVerify)
+            foreach (var idToVerify in idsToVerify.OrderBy(x => x.SnapshotId))
             {
                 _logger.LogInformation("Verifying snapshot for {SnapshotId}", idToVerify.SnapshotId);
 
@@ -86,7 +104,9 @@ namespace Be.Vlaanderen.Basisregisters.SnapshotVerifier
                         .Concat(_membersToIgnore).ToList(),
                     ComparePrivateFields = true,
                     CompareBackingFields = false, // ONLY ignores compiler-generated backing fields.
-                    ComparePrivateProperties = true
+                    ComparePrivateProperties = true,
+                    IgnoreCollectionOrder = true,
+                    CollectionMatchingSpec = _collectionMatchingSpec
                 });
 
                 var verificationState = new SnapshotVerificationState(idToVerify.SnapshotId);

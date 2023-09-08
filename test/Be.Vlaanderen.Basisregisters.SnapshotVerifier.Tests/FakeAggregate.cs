@@ -17,26 +17,36 @@
         private readonly int _backingField;
         public int PublicPropertyWithBackingField => _backingField;
 
-        private readonly IList<int> _backingListField;
-        public IEnumerable<int> PublicPropertyWithBackingListFiltered => _backingListField.Skip(1).Take(1);
+        private readonly IList<FakeEntity> _backingListField;
+        public IEnumerable<FakeEntity> PublicPropertyWithBackingListFiltered => _backingListField.Skip(1).Take(1);
 
-        public FakeAggregate(int privateMember,
+        public FakeAggregate(
+            int privateMember,
+            int publicMember,
+            int privateProperty,
+            int publicProperty,
+            int backingField,
+            IList<FakeEntity> backingListField)
+        {
+            _privateMember = privateMember;
+            PublicMember = publicMember;
+            _backingField = backingField;
+            _backingListField = backingListField;
+            PrivateProperty = privateProperty;
+            PublicProperty = publicProperty;
+            Strategy = NoSnapshotStrategy.Instance;
+        }
+
+        public FakeAggregate(
+            int privateMember,
             int publicMember,
             int privateProperty,
             int publicProperty,
             int backingField,
             IList<int> backingListField)
+            : this(privateMember, publicMember, privateProperty, publicProperty, backingField,
+                backingListField.Select(x => new FakeEntity(x)).ToList())
         {
-            _privateMember = privateMember;
-            PublicMember = publicMember;
-
-            PrivateProperty = privateProperty;
-            PublicProperty = publicProperty;
-
-            _backingField = backingField;
-            _backingListField = backingListField;
-
-            Strategy = NoSnapshotStrategy.Instance;
         }
 
         public FakeAggregate WithDifferentPrivateMember(int value)
@@ -95,6 +105,17 @@
         }
 
         public FakeAggregate WithDifferentBackingListField(IList<int> value)
+        {
+            return new FakeAggregate(
+                _privateMember,
+                PublicMember,
+                PrivateProperty,
+                PublicProperty,
+                _backingField,
+                value);
+        }
+
+        public FakeAggregate WithDifferentBackingListField(IList<FakeEntity> value)
         {
             return new FakeAggregate(
                 _privateMember,

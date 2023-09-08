@@ -1,5 +1,6 @@
 ﻿namespace Be.Vlaanderen.Basisregisters.SnapshotVerifier.Tests.GivenPublicMemberDiffers
 {
+    using System;
     using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
@@ -42,6 +43,7 @@
                 Mock.Of<IHostApplicationLifetime>(),
                 _ => new FakeAggregateStreamId(1),
                 _membersToIgnore,
+                new Dictionary<Type, IEnumerable<string>>(),
                 _snapshotVerificationRepository.Object,
                 aggregateSnapshotRepository.Object,
                 aggregateEventsRepository.Object,

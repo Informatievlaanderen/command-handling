@@ -1,4 +1,4 @@
-﻿namespace Be.Vlaanderen.Basisregisters.SnapshotVerifier.Tests.GivenPrivatePropertyDiffers
+﻿namespace Be.Vlaanderen.Basisregisters.SnapshotVerifier.Tests.GivenUnorderedCollection
 {
     using System;
     using System.Collections.Generic;
@@ -9,21 +9,32 @@
     using Moq;
     using Xunit;
 
-    public class WhenPrivatePropertyIsCompared
+    public class WhenCollectionMatchingSpecIsNotSpecified
     {
         private readonly SnapshotVerifier<FakeAggregate, FakeAggregateStreamId> _snapshotVerifier;
-        private readonly List<string> _membersToIgnore = new();
+        private readonly List<string> _membersToIgnore = new() { nameof(FakeAggregate.PublicPropertyWithBackingListFiltered) };
+
+        private readonly Dictionary<Type, IEnumerable<string>> _collectionMatchingSpec = new();
 
         private readonly SnapshotIdentifier _snapshotIdentifier;
         private readonly Mock<ISnapshotVerificationRepository> _snapshotVerificationRepository;
 
-        public WhenPrivatePropertyIsCompared()
+        public WhenCollectionMatchingSpecIsNotSpecified()
         {
             var aggregateSnapshotRepository = new Mock<IAggregateSnapshotRepository<FakeAggregate>>();
-            var aggregateEventsRepository = new Mock<IAggregateEventsRepository<FakeAggregate, FakeAggregateStreamId>>();
+            var aggregateEventsRepository =
+                new Mock<IAggregateEventsRepository<FakeAggregate, FakeAggregateStreamId>>();
 
-            var aggregateBySnapshot = new FakeAggregate(1, 1, 1, 1, 1, new List<int> { 1 });
-            var aggregateByEvents = aggregateBySnapshot.WithDifferentPrivateProperty(2);
+            var aggregateBySnapshot = new FakeAggregate(1, 1, 1, 1, 1, new List<FakeEntity>
+            {
+                new(identifier: 1, value: 2),
+                new(identifier: 2, value: 3)
+            });
+            var aggregateByEvents = aggregateBySnapshot.WithDifferentBackingListField(new List<FakeEntity>
+            {
+                new(identifier: 2, value: 3),
+                new(identifier: 1, value: 2)
+            });
 
             _snapshotIdentifier = new SnapshotIdentifier(1, "1");
             aggregateSnapshotRepository
@@ -34,7 +45,8 @@
                 .ReturnsAsync(new AggregateWithVersion<FakeAggregate>(aggregateBySnapshot, 1));
             aggregateEventsRepository
                 .Setup(x =>
-                    x.GetAggregateByEvents(It.IsAny<FakeAggregateStreamId>(), It.IsAny<int>(), It.IsAny<CancellationToken>()))
+                    x.GetAggregateByEvents(It.IsAny<FakeAggregateStreamId>(), It.IsAny<int>(),
+                        It.IsAny<CancellationToken>()))
                 .ReturnsAsync(aggregateByEvents);
 
             _snapshotVerificationRepository = new Mock<ISnapshotVerificationRepository>();
@@ -43,7 +55,7 @@
                 Mock.Of<IHostApplicationLifetime>(),
                 _ => new FakeAggregateStreamId(1),
                 _membersToIgnore,
-                new Dictionary<Type, IEnumerable<string>>(),
+                _collectionMatchingSpec,
                 _snapshotVerificationRepository.Object,
                 aggregateSnapshotRepository.Object,
                 aggregateEventsRepository.Object,

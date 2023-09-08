@@ -28,7 +28,7 @@ nuget Newtonsoft.Json 13.0.1
 
 nuget NodaTime 3.0.10
 
-nuget CompareNETObjects 4.76.0
+nuget CompareNETObjects 4.81
 
 // VBR STUFF
 nuget Be.Vlaanderen.Basisregisters.Build.Pipeline 6.0.3

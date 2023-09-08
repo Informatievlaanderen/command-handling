@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\..\packages\Be.Vlaanderen.Basisregisters.Build.Pipeline\Content\Be.Vlaanderen.Basisregisters.Build.Pipeline.Settings.Test.props" />
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Be.Vlaanderen.Basisregisters.AggregateSource.ExplicitRouting\Be.Vlaanderen.Basisregisters.AggregateSource.ExplicitRouting.csproj" />
+    <ProjectReference Include="..\..\src\Be.Vlaanderen.Basisregisters.SnapshotVerifier\Be.Vlaanderen.Basisregisters.SnapshotVerifier.csproj" />
+  </ItemGroup>
+  <Import Project="..\..\.paket\Paket.Restore.targets" />
+</Project>

@@ -1,6 +1,5 @@
 ﻿namespace Be.Vlaanderen.Basisregisters.SnapshotVerifier.Tests.GivenBackingFieldDiffers
 {
-    using System;
     using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
@@ -12,7 +11,6 @@
     public class WhenPropertyIsCompared
     {
         private readonly SnapshotVerifier<FakeAggregate, FakeAggregateStreamId> _snapshotVerifier;
-        private readonly List<string> _membersToIgnore = new();
 
         private readonly SnapshotIdentifier _snapshotIdentifier;
         private readonly Mock<ISnapshotVerificationRepository> _snapshotVerificationRepository;
@@ -42,8 +40,7 @@
             _snapshotVerifier = new SnapshotVerifier<FakeAggregate, FakeAggregateStreamId>(
                 Mock.Of<IHostApplicationLifetime>(),
                 _ => new FakeAggregateStreamId(1),
-                _membersToIgnore,
-                new Dictionary<Type, IEnumerable<string>>(),
+                DefaultComparisonConfig.Get,
                 _snapshotVerificationRepository.Object,
                 aggregateSnapshotRepository.Object,
                 aggregateEventsRepository.Object,

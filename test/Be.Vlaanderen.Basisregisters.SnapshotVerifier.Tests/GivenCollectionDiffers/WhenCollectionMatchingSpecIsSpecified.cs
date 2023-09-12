@@ -14,10 +14,7 @@
         private readonly SnapshotVerifier<FakeAggregate, FakeAggregateStreamId> _snapshotVerifier;
         private readonly List<string> _membersToIgnore = new() { nameof(FakeAggregate.PublicPropertyWithBackingListFiltered) };
 
-        private readonly Dictionary<Type, IEnumerable<string>> _collectionMatchingSpec = new()
-        {
-            { typeof(FakeEntity), new[] { nameof(FakeEntity.Identifier) } }
-        };
+        private readonly (Type itemType, string property) _collectionMatchingSpec = new (typeof(FakeEntity), nameof(FakeEntity.Identifier));
 
         private readonly SnapshotIdentifier _snapshotIdentifier;
         private readonly Mock<ISnapshotVerificationRepository> _snapshotVerificationRepository;
@@ -57,8 +54,9 @@
             _snapshotVerifier = new SnapshotVerifier<FakeAggregate, FakeAggregateStreamId>(
                 Mock.Of<IHostApplicationLifetime>(),
                 _ => new FakeAggregateStreamId(1),
-                _membersToIgnore,
-                _collectionMatchingSpec,
+                DefaultComparisonConfig.Get
+                    .WithMembersToIgnore(_membersToIgnore)
+                    .WithCollectionMatchingSpec(_collectionMatchingSpec),
                 _snapshotVerificationRepository.Object,
                 aggregateSnapshotRepository.Object,
                 aggregateEventsRepository.Object,

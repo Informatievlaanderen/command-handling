@@ -20,6 +20,8 @@
         private readonly IList<FakeEntity> _backingListField;
         public IEnumerable<FakeEntity> PublicPropertyWithBackingListFiltered => _backingListField.Skip(1).Take(1);
 
+        public List<FakeEntity> List { get; set; }
+
         public FakeAggregate(
             int privateMember,
             int publicMember,
@@ -124,6 +126,20 @@
                 PublicProperty,
                 _backingField,
                 value);
+        }
+
+        public FakeAggregate WithDifferentList(IEnumerable<FakeEntity> value)
+        {
+            return new FakeAggregate(
+                _privateMember,
+                PublicMember,
+                PrivateProperty,
+                PublicProperty,
+                _backingField,
+                _backingListField)
+            {
+                List = value.ToList()
+            };
         }
 
         public ISnapshotStrategy Strategy { get; }

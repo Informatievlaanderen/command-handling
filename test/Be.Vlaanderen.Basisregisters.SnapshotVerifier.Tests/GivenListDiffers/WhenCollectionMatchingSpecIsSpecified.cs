@@ -1,4 +1,4 @@
-﻿namespace Be.Vlaanderen.Basisregisters.SnapshotVerifier.Tests.GivenUnorderedCollection
+﻿namespace Be.Vlaanderen.Basisregisters.SnapshotVerifier.Tests.GivenListDiffers
 {
     using System;
     using System.Collections.Generic;
@@ -9,29 +9,34 @@
     using Moq;
     using Xunit;
 
-    public class WhenCollectionMatchingSpecIsNotSpecified
+    public class WhenCollectionMatchingSpecIsSpecified
     {
         private readonly SnapshotVerifier<FakeAggregate, FakeAggregateStreamId> _snapshotVerifier;
         private readonly List<string> _membersToIgnore = new() { nameof(FakeAggregate.PublicPropertyWithBackingListFiltered) };
 
+        private readonly (Type itemType, string property) _collectionMatchingSpec = new (typeof(FakeEntity), nameof(FakeEntity.Identifier));
+
         private readonly SnapshotIdentifier _snapshotIdentifier;
         private readonly Mock<ISnapshotVerificationRepository> _snapshotVerificationRepository;
 
-        public WhenCollectionMatchingSpecIsNotSpecified()
+        public WhenCollectionMatchingSpecIsSpecified()
         {
             var aggregateSnapshotRepository = new Mock<IAggregateSnapshotRepository<FakeAggregate>>();
             var aggregateEventsRepository =
                 new Mock<IAggregateEventsRepository<FakeAggregate, FakeAggregateStreamId>>();
 
-            var aggregateBySnapshot = new FakeAggregate(1, 1, 1, 1, 1, new List<FakeEntity>
+            var aggregateBySnapshot = new FakeAggregate(1, 1, 1, 1, 1, backingListField: new List<int>())
+            {
+                List = new List<FakeEntity>
+                {
+                    new(identifier: 1, value: 2),
+                    new(identifier: 2, value: 100)
+                }
+            };
+            var aggregateByEvents = aggregateBySnapshot.WithDifferentList(new List<FakeEntity>
             {
                 new(identifier: 1, value: 2),
-                new(identifier: 2, value: 3)
-            });
-            var aggregateByEvents = aggregateBySnapshot.WithDifferentBackingListField(new List<FakeEntity>
-            {
-                new(identifier: 2, value: 3),
-                new(identifier: 1, value: 2)
+                new(identifier: 2, value: 200)
             });
 
             _snapshotIdentifier = new SnapshotIdentifier(1, "1");
@@ -52,7 +57,9 @@
             _snapshotVerifier = new SnapshotVerifier<FakeAggregate, FakeAggregateStreamId>(
                 Mock.Of<IHostApplicationLifetime>(),
                 _ => new FakeAggregateStreamId(1),
-                DefaultComparisonConfig.Get.WithMembersToIgnore(_membersToIgnore),
+                DefaultComparisonConfig.Get
+                    .WithMembersToIgnore(_membersToIgnore)
+                    .WithCollectionMatchingSpec(_collectionMatchingSpec),
                 _snapshotVerificationRepository.Object,
                 aggregateSnapshotRepository.Object,
                 aggregateEventsRepository.Object,

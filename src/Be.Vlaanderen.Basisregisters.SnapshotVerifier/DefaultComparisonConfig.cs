@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using KellermanSoftware.CompareNetObjects;
+    using KellermanSoftware.CompareNetObjects.TypeComparers;
 
     public sealed class DefaultComparisonConfig
     {
@@ -12,6 +13,10 @@
             CompareBackingFields = false, // ONLY ignores compiler-generated backing fields.
             ComparePrivateProperties = true,
             IgnoreCollectionOrder = true,
+            CustomComparers = new List<BaseTypeComparer>
+            {
+                new CustomListComparer(RootComparerFactory.GetRootComparer())
+            }
         };
     }
 }

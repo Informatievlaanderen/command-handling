@@ -1,4 +1,4 @@
-﻿namespace Be.Vlaanderen.Basisregisters.SnapshotVerifier.Tests.GivenUnorderedCollection
+﻿namespace Be.Vlaanderen.Basisregisters.SnapshotVerifier.Tests.GivenListTheSameButUnordered
 {
     using System;
     using System.Collections.Generic;
@@ -25,12 +25,15 @@
             var aggregateEventsRepository =
                 new Mock<IAggregateEventsRepository<FakeAggregate, FakeAggregateStreamId>>();
 
-            var aggregateBySnapshot = new FakeAggregate(1, 1, 1, 1, 1, new List<FakeEntity>
+            var aggregateBySnapshot = new FakeAggregate(1, 1, 1, 1, 1, backingListField: new List<int>())
             {
-                new(identifier: 1, value: 2),
-                new(identifier: 2, value: 3)
-            });
-            var aggregateByEvents = aggregateBySnapshot.WithDifferentBackingListField(new List<FakeEntity>
+                List = new List<FakeEntity>(capacity: 2)
+                {
+                    new(identifier: 1, value: 2),
+                    new(identifier: 2, value: 3)
+                }
+            };
+            var aggregateByEvents = aggregateBySnapshot.WithDifferentList(new List<FakeEntity>(capacity: 4)
             {
                 new(identifier: 2, value: 3),
                 new(identifier: 1, value: 2)

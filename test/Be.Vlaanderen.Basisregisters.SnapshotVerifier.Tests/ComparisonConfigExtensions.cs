@@ -16,7 +16,8 @@
                 CompareBackingFields = config.CompareBackingFields,
                 ComparePrivateProperties = config.ComparePrivateProperties,
                 IgnoreCollectionOrder = config.IgnoreCollectionOrder,
-                CollectionMatchingSpec =  config.CollectionMatchingSpec
+                CollectionMatchingSpec =  config.CollectionMatchingSpec,
+                CustomComparers = config.CustomComparers
             };
         }
 
@@ -30,7 +31,8 @@
                 CompareBackingFields = config.CompareBackingFields,
                 ComparePrivateProperties = config.ComparePrivateProperties,
                 IgnoreCollectionOrder = config.IgnoreCollectionOrder,
-                CollectionMatchingSpec =  config.CollectionMatchingSpec
+                CollectionMatchingSpec =  config.CollectionMatchingSpec,
+                CustomComparers = config.CustomComparers
             };
         }
 
@@ -48,7 +50,8 @@
                 CompareBackingFields = config.CompareBackingFields,
                 ComparePrivateProperties = config.ComparePrivateProperties,
                 IgnoreCollectionOrder = config.IgnoreCollectionOrder,
-                CollectionMatchingSpec = dict
+                CollectionMatchingSpec = dict,
+                CustomComparers = config.CustomComparers
             };
         }
     }

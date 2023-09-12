@@ -12,7 +12,6 @@
     public class WhenPublicMemberIsCompared
     {
         private readonly SnapshotVerifier<FakeAggregate, FakeAggregateStreamId> _snapshotVerifier;
-        private readonly List<string> _membersToIgnore = new();
 
         private readonly SnapshotIdentifier _snapshotIdentifier;
         private readonly Mock<ISnapshotVerificationRepository> _snapshotVerificationRepository;
@@ -42,8 +41,7 @@
             _snapshotVerifier = new SnapshotVerifier<FakeAggregate, FakeAggregateStreamId>(
                 Mock.Of<IHostApplicationLifetime>(),
                 _ => new FakeAggregateStreamId(1),
-                _membersToIgnore,
-                new Dictionary<Type, IEnumerable<string>>(),
+                DefaultComparisonConfig.Get,
                 _snapshotVerificationRepository.Object,
                 aggregateSnapshotRepository.Object,
                 aggregateEventsRepository.Object,

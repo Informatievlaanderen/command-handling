@@ -1,3 +1,10 @@
+# [8.2.0](https://github.com/informatievlaanderen/command-handling/compare/v8.1.3...v8.2.0) (2023-09-12)
+
+
+### Features
+
+* custom list comparer which ignores private dotnet List fields ([e3a436a](https://github.com/informatievlaanderen/command-handling/commit/e3a436a46341c1379db4ad6972f3d8a59e34452f))
+
 ## [8.1.3](https://github.com/informatievlaanderen/command-handling/compare/v8.1.2...v8.1.3) (2023-09-08)
 
 

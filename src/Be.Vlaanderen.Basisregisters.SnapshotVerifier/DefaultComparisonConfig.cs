@@ -6,7 +6,7 @@
 
     public sealed class DefaultComparisonConfig
     {
-        public static ComparisonConfig Get => new()
+        public static ComparisonConfig Instance => new()
         {
             MembersToIgnore = new List<string> { "_recorder", "_router", "_applier", "_lastEvent", "Strategy" },
             ComparePrivateFields = true,

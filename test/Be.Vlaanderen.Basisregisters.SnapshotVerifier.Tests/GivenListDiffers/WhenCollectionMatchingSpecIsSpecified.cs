@@ -57,7 +57,7 @@
             _snapshotVerifier = new SnapshotVerifier<FakeAggregate, FakeAggregateStreamId>(
                 Mock.Of<IHostApplicationLifetime>(),
                 _ => new FakeAggregateStreamId(1),
-                DefaultComparisonConfig.Get
+                DefaultComparisonConfig.Instance
                     .WithMembersToIgnore(_membersToIgnore)
                     .WithCollectionMatchingSpec(_collectionMatchingSpec),
                 _snapshotVerificationRepository.Object,

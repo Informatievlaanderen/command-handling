@@ -16,7 +16,10 @@ description Lightweight infrastructure for doing command handling and eventsourc
 
 dependencies
   framework: net6.0
+    Be.Vlaanderen.Basisregisters.CommandHandling CURRENTVERSION
+
     Be.Vlaanderen.Basisregisters.Converters.Timestamp >= LOCKEDVERSION
+    Be.Vlaanderen.Basisregisters.Utilities.HexByteConvertor >= LOCKEDVERSION
 
     Microsoft.Data.SqlClient >= LOCKEDVERSION
     Microsoft.Extensions.Configuration >= LOCKEDVERSION

@@ -1,3 +1,10 @@
+# [8.3.0](https://github.com/informatievlaanderen/command-handling/compare/v8.2.0...v8.3.0) (2023-11-29)
+
+
+### Features
+
+* add IIdempotentCommandHandler ([dd9b7e2](https://github.com/informatievlaanderen/command-handling/commit/dd9b7e271e5f0242f83761188d17f490d8e018f6))
+
 # [8.2.0](https://github.com/informatievlaanderen/command-handling/compare/v8.1.3...v8.2.0) (2023-09-12)
 
 

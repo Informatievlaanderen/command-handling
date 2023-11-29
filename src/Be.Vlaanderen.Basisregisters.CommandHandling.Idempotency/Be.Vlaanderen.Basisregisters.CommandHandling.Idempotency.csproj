@@ -5,5 +5,9 @@
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Be.Vlaanderen.Basisregisters.CommandHandling\Be.Vlaanderen.Basisregisters.CommandHandling.csproj" />
+  </ItemGroup>
+
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

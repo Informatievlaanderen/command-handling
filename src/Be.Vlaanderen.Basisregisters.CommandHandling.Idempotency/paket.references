@@ -6,6 +6,7 @@ Microsoft.EntityFrameworkCore.SqlServer
 Newtonsoft.Json
 
 Be.Vlaanderen.Basisregisters.Converters.Timestamp
+Be.Vlaanderen.Basisregisters.Utilities.HexByteConvertor
 
 SourceLink.Embed.AllSourceFiles
 SourceLink.Copy.PdbFiles

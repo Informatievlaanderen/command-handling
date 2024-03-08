@@ -1,3 +1,10 @@
+## [9.0.1](https://github.com/informatievlaanderen/command-handling/compare/v9.0.0...v9.0.1) (2024-03-08)
+
+
+### Bug Fixes
+
+* **bump:** correct ti release to nuget ([6edb7d0](https://github.com/informatievlaanderen/command-handling/commit/6edb7d0266d7dcfc013b44d9299f2d99caff4074))
+
 # [9.0.0](https://github.com/informatievlaanderen/command-handling/compare/v8.3.0...v9.0.0) (2024-03-08)
 
 

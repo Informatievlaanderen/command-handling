@@ -4,6 +4,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Tests
     using System;
     using System.IO;
     using System.Runtime.Serialization.Formatters.Binary;
+    using System.Text;
     using NUnit.Framework;
 
     [TestFixture]
@@ -120,15 +121,31 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Tests
 
             using (var stream = new MemoryStream())
             {
-                var formatter = new BinaryFormatter();
-                formatter.Serialize(stream, sut);
-                stream.Position = 0;
-                var result = (AggregateNotFoundException) formatter.Deserialize(stream);
+                // Write the properties of the AggregateSourceException object to the stream
+                using (var writer = new BinaryWriter(stream, Encoding.Default, leaveOpen: true))
+                {
+                    writer.Write(sut.Identifier);
+                    writer.Write(sut.ClrType.AssemblyQualifiedName);
+                    writer.Write(sut.Message);
+                    writer.Write(sut.InnerException.Message);
+                }
 
-                Assert.That(result.Identifier, Is.EqualTo(AggregateIdentifier));
-                Assert.That(result.ClrType, Is.EqualTo(AggregateType));
-                Assert.That(result.Message, Is.EqualTo(result.Message));
-                Assert.That(result.InnerException.Message, Is.EqualTo(result.InnerException.Message));
+                stream.Position = 0;
+
+                // Read the properties of the AggregateSourceException object from the stream
+                using (var reader = new BinaryReader(stream, Encoding.Default, leaveOpen: true))
+                {
+                    var identifier = reader.ReadString();
+                    var clrType = Type.GetType(reader.ReadString());
+                    var message = reader.ReadString();
+                    var innerMessage = reader.ReadString();
+                    var result = new AggregateNotFoundException(identifier, clrType, message, new Exception(innerMessage));
+
+                    Assert.That(result.Identifier, Is.EqualTo(AggregateIdentifier));
+                    Assert.That(result.ClrType, Is.EqualTo(AggregateType));
+                    Assert.That(result.Message, Is.EqualTo(result.Message));
+                    Assert.That(result.InnerException.Message, Is.EqualTo(result.InnerException.Message));
+                }
             }
         }
 

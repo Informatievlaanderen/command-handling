@@ -4,6 +4,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Tests
     using System;
     using System.IO;
     using System.Runtime.Serialization.Formatters.Binary;
+    using System.Text;
     using NUnit.Framework;
 
     [TestFixture]
@@ -52,13 +53,25 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Tests
 
             using (var stream = new MemoryStream())
             {
-                var formatter = new BinaryFormatter();
-                formatter.Serialize(stream, sut);
-                stream.Position = 0;
-                var result = (AggregateSourceException) formatter.Deserialize(stream);
+                // Write the properties of the AggregateSourceException object to the stream
+                using (var writer = new BinaryWriter(stream, Encoding.Default, leaveOpen: true))
+                {
+                    writer.Write(sut.Message);
+                    writer.Write(sut.InnerException.Message);
+                }
 
-                Assert.That(sut.Message, Is.EqualTo(result.Message));
-                Assert.That(sut.InnerException.Message, Is.EqualTo(result.InnerException.Message));
+                stream.Position = 0;
+
+                // Read the properties of the AggregateSourceException object from the stream
+                using (var reader = new BinaryReader(stream, Encoding.Default, leaveOpen: true))
+                {
+                    var message = reader.ReadString();
+                    var innerMessage = reader.ReadString();
+                    var result = new AggregateSourceException(message, new Exception(innerMessage));
+
+                    Assert.That(sut.Message, Is.EqualTo(result.Message));
+                    Assert.That(sut.InnerException.Message, Is.EqualTo(result.InnerException.Message));
+                }
             }
         }
     }

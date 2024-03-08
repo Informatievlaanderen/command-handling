@@ -55,7 +55,7 @@ jobs:
       shell: bash
 
   pack-aggregate-source:
-    name: Pack
+    name: Pack Aggregate Source
     uses: Informatievlaanderen/build-pipeline/.github/workflows/pack.yml@main
     needs: [ set-release-version ]
     if: ${{ (github.repository_owner == 'Informatievlaanderen') && (needs.set-release-version.outputs.version != 'none') }}
@@ -68,7 +68,7 @@ jobs:
     secrets: inherit
 
   pack-aggregate-source-explicit-routing:
-    name: Pack
+    name: Pack Aggregate Source Explicit Routing
     uses: Informatievlaanderen/build-pipeline/.github/workflows/pack.yml@main
     needs: [ set-release-version ]
     if: ${{ (github.repository_owner == 'Informatievlaanderen') && (needs.set-release-version.outputs.version != 'none') }}
@@ -80,20 +80,20 @@ jobs:
     secrets: inherit
 
   pack-aggregate-source-sql-stream-store:
-  name: Pack
-  uses: Informatievlaanderen/build-pipeline/.github/workflows/pack.yml@main
-  needs: [ set-release-version ]
-  if: ${{ (github.repository_owner == 'Informatievlaanderen') && (needs.set-release-version.outputs.version != 'none') }}
-  with:
-    pack-file: Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore
-    test-project: Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Tests
-    build-project: Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore
-    semver: ${{ needs.set-release-version.outputs.version }}
-    dotnet-version: ${{ vars.VBR_DOTNET_VERSION_8 }}
-  secrets: inherit
+    name: Pack Aggregate Source SqlStreamStore
+    uses: Informatievlaanderen/build-pipeline/.github/workflows/pack.yml@main
+    needs: [ set-release-version ]
+    if: ${{ (github.repository_owner == 'Informatievlaanderen') && (needs.set-release-version.outputs.version != 'none') }}
+    with:
+      pack-file: Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore
+      test-project: Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Tests
+      build-project: Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore
+      semver: ${{ needs.set-release-version.outputs.version }}
+      dotnet-version: ${{ vars.VBR_DOTNET_VERSION_8 }}
+    secrets: inherit
 
   pack-aggregate-source-sql-stream-store-autofac:
-    name: Pack
+    name: Pack Aggregate Source SqlStreamStore Autofac
     uses: Informatievlaanderen/build-pipeline/.github/workflows/pack.yml@main
     needs: [ set-release-version ]
     if: ${{ (github.repository_owner == 'Informatievlaanderen') && (needs.set-release-version.outputs.version != 'none') }}
@@ -104,20 +104,8 @@ jobs:
       dotnet-version: ${{ vars.VBR_DOTNET_VERSION_8 }}
     secrets: inherit
 
-  pack-aggregate-source-sql-stream-store-microsoft:
-    name: Pack
-    uses: Informatievlaanderen/build-pipeline/.github/workflows/pack.yml@main
-    needs: [ set-release-version ]
-    if: ${{ (github.repository_owner == 'Informatievlaanderen') && (needs.set-release-version.outputs.version != 'none') }}
-    with:
-      pack-file: Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Microsoft
-      build-project: Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Microsoft
-      semver: ${{ needs.set-release-version.outputs.version }}
-      dotnet-version: ${{ vars.VBR_DOTNET_VERSION_8 }}
-    secrets: inherit
-
   pack-aggregate-source-testing:
-    name: Pack
+    name: Pack Aggregate Source Testing
     uses: Informatievlaanderen/build-pipeline/.github/workflows/pack.yml@main
     needs: [ set-release-version ]
     if: ${{ (github.repository_owner == 'Informatievlaanderen') && (needs.set-release-version.outputs.version != 'none') }}
@@ -130,7 +118,7 @@ jobs:
     secrets: inherit
 
   pack-aggregate-source-testing-commandhandling:
-    name: Pack
+    name: Pack Aggregate Source Testing CommandHandling
     uses: Informatievlaanderen/build-pipeline/.github/workflows/pack.yml@main
     needs: [ set-release-version ]
     if: ${{ (github.repository_owner == 'Informatievlaanderen') && (needs.set-release-version.outputs.version != 'none') }}
@@ -142,7 +130,7 @@ jobs:
     secrets: inherit
 
   pack-aggregate-source-testing-nunit:
-    name: Pack
+    name: Pack Aggregate Source Testing NUnit
     uses: Informatievlaanderen/build-pipeline/.github/workflows/pack.yml@main
     needs: [ set-release-version ]
     if: ${{ (github.repository_owner == 'Informatievlaanderen') && (needs.set-release-version.outputs.version != 'none') }}
@@ -154,7 +142,7 @@ jobs:
     secrets: inherit
 
   pack-aggregate-source-testing-sql-stream-store:
-    name: Pack
+    name: Pack Aggregate Source Testing SqlStreamStore
     uses: Informatievlaanderen/build-pipeline/.github/workflows/pack.yml@main
     needs: [ set-release-version ]
     if: ${{ (github.repository_owner == 'Informatievlaanderen') && (needs.set-release-version.outputs.version != 'none') }}
@@ -166,7 +154,7 @@ jobs:
     secrets: inherit
 
   pack-aggregate-source-testing-sql-stream-store-autofac:
-    name: Pack
+    name: Pack Aggregate Source Testing SqlStreamStore Autofac
     uses: Informatievlaanderen/build-pipeline/.github/workflows/pack.yml@main
     needs: [ set-release-version ]
     if: ${{ (github.repository_owner == 'Informatievlaanderen') && (needs.set-release-version.outputs.version != 'none') }}
@@ -177,20 +165,8 @@ jobs:
       dotnet-version: ${{ vars.VBR_DOTNET_VERSION_8 }}
     secrets: inherit
 
-  pack-aggregate-source-testing-sql-stream-store-microsoft:
-    name: Pack
-    uses: Informatievlaanderen/build-pipeline/.github/workflows/pack.yml@main
-    needs: [ set-release-version ]
-    if: ${{ (github.repository_owner == 'Informatievlaanderen') && (needs.set-release-version.outputs.version != 'none') }}
-    with:
-      pack-file: Be.Vlaanderen.Basisregisters.AggregateSource.Testing.SqlStreamStore.Microsoft
-      build-project: Be.Vlaanderen.Basisregisters.AggregateSource.Testing.SqlStreamStore.Microsoft
-      semver: ${{ needs.set-release-version.outputs.version }}
-      dotnet-version: ${{ vars.VBR_DOTNET_VERSION_8 }}
-    secrets: inherit
-
   pack-aggregate-source-testing-xunit:
-    name: Pack
+    name: Pack Aggregate Source Testing Xunit
     uses: Informatievlaanderen/build-pipeline/.github/workflows/pack.yml@main
     needs: [ set-release-version ]
     if: ${{ (github.repository_owner == 'Informatievlaanderen') && (needs.set-release-version.outputs.version != 'none') }}
@@ -202,7 +178,7 @@ jobs:
     secrets: inherit
 
   pack-commandhandling:
-    name: Pack
+    name: Pack CommandHandling
     uses: Informatievlaanderen/build-pipeline/.github/workflows/pack.yml@main
     needs: [ set-release-version ]
     if: ${{ (github.repository_owner == 'Informatievlaanderen') && (needs.set-release-version.outputs.version != 'none') }}
@@ -215,7 +191,7 @@ jobs:
     secrets: inherit
 
   pack-commandhandling-idempotency:
-    name: Pack
+    name: Pack CommandHandling Idempotency
     uses: Informatievlaanderen/build-pipeline/.github/workflows/pack.yml@main
     needs: [ set-release-version ]
     if: ${{ (github.repository_owner == 'Informatievlaanderen') && (needs.set-release-version.outputs.version != 'none') }}
@@ -227,7 +203,7 @@ jobs:
     secrets: inherit
 
   pack-commandhandling-sql-stream-store:
-    name: Pack
+    name: Pack CommandHandling SqlStreamStore
     uses: Informatievlaanderen/build-pipeline/.github/workflows/pack.yml@main
     needs: [ set-release-version ]
     if: ${{ (github.repository_owner == 'Informatievlaanderen') && (needs.set-release-version.outputs.version != 'none') }}
@@ -239,7 +215,7 @@ jobs:
     secrets: inherit
 
   pack-snapshot-verifier:
-    name: Pack
+    name: Pack Snapshot Verifier
     uses: Informatievlaanderen/build-pipeline/.github/workflows/pack.yml@main
     needs: [ set-release-version ]
     if: ${{ (github.repository_owner == 'Informatievlaanderen') && (needs.set-release-version.outputs.version != 'none') }}
@@ -255,7 +231,23 @@ jobs:
     if: ${{ (github.repository_owner == 'Informatievlaanderen') && (needs.set-release-version.outputs.version != 'none') }}
     name: Semantic Release
     runs-on: ubuntu-latest
-    needs: [ set-release-version, pack-event-handling, pack-event-handling-autofac ]
+    needs: [
+        set-release-version,
+        pack-aggregate-source,
+        pack-aggregate-source-explicit-routing,
+        pack-aggregate-source-sql-stream-store,
+        pack-aggregate-source-sql-stream-store-autofac,
+        pack-aggregate-source-testing,
+        pack-aggregate-source-testing-commandhandling,
+        pack-aggregate-source-testing-nunit,
+        pack-aggregate-source-testing-sql-stream-store,
+        pack-aggregate-source-testing-sql-stream-store-autofac,
+        pack-aggregate-source-testing-xunit,
+        pack-commandhandling,
+        pack-commandhandling-idempotency,
+        pack-commandhandling-sql-stream-store,
+        pack-snapshot-verifier
+      ]
     outputs:
       version: ${{ steps.set-version.outputs.version }}
     steps:

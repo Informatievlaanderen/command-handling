@@ -1,3 +1,15 @@
+# [9.0.0](https://github.com/informatievlaanderen/command-handling/compare/v8.3.0...v9.0.0) (2024-03-08)
+
+
+### Features
+
+* move to dotnet 8.0.2 ([b180ef0](https://github.com/informatievlaanderen/command-handling/commit/b180ef0ea3fc52708b744ed626ee9298a1e6cd36))
+
+
+### BREAKING CHANGES
+
+* move to dotnet 8.0.2
+
 # [8.3.0](https://github.com/informatievlaanderen/command-handling/compare/v8.2.0...v8.3.0) (2023-11-29)
 
 

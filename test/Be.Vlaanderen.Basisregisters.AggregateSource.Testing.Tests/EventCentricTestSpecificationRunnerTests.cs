@@ -13,6 +13,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests
     using Moq;
     using Newtonsoft.Json;
     using NUnit.Framework;
+    using NUnit.Framework.Legacy;
     using SqlStreamStore;
     using Testing.Comparers;
 
@@ -125,8 +126,8 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests
 
             var result = Run(new EventCentricTestSpecification(new Fact[0], new DoSomething { Identifier = identifier }, expectedEvents));
 
-            Assert.IsTrue(result.Failed);
-            Assert.IsTrue(result.ButEvents.HasValue);
+            ClassicAssert.IsTrue(result.Failed);
+            ClassicAssert.IsTrue(result.ButEvents.HasValue);
         }
 
         [Test]
@@ -140,9 +141,9 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests
 
             var result = Run(new EventCentricTestSpecification(new Fact[0], new DoSomething() { Identifier = identifier }, expectedEvents));
 
-            Assert.IsTrue(result.Failed);
-            Assert.IsTrue(result.ButException.HasValue);
-            Assert.AreEqual(actualException, result.ButException.Value);
+            ClassicAssert.IsTrue(result.Failed);
+            ClassicAssert.IsTrue(result.ButException.HasValue);
+            ClassicAssert.AreEqual(actualException, result.ButException.Value);
         }
 
         [Test]
@@ -156,8 +157,8 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests
 
             var result = Run(new EventCentricTestSpecification(new Fact[0], new DoSomething() { Identifier = identifier }, expectedEvents));
 
-            Assert.IsTrue(result.Failed);
-            Assert.IsTrue(result.ButEvents.HasValue);
+            ClassicAssert.IsTrue(result.Failed);
+            ClassicAssert.IsTrue(result.ButEvents.HasValue);
             Assert.That(result.ButEvents.Value, Is.EqualTo(new[] { new Fact(identifier, new SomethingElseHappened()) }).Using(new FactComparer()));
         }
 
@@ -172,8 +173,8 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests
 
             var result = Run(new EventCentricTestSpecification(new Fact[0], new DoSomething() { Identifier = identifier }, expectedEvents));
 
-            Assert.IsTrue(result.Passed);
-            Assert.IsTrue(result.ButEvents.HasValue);
+            ClassicAssert.IsTrue(result.Passed);
+            ClassicAssert.IsTrue(result.ButEvents.HasValue);
             Assert.That(result.ButEvents.Value, Is.EqualTo(expectedEvents).Using(new FactComparer()));
         }
 
@@ -188,8 +189,8 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests
 
             var result = Run(new EventCentricTestSpecification(new Fact[]{new Fact(identifier, new SomethingHappened())}, new DoSomething() { Identifier = identifier }, expectedEvents));
 
-            Assert.IsTrue(result.Passed);
-            Assert.IsTrue(result.ButEvents.HasValue);
+            ClassicAssert.IsTrue(result.Passed);
+            ClassicAssert.IsTrue(result.ButEvents.HasValue);
             Assert.That(result.ButEvents.Value, Is.EqualTo(expectedEvents).Using(new FactComparer()));
         }
 
@@ -208,8 +209,8 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests
 
             var result = Run(new EventCentricTestSpecification(new Fact[0], new DoSomething() { Identifier = identifier }, expectedEvents));
 
-            Assert.IsTrue(result.Passed);
-            Assert.IsTrue(result.ButEvents.HasValue);
+            ClassicAssert.IsTrue(result.Passed);
+            ClassicAssert.IsTrue(result.ButEvents.HasValue);
             Assert.That(result.ButEvents.Value, Is.EqualTo(expectedEvents).Using(new FactComparer()));
         }
 
@@ -229,8 +230,8 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests
 
             var result = Run(new EventCentricTestSpecification(new Fact[] { new Fact(identifier, new SomethingHappened()) }, new DoSomething() { Identifier = identifier }, expectedEvents));
 
-            Assert.IsTrue(result.Passed);
-            Assert.IsTrue(result.ButEvents.HasValue);
+            ClassicAssert.IsTrue(result.Passed);
+            ClassicAssert.IsTrue(result.ButEvents.HasValue);
             Assert.That(result.ButEvents.Value, Is.EqualTo(expectedEvents).Using(new FactComparer()));
         }
 
@@ -245,8 +246,8 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests
 
             var result = Run(new EventCentricTestSpecification(new Fact[] { new Fact(identifier, new SomethingHappened()) }, new DoSomething() { Identifier = identifier }, expectedEvents));
 
-            Assert.IsTrue(result.Passed);
-            Assert.IsTrue(result.ButEvents.HasValue);
+            ClassicAssert.IsTrue(result.Passed);
+            ClassicAssert.IsTrue(result.ButEvents.HasValue);
             Assert.That(result.ButEvents.Value, Is.EqualTo(expectedEvents).Using(new FactComparer()));
         }
     }

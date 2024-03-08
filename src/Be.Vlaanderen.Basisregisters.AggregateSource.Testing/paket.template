@@ -15,7 +15,7 @@ licenseUrl https://opensource.org/licenses/MIT
 description Lightweight infrastructure for doing command handling and eventsourcing using aggregates.
 
 dependencies
-  framework: net6.0
+  framework: netstandard2.1
     Be.Vlaanderen.Basisregisters.AggregateSource CURRENTVERSION
 
     Newtonsoft.Json >= LOCKEDVERSION
@@ -23,5 +23,5 @@ dependencies
     CompareNETObjects >= LOCKEDVERSION
 
 files
-  bin\Release\net6.0\Be.Vlaanderen.Basisregisters.AggregateSource.Testing.dll => lib\net6.0
-  bin\Release\net6.0\Be.Vlaanderen.Basisregisters.AggregateSource.Testing.pdb => lib\net6.0
+  Be.Vlaanderen.Basisregisters.AggregateSource.Testing.dll => lib\netstandard2.1
+  Be.Vlaanderen.Basisregisters.AggregateSource.Testing.pdb => lib\netstandard2.1

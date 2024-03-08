@@ -3,6 +3,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Tests.ValueObjectTests
     using System.Collections.Generic;
     using NodaTime;
     using NUnit.Framework;
+    using NUnit.Framework.Legacy;
 
     [TestFixture]
     public class ValueObjectTests
@@ -53,7 +54,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Tests.ValueObjectTests
             var address = new Address("Address1", "Austin", "TX");
             var address2 = new Address("Address1", "Austin", "TX");
 
-            Assert.IsTrue(address.Equals(address2));
+            ClassicAssert.IsTrue(address.Equals(address2));
         }
 
         [Test]
@@ -62,7 +63,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Tests.ValueObjectTests
             var address = new Address("Address1", "Austin", "TX");
             var address2 = new Address("Address2", "Austin", "TX");
 
-            Assert.IsFalse(address.Equals(address2));
+            ClassicAssert.IsFalse(address.Equals(address2));
         }
 
         [Test]
@@ -71,7 +72,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Tests.ValueObjectTests
             var address = new Address(null, "Austin", "TX");
             var address2 = new Address("Address2", "Austin", "TX");
 
-            Assert.IsFalse(address.Equals(address2));
+            ClassicAssert.IsFalse(address.Equals(address2));
         }
 
         [Test]
@@ -80,7 +81,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Tests.ValueObjectTests
             var address = new Address("Address2", "Austin", "TX");
             var address2 = new Address("Address2", null, "TX");
 
-            Assert.IsFalse(address.Equals(address2));
+            ClassicAssert.IsFalse(address.Equals(address2));
         }
 
         [Test]
@@ -88,7 +89,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Tests.ValueObjectTests
         {
             var address = new Address("Address1", "Austin", "TX");
 
-            Assert.IsTrue(address.Equals(address));
+            ClassicAssert.IsTrue(address.Equals(address));
         }
 
         [Test]
@@ -97,8 +98,8 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Tests.ValueObjectTests
             var address = new Address("Address1", "Austin", "TX");
             var address2 = new Address("Address2", "Austin", "TX");
 
-            Assert.IsFalse(address.Equals(address2));
-            Assert.IsFalse(address2.Equals(address));
+            ClassicAssert.IsFalse(address.Equals(address2));
+            ClassicAssert.IsFalse(address2.Equals(address));
         }
 
         [Test]
@@ -108,9 +109,9 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Tests.ValueObjectTests
             var address2 = new Address("Address1", "Austin", "TX");
             var address3 = new Address("Address1", "Austin", "TX");
 
-            Assert.IsTrue(address.Equals(address2));
-            Assert.IsTrue(address2.Equals(address3));
-            Assert.IsTrue(address.Equals(address3));
+            ClassicAssert.IsTrue(address.Equals(address2));
+            ClassicAssert.IsTrue(address2.Equals(address3));
+            ClassicAssert.IsTrue(address.Equals(address3));
         }
 
         [Test]
@@ -120,8 +121,8 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Tests.ValueObjectTests
             var address2 = new Address("Address1", "Austin", "TX");
             var address3 = new Address("Address2", "Austin", "TX");
 
-            Assert.IsTrue(address == address2);
-            Assert.IsTrue(address2 != address3);
+            ClassicAssert.IsTrue(address == address2);
+            ClassicAssert.IsTrue(address2 != address3);
         }
 
         [Test]
@@ -130,8 +131,8 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Tests.ValueObjectTests
             var address = new Address("Address1", "Austin", "TX");
             var address2 = new ExpandedAddress("Address1", "Apt 123", "Austin", "TX");
 
-            Assert.IsFalse(address.Equals(address2));
-            Assert.IsFalse(address == address2);
+            ClassicAssert.IsFalse(address.Equals(address2));
+            ClassicAssert.IsFalse(address == address2);
         }
 
         [Test]
@@ -140,7 +141,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Tests.ValueObjectTests
             var address = new Address("Address1", "Austin", "TX");
             var address2 = new Address("Address1", "Austin", "TX");
 
-            Assert.AreEqual(address.GetHashCode(), address2.GetHashCode());
+            ClassicAssert.AreEqual(address.GetHashCode(), address2.GetHashCode());
         }
 
         [Test]
@@ -149,7 +150,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Tests.ValueObjectTests
             var address = new Address(null, "Austin", "TX");
             var address2 = new Address("TX", "Austin", null);
 
-            Assert.AreNotEqual(address.GetHashCode(), address2.GetHashCode());
+            ClassicAssert.AreNotEqual(address.GetHashCode(), address2.GetHashCode());
         }
 
         [Test]
@@ -158,7 +159,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Tests.ValueObjectTests
             var address = new Address("Address1", "Austin", "TX");
             var address2 = new Address("Address2", "Austin", "TX");
 
-            Assert.AreNotEqual(address.GetHashCode(), address2.GetHashCode());
+            ClassicAssert.AreNotEqual(address.GetHashCode(), address2.GetHashCode());
         }
 
         [Test]
@@ -167,7 +168,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Tests.ValueObjectTests
             var address = new Address("_city", null, null);
             var address2 = new Address(null, "_address1", null);
 
-            Assert.AreNotEqual(address.GetHashCode(), address2.GetHashCode());
+            ClassicAssert.AreNotEqual(address.GetHashCode(), address2.GetHashCode());
         }
 
         [Test]
@@ -176,7 +177,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Tests.ValueObjectTests
             var address = new ExpandedAddress("Address99999", "Apt 123", "New Orleans", "LA");
             var address2 = new ExpandedAddress("Address1", "Apt 123", "Austin", "TX");
 
-            Assert.AreNotEqual(address.GetHashCode(), address2.GetHashCode());
+            ClassicAssert.AreNotEqual(address.GetHashCode(), address2.GetHashCode());
         }
 
         [Test]
@@ -186,8 +187,8 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Tests.ValueObjectTests
             var timeAfter = new MyOffsetTime(new OffsetDateTime(new LocalDateTime(2000, 1, 10, 0, 0, 1), Offset.FromHours(1)));
             var timeBefore = new MyOffsetTime(new OffsetDateTime(new LocalDateTime(2000, 1, 9, 0, 0, 59), Offset.FromHours(1)));
 
-            Assert.Greater(timeAfter, time);
-            Assert.Less(timeBefore, time);
+            ClassicAssert.Greater(timeAfter, time);
+            ClassicAssert.Less(timeBefore, time);
         }
 
         [Test]
@@ -197,8 +198,8 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Tests.ValueObjectTests
             var timeAfter = new MyZonedTime(new ZonedDateTime(Instant.FromUtc(2000, 1, 10, 0, 0, 1), DateTimeZone.Utc));
             var timeBefore = new MyZonedTime(new ZonedDateTime(Instant.FromUtc(2000, 1, 9, 0, 0, 59), DateTimeZone.Utc));
 
-            Assert.Greater(timeAfter, time);
-            Assert.Less(timeBefore, time);
+            ClassicAssert.Greater(timeAfter, time);
+            ClassicAssert.Less(timeBefore, time);
         }
 
         [Test]
@@ -208,8 +209,8 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Tests.ValueObjectTests
             var timeAfter = new MyLocalTime(new LocalDateTime(2000, 1, 10, 0, 0, 1, 0));
             var timeBefore = new MyLocalTime(new LocalDateTime(2000, 1, 9, 0, 0, 59, 0));
 
-            Assert.Greater(timeAfter, time);
-            Assert.Less(timeBefore, time);
+            ClassicAssert.Greater(timeAfter, time);
+            ClassicAssert.Less(timeBefore, time);
         }
     }
 

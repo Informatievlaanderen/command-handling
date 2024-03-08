@@ -6,6 +6,8 @@
 
     namespace FactoryScenarioForTests
     {
+        using NUnit.Framework.Legacy;
+
         [TestFixture]
         public class SutTests
         {
@@ -44,7 +46,7 @@
             [Test]
             public void IsAggregateFactoryInitialStateBuilder()
             {
-                Assert.IsInstanceOf<IAggregateFactoryInitialStateBuilder<AggregateRootEntityStub>>(_sut);
+                ClassicAssert.IsInstanceOf<IAggregateFactoryInitialStateBuilder<AggregateRootEntityStub>>(_sut);
             }
 
             [Test]

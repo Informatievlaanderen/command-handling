@@ -3,6 +3,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Tests.EventRecorderTests
     using System;
     using System.Collections.Generic;
     using NUnit.Framework;
+    using NUnit.Framework.Legacy;
 
     [TestFixture]
     public class WithAnyInstance
@@ -18,7 +19,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Tests.EventRecorderTests
         [Test]
         public void IsEnumerable()
         {
-            Assert.IsInstanceOf<IEnumerable<object>>(_sut);
+            ClassicAssert.IsInstanceOf<IEnumerable<object>>(_sut);
         }
 
         [Test]
@@ -49,13 +50,13 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Tests.EventRecorderTests
         public void IsStillEmptyAfterReset()
         {
             _sut.Reset();
-            Assert.IsEmpty(_sut);
+            ClassicAssert.IsEmpty(_sut);
         }
 
         [Test]
         public void IsEmpty()
         {
-            Assert.IsEmpty(_sut);
+            ClassicAssert.IsEmpty(_sut);
         }
 
         [Test]
@@ -97,13 +98,13 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Tests.EventRecorderTests
         public void IsEmptyAfterReset()
         {
             _sut.Reset();
-            Assert.IsEmpty(_sut);
+            ClassicAssert.IsEmpty(_sut);
         }
 
         [Test]
         public void IsNotEmpty()
         {
-            Assert.IsNotEmpty(_sut);
+            ClassicAssert.IsNotEmpty(_sut);
         }
 
         [Test]

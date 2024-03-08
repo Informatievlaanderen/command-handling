@@ -3,18 +3,269 @@ name: Release
 on:
   workflow_dispatch:
 
+concurrency: Release
+
 jobs:
-  build:
+  set-release-version:
     if: github.repository_owner == 'Informatievlaanderen'
-    name: Build
+    name: Decide next version
     runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.set-version.outputs.version }}
 
     steps:
     - name: Checkout Code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
+      with:
+          persist-credentials: false
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.x'
+
+    - name: Node version
+      shell: bash
+      run: node --version
+
+    - name: Install NPM dependencies
+      shell: bash
+      run: npm ci
+
+    - name: Run Semantic Release Dry-Run
+      shell: bash
+      run: npx semantic-release --dry-run
+      env:
+        GITHUB_TOKEN: ${{ secrets.VBR_GIT_RELEASE_TOKEN }}
+        GIT_COMMIT: ${{ github.sha }}
+        GIT_USERNAME: ${{ secrets.VBR_GIT_USER }}
+        GIT_AUTHOR_NAME: ${{ secrets.VBR_GIT_USER }}
+        GIT_COMMITTER_NAME: ${{ secrets.VBR_GIT_USER }}
+        GIT_EMAIL: ${{ secrets.VBR_GIT_EMAIL }}
+        GIT_AUTHOR_EMAIL: ${{ secrets.VBR_GIT_EMAIL }}
+        GIT_COMMITTER_EMAIL: ${{ secrets.VBR_GIT_EMAIL }}
+
+    - name: Set Release Version
+      id: set-version
+      run: |
+        [ ! -f semver ] && echo none > semver
+        echo $(cat semver)
+        echo ::set-output name=version::$(cat semver)
+        echo RELEASE_VERSION=$(cat semver) >> $GITHUB_ENV
+      shell: bash
+
+  pack-aggregate-source:
+    name: Pack
+    uses: Informatievlaanderen/build-pipeline/.github/workflows/pack.yml@main
+    needs: [ set-release-version ]
+    if: ${{ (github.repository_owner == 'Informatievlaanderen') && (needs.set-release-version.outputs.version != 'none') }}
+    with:
+      pack-file: Be.Vlaanderen.Basisregisters.AggregateSource
+      test-project: Be.Vlaanderen.Basisregisters.AggregateSource.Tests
+      build-project: Be.Vlaanderen.Basisregisters.AggregateSource
+      semver: ${{ needs.set-release-version.outputs.version }}
+      dotnet-version: ${{ vars.VBR_DOTNET_VERSION_8 }}
+    secrets: inherit
+
+  pack-aggregate-source-explicit-routing:
+    name: Pack
+    uses: Informatievlaanderen/build-pipeline/.github/workflows/pack.yml@main
+    needs: [ set-release-version ]
+    if: ${{ (github.repository_owner == 'Informatievlaanderen') && (needs.set-release-version.outputs.version != 'none') }}
+    with:
+      pack-file: Be.Vlaanderen.Basisregisters.AggregateSource.ExplicitRouting
+      build-project: Be.Vlaanderen.Basisregisters.AggregateSource.ExplicitRouting
+      semver: ${{ needs.set-release-version.outputs.version }}
+      dotnet-version: ${{ vars.VBR_DOTNET_VERSION_8 }}
+    secrets: inherit
+
+  pack-aggregate-source-sql-stream-store:
+  name: Pack
+  uses: Informatievlaanderen/build-pipeline/.github/workflows/pack.yml@main
+  needs: [ set-release-version ]
+  if: ${{ (github.repository_owner == 'Informatievlaanderen') && (needs.set-release-version.outputs.version != 'none') }}
+  with:
+    pack-file: Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore
+    test-project: Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Tests
+    build-project: Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore
+    semver: ${{ needs.set-release-version.outputs.version }}
+    dotnet-version: ${{ vars.VBR_DOTNET_VERSION_8 }}
+  secrets: inherit
+
+  pack-aggregate-source-sql-stream-store-autofac:
+    name: Pack
+    uses: Informatievlaanderen/build-pipeline/.github/workflows/pack.yml@main
+    needs: [ set-release-version ]
+    if: ${{ (github.repository_owner == 'Informatievlaanderen') && (needs.set-release-version.outputs.version != 'none') }}
+    with:
+      pack-file: Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Autofac
+      build-project: Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Autofac
+      semver: ${{ needs.set-release-version.outputs.version }}
+      dotnet-version: ${{ vars.VBR_DOTNET_VERSION_8 }}
+    secrets: inherit
+
+  pack-aggregate-source-sql-stream-store-microsoft:
+    name: Pack
+    uses: Informatievlaanderen/build-pipeline/.github/workflows/pack.yml@main
+    needs: [ set-release-version ]
+    if: ${{ (github.repository_owner == 'Informatievlaanderen') && (needs.set-release-version.outputs.version != 'none') }}
+    with:
+      pack-file: Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Microsoft
+      build-project: Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Microsoft
+      semver: ${{ needs.set-release-version.outputs.version }}
+      dotnet-version: ${{ vars.VBR_DOTNET_VERSION_8 }}
+    secrets: inherit
+
+  pack-aggregate-source-testing:
+    name: Pack
+    uses: Informatievlaanderen/build-pipeline/.github/workflows/pack.yml@main
+    needs: [ set-release-version ]
+    if: ${{ (github.repository_owner == 'Informatievlaanderen') && (needs.set-release-version.outputs.version != 'none') }}
+    with:
+      pack-file: Be.Vlaanderen.Basisregisters.AggregateSource.Testing
+      test-project: Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests
+      build-project: Be.Vlaanderen.Basisregisters.AggregateSource.Testing
+      semver: ${{ needs.set-release-version.outputs.version }}
+      dotnet-version: ${{ vars.VBR_DOTNET_VERSION_8 }}
+    secrets: inherit
+
+  pack-aggregate-source-testing-commandhandling:
+    name: Pack
+    uses: Informatievlaanderen/build-pipeline/.github/workflows/pack.yml@main
+    needs: [ set-release-version ]
+    if: ${{ (github.repository_owner == 'Informatievlaanderen') && (needs.set-release-version.outputs.version != 'none') }}
+    with:
+      pack-file: Be.Vlaanderen.Basisregisters.AggregateSource.Testing.CommandHandling
+      build-project: Be.Vlaanderen.Basisregisters.AggregateSource.Testing.CommandHandling
+      semver: ${{ needs.set-release-version.outputs.version }}
+      dotnet-version: ${{ vars.VBR_DOTNET_VERSION_8 }}
+    secrets: inherit
+
+  pack-aggregate-source-testing-nunit:
+    name: Pack
+    uses: Informatievlaanderen/build-pipeline/.github/workflows/pack.yml@main
+    needs: [ set-release-version ]
+    if: ${{ (github.repository_owner == 'Informatievlaanderen') && (needs.set-release-version.outputs.version != 'none') }}
+    with:
+      pack-file: Be.Vlaanderen.Basisregisters.AggregateSource.Testing.NUnit
+      build-project: Be.Vlaanderen.Basisregisters.AggregateSource.Testing.NUnit
+      semver: ${{ needs.set-release-version.outputs.version }}
+      dotnet-version: ${{ vars.VBR_DOTNET_VERSION_8 }}
+    secrets: inherit
+
+  pack-aggregate-source-testing-sql-stream-store:
+    name: Pack
+    uses: Informatievlaanderen/build-pipeline/.github/workflows/pack.yml@main
+    needs: [ set-release-version ]
+    if: ${{ (github.repository_owner == 'Informatievlaanderen') && (needs.set-release-version.outputs.version != 'none') }}
+    with:
+      pack-file: Be.Vlaanderen.Basisregisters.AggregateSource.Testing.SqlStreamStore
+      build-project: Be.Vlaanderen.Basisregisters.AggregateSource.Testing.SqlStreamStore
+      semver: ${{ needs.set-release-version.outputs.version }}
+      dotnet-version: ${{ vars.VBR_DOTNET_VERSION_8 }}
+    secrets: inherit
+
+  pack-aggregate-source-testing-sql-stream-store-autofac:
+    name: Pack
+    uses: Informatievlaanderen/build-pipeline/.github/workflows/pack.yml@main
+    needs: [ set-release-version ]
+    if: ${{ (github.repository_owner == 'Informatievlaanderen') && (needs.set-release-version.outputs.version != 'none') }}
+    with:
+      pack-file: Be.Vlaanderen.Basisregisters.AggregateSource.Testing.SqlStreamStore.Autofac
+      build-project: Be.Vlaanderen.Basisregisters.AggregateSource.Testing.SqlStreamStore.Autofac
+      semver: ${{ needs.set-release-version.outputs.version }}
+      dotnet-version: ${{ vars.VBR_DOTNET_VERSION_8 }}
+    secrets: inherit
+
+  pack-aggregate-source-testing-sql-stream-store-microsoft:
+    name: Pack
+    uses: Informatievlaanderen/build-pipeline/.github/workflows/pack.yml@main
+    needs: [ set-release-version ]
+    if: ${{ (github.repository_owner == 'Informatievlaanderen') && (needs.set-release-version.outputs.version != 'none') }}
+    with:
+      pack-file: Be.Vlaanderen.Basisregisters.AggregateSource.Testing.SqlStreamStore.Microsoft
+      build-project: Be.Vlaanderen.Basisregisters.AggregateSource.Testing.SqlStreamStore.Microsoft
+      semver: ${{ needs.set-release-version.outputs.version }}
+      dotnet-version: ${{ vars.VBR_DOTNET_VERSION_8 }}
+    secrets: inherit
+
+  pack-aggregate-source-testing-xunit:
+    name: Pack
+    uses: Informatievlaanderen/build-pipeline/.github/workflows/pack.yml@main
+    needs: [ set-release-version ]
+    if: ${{ (github.repository_owner == 'Informatievlaanderen') && (needs.set-release-version.outputs.version != 'none') }}
+    with:
+      pack-file: Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Xunit
+      build-project: Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Xunit
+      semver: ${{ needs.set-release-version.outputs.version }}
+      dotnet-version: ${{ vars.VBR_DOTNET_VERSION_8 }}
+    secrets: inherit
+
+  pack-commandhandling:
+    name: Pack
+    uses: Informatievlaanderen/build-pipeline/.github/workflows/pack.yml@main
+    needs: [ set-release-version ]
+    if: ${{ (github.repository_owner == 'Informatievlaanderen') && (needs.set-release-version.outputs.version != 'none') }}
+    with:
+      pack-file: Be.Vlaanderen.Basisregisters.CommandHandling
+      test-project: Be.Vlaanderen.Basisregisters.CommandHandling.Tests
+      build-project: Be.Vlaanderen.Basisregisters.CommandHandling
+      semver: ${{ needs.set-release-version.outputs.version }}
+      dotnet-version: ${{ vars.VBR_DOTNET_VERSION_8 }}
+    secrets: inherit
+
+  pack-commandhandling-idempotency:
+    name: Pack
+    uses: Informatievlaanderen/build-pipeline/.github/workflows/pack.yml@main
+    needs: [ set-release-version ]
+    if: ${{ (github.repository_owner == 'Informatievlaanderen') && (needs.set-release-version.outputs.version != 'none') }}
+    with:
+      pack-file: Be.Vlaanderen.Basisregisters.CommandHandling.Idempotency
+      build-project: Be.Vlaanderen.Basisregisters.CommandHandling.Idempotency
+      semver: ${{ needs.set-release-version.outputs.version }}
+      dotnet-version: ${{ vars.VBR_DOTNET_VERSION_8 }}
+    secrets: inherit
+
+  pack-commandhandling-sql-stream-store:
+    name: Pack
+    uses: Informatievlaanderen/build-pipeline/.github/workflows/pack.yml@main
+    needs: [ set-release-version ]
+    if: ${{ (github.repository_owner == 'Informatievlaanderen') && (needs.set-release-version.outputs.version != 'none') }}
+    with:
+      pack-file: Be.Vlaanderen.Basisregisters.CommandHandling.SqlStreamStore
+      build-project: Be.Vlaanderen.Basisregisters.CommandHandling.SqlStreamStore
+      semver: ${{ needs.set-release-version.outputs.version }}
+      dotnet-version: ${{ vars.VBR_DOTNET_VERSION_8 }}
+    secrets: inherit
+
+  pack-snapshot-verifier:
+    name: Pack
+    uses: Informatievlaanderen/build-pipeline/.github/workflows/pack.yml@main
+    needs: [ set-release-version ]
+    if: ${{ (github.repository_owner == 'Informatievlaanderen') && (needs.set-release-version.outputs.version != 'none') }}
+    with:
+      pack-file: Be.Vlaanderen.Basisregisters.SnapshotVerifier
+      test-project: Be.Vlaanderen.Basisregisters.SnapshotVerifier.Tests
+      build-project: Be.Vlaanderen.Basisregisters.SnapshotVerifier
+      semver: ${{ needs.set-release-version.outputs.version }}
+      dotnet-version: ${{ vars.VBR_DOTNET_VERSION_8 }}
+    secrets: inherit
+
+  release:
+    if: ${{ (github.repository_owner == 'Informatievlaanderen') && (needs.set-release-version.outputs.version != 'none') }}
+    name: Semantic Release
+    runs-on: ubuntu-latest
+    needs: [ set-release-version, pack-event-handling, pack-event-handling-autofac ]
+    outputs:
+      version: ${{ steps.set-version.outputs.version }}
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+      with:
+          persist-credentials: false
 
     - name: Cache NPM
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       env:
         cache-name: cache-npm
       with:
@@ -22,37 +273,18 @@ jobs:
         key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
         restore-keys: |
           ${{ runner.os }}-build-${{ env.cache-name }}-
-    - name: Cache Paket
-      uses: actions/cache@v3
-      env:
-        cache-name: cache-paket
-      with:
-        path: packages
-        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('paket.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-build-${{ env.cache-name }}-
-    - name: Cache Python
-      uses: actions/cache@v3
-      env:
-        cache-name: cache-pip
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-build-${{ env.cache-name }}
 
     - name: Parse repository name
       run: echo REPOSITORY_NAME=$(echo "$GITHUB_REPOSITORY" | awk -F / '{print $2}' | sed -e "s/:refs//") >> $GITHUB_ENV
       shell: bash
 
     - name: Setup Node.js
-      uses: actions/setup-node@v3
-
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-node@v4
       with:
-        dotnet-version: ${{ secrets.VBR_DOTNET_VERSION }}
+        node-version: '20.x'
 
-    - name: Set up Python
-      uses: actions/setup-python@v3
+    - name: Setup Python
+      uses: actions/setup-python@v5
       with:
         python-version: '3.x'
 
@@ -70,19 +302,117 @@ jobs:
 
     - name: Install NPM dependencies
       shell: bash
-      run: npm install
+      run: npm ci
 
     - name: Install Python dependencies
       shell: bash
       run: |
         python -m pip install --upgrade pip
         pip install requests markdown argparse
-        
+
+    - name: Download NuGet Aggregate Source
+      uses: actions/download-artifact@v4
+      continue-on-error: false
+      with:
+        name: nuget-Be.Vlaanderen.Basisregisters.AggregateSource-${{ needs.set-release-version.outputs.version }}
+        path: dist/nuget/
+
+    - name: Download NuGet Aggregate Source Explicit Routing
+      uses: actions/download-artifact@v4
+      continue-on-error: false
+      with:
+        name: nuget-Be.Vlaanderen.Basisregisters.AggregateSource.ExplicitRouting-${{ needs.set-release-version.outputs.version }}
+        path: dist/nuget/
+
+    - name: Download NuGet Aggregate Source Sql Stream Store
+      uses: actions/download-artifact@v4
+      continue-on-error: false
+      with:
+        name: nuget-Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore-${{ needs.set-release-version.outputs.version }}
+        path: dist/nuget/
+
+    - name: Download NuGet Aggregate Source Sql Stream Store Autofac
+      uses: actions/download-artifact@v4
+      continue-on-error: false
+      with:
+        name: nuget-Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Autofac-${{ needs.set-release-version.outputs.version }}
+        path: dist/nuget/
+
+    - name: Download NuGet Aggregate Source Testing
+      uses: actions/download-artifact@v4
+      continue-on-error: false
+      with:
+        name: nuget-Be.Vlaanderen.Basisregisters.AggregateSource.Testing-${{ needs.set-release-version.outputs.version }}
+        path: dist/nuget/
+
+    - name: Download NuGet Aggregate Source Testing CommandHandling
+      uses: actions/download-artifact@v4
+      continue-on-error: false
+      with:
+        name: nuget-Be.Vlaanderen.Basisregisters.AggregateSource.Testing.CommandHandling-${{ needs.set-release-version.outputs.version }}
+        path: dist/nuget/
+
+    - name: Download NuGet Aggregate Source Testing NUnit
+      uses: actions/download-artifact@v4
+      continue-on-error: false
+      with:
+        name: nuget-Be.Vlaanderen.Basisregisters.AggregateSource.Testing.NUnit-${{ needs.set-release-version.outputs.version }}
+        path: dist/nuget/
+
+    - name: Download NuGet Aggregate Source Testing SqlStreamStore
+      uses: actions/download-artifact@v4
+      continue-on-error: false
+      with:
+        name: nuget-Be.Vlaanderen.Basisregisters.AggregateSource.Testing.SqlStreamStore-${{ needs.set-release-version.outputs.version }}
+        path: dist/nuget/
+
+    - name: Download NuGet Aggregate Source Testing SqlStreamStore Autofac
+      uses: actions/download-artifact@v4
+      continue-on-error: false
+      with:
+        name: nuget-Be.Vlaanderen.Basisregisters.AggregateSource.Testing.SqlStreamStore.Autofac-${{ needs.set-release-version.outputs.version }}
+        path: dist/nuget/
+
+    - name: Download NuGet Aggregate Source Testing Xunit
+      uses: actions/download-artifact@v4
+      continue-on-error: false
+      with:
+        name: nuget-Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Xunit-${{ needs.set-release-version.outputs.version }}
+        path: dist/nuget/
+
+    - name: Download NuGet CommandHandling
+      uses: actions/download-artifact@v4
+      continue-on-error: false
+      with:
+        name: nuget-Be.Vlaanderen.Basisregisters.CommandHandling-${{ needs.set-release-version.outputs.version }}
+        path: dist/nuget/
+
+    - name: Download NuGet CommandHandling Idempotency
+      uses: actions/download-artifact@v4
+      continue-on-error: false
+      with:
+        name: nuget-Be.Vlaanderen.Basisregisters.CommandHandling.Idempotency-${{ needs.set-release-version.outputs.version }}
+        path: dist/nuget/
+
+    - name: Download NuGet CommandHandling SqlStreamStore
+      uses: actions/download-artifact@v4
+      continue-on-error: false
+      with:
+        name: nuget-Be.Vlaanderen.Basisregisters.CommandHandling.SqlStreamStore-${{ needs.set-release-version.outputs.version }}
+        path: dist/nuget/
+
+    - name: Download NuGet CommandHandling SnapshotVerifier
+      uses: actions/download-artifact@v4
+      continue-on-error: false
+      with:
+        name: nuget-Be.Vlaanderen.Basisregisters.SnapshotVerifier-${{ needs.set-release-version.outputs.version }}
+        path: dist/nuget/
+
     - name: Run Semantic Release
       shell: bash
       run: npx semantic-release
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.VBR_GIT_RELEASE_TOKEN }}
         GIT_COMMIT: ${{ github.sha }}
         GIT_USERNAME: ${{ secrets.VBR_GIT_USER }}
         GIT_AUTHOR_NAME: ${{ secrets.VBR_GIT_USER }}
@@ -92,44 +422,199 @@ jobs:
         GIT_COMMITTER_EMAIL: ${{ secrets.VBR_GIT_EMAIL }}
 
     - name: Set Release Version
+      id: set-version
       run: |
         [ ! -f semver ] && echo none > semver
+        echo $(cat semver)
+        echo ::set-output name=version::$(cat semver)
         echo RELEASE_VERSION=$(cat semver) >> $GITHUB_ENV
       shell: bash
 
-    - name: Publish to NuGet
-      if: env.RELEASE_VERSION != 'none'
+  publish_to_nuget:
+    needs: [ release ]
+    if: ${{ (github.repository_owner == 'Informatievlaanderen') && (needs.release.outputs.version != 'none') }}
+    name: Publish to NuGet
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ vars.VBR_DOTNET_VERSION_8 }}
+
+    - name: .NET version
+      shell: bash
+      run: dotnet --info
+
+    - name: Download NuGet Aggregate Source
+      uses: actions/download-artifact@v4
+      continue-on-error: false
+      with:
+        name: nuget-Be.Vlaanderen.Basisregisters.AggregateSource-${{ needs.set-release-version.outputs.version }}
+        path: ~/
+
+    - name: Download NuGet Aggregate Source Explicit Routing
+      uses: actions/download-artifact@v4
+      continue-on-error: false
+      with:
+        name: nuget-Be.Vlaanderen.Basisregisters.AggregateSource.ExplicitRouting-${{ needs.set-release-version.outputs.version }}
+        path: ~/
+
+    - name: Download NuGet Aggregate Source Sql Stream Store
+      uses: actions/download-artifact@v4
+      continue-on-error: false
+      with:
+        name: nuget-Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore-${{ needs.set-release-version.outputs.version }}
+        path: ~/
+
+    - name: Download NuGet Aggregate Source Sql Stream Store Autofac
+      uses: actions/download-artifact@v4
+      continue-on-error: false
+      with:
+        name: nuget-Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Autofac-${{ needs.set-release-version.outputs.version }}
+        path: ~/
+
+    - name: Download NuGet Aggregate Source Testing
+      uses: actions/download-artifact@v4
+      continue-on-error: false
+      with:
+        name: nuget-Be.Vlaanderen.Basisregisters.AggregateSource.Testing-${{ needs.set-release-version.outputs.version }}
+        path: ~/
+
+    - name: Download NuGet Aggregate Source Testing CommandHandling
+      uses: actions/download-artifact@v4
+      continue-on-error: false
+      with:
+        name: nuget-Be.Vlaanderen.Basisregisters.AggregateSource.Testing.CommandHandling-${{ needs.set-release-version.outputs.version }}
+        path: ~/
+
+    - name: Download NuGet Aggregate Source Testing NUnit
+      uses: actions/download-artifact@v4
+      continue-on-error: false
+      with:
+        name: nuget-Be.Vlaanderen.Basisregisters.AggregateSource.Testing.NUnit-${{ needs.set-release-version.outputs.version }}
+        path: ~/
+
+    - name: Download NuGet Aggregate Source Testing SqlStreamStore
+      uses: actions/download-artifact@v4
+      continue-on-error: false
+      with:
+        name: nuget-Be.Vlaanderen.Basisregisters.AggregateSource.Testing.SqlStreamStore-${{ needs.set-release-version.outputs.version }}
+        path: ~/
+
+    - name: Download NuGet Aggregate Source Testing SqlStreamStore Autofac
+      uses: actions/download-artifact@v4
+      continue-on-error: false
+      with:
+        name: nuget-Be.Vlaanderen.Basisregisters.AggregateSource.Testing.SqlStreamStore.Autofac-${{ needs.set-release-version.outputs.version }}
+        path: ~/
+
+    - name: Download NuGet Aggregate Source Testing Xunit
+      uses: actions/download-artifact@v4
+      continue-on-error: false
+      with:
+        name: nuget-Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Xunit-${{ needs.set-release-version.outputs.version }}
+        path: ~/
+
+    - name: Download NuGet CommandHandling
+      uses: actions/download-artifact@v4
+      continue-on-error: false
+      with:
+        name: nuget-Be.Vlaanderen.Basisregisters.CommandHandling-${{ needs.set-release-version.outputs.version }}
+        path: ~/
+
+    - name: Download NuGet CommandHandling Idempotency
+      uses: actions/download-artifact@v4
+      continue-on-error: false
+      with:
+        name: nuget-Be.Vlaanderen.Basisregisters.CommandHandling.Idempotency-${{ needs.set-release-version.outputs.version }}
+        path: ~/
+
+    - name: Download NuGet CommandHandling SqlStreamStore
+      uses: actions/download-artifact@v4
+      continue-on-error: false
+      with:
+        name: nuget-Be.Vlaanderen.Basisregisters.CommandHandling.SqlStreamStore-${{ needs.set-release-version.outputs.version }}
+        path: ~/
+
+    - name: Download NuGet CommandHandling SnapshotVerifier
+      uses: actions/download-artifact@v4
+      continue-on-error: false
+      with:
+        name: nuget-Be.Vlaanderen.Basisregisters.SnapshotVerifier-${{ needs.set-release-version.outputs.version }}
+        path: ~/
+
+    - name: Publish packages to NuGet
       shell: bash
       run: |
-        node packages/Be.Vlaanderen.Basisregisters.Build.Pipeline/Content/ci-nuget.js dist/$REPONAME/$AGGREGATESOURCE.$SEMVER.nupkg
-        node packages/Be.Vlaanderen.Basisregisters.Build.Pipeline/Content/ci-nuget.js dist/$REPONAME/$AGGREGATESOURCE.ExplicitRouting.$SEMVER.nupkg
-        node packages/Be.Vlaanderen.Basisregisters.Build.Pipeline/Content/ci-nuget.js dist/$REPONAME/$AGGREGATESOURCE.SqlStreamStore.$SEMVER.nupkg
-        node packages/Be.Vlaanderen.Basisregisters.Build.Pipeline/Content/ci-nuget.js dist/$REPONAME/$AGGREGATESOURCE.SqlStreamStore.Autofac.$SEMVER.nupkg
-        node packages/Be.Vlaanderen.Basisregisters.Build.Pipeline/Content/ci-nuget.js dist/$REPONAME/$AGGREGATESOURCE.SqlStreamStore.Microsoft.$SEMVER.nupkg
-        node packages/Be.Vlaanderen.Basisregisters.Build.Pipeline/Content/ci-nuget.js dist/$REPONAME/$AGGREGATESOURCE.Testing.$SEMVER.nupkg
-        node packages/Be.Vlaanderen.Basisregisters.Build.Pipeline/Content/ci-nuget.js dist/$REPONAME/$AGGREGATESOURCE.Testing.SqlStreamStore.$SEMVER.nupkg
-        node packages/Be.Vlaanderen.Basisregisters.Build.Pipeline/Content/ci-nuget.js dist/$REPONAME/$AGGREGATESOURCE.Testing.SqlStreamStore.Autofac.$SEMVER.nupkg
-        node packages/Be.Vlaanderen.Basisregisters.Build.Pipeline/Content/ci-nuget.js dist/$REPONAME/$AGGREGATESOURCE.Testing.SqlStreamStore.Microsoft.$SEMVER.nupkg
-        node packages/Be.Vlaanderen.Basisregisters.Build.Pipeline/Content/ci-nuget.js dist/$REPONAME/$AGGREGATESOURCE.Testing.CommandHandling.$SEMVER.nupkg
-        node packages/Be.Vlaanderen.Basisregisters.Build.Pipeline/Content/ci-nuget.js dist/$REPONAME/$AGGREGATESOURCE.Testing.NUnit.$SEMVER.nupkg
-        node packages/Be.Vlaanderen.Basisregisters.Build.Pipeline/Content/ci-nuget.js dist/$REPONAME/$AGGREGATESOURCE.Testing.Xunit.$SEMVER.nupkg
-        node packages/Be.Vlaanderen.Basisregisters.Build.Pipeline/Content/ci-nuget.js dist/$REPONAME/$COMMANDHANDLING.$SEMVER.nupkg
-        node packages/Be.Vlaanderen.Basisregisters.Build.Pipeline/Content/ci-nuget.js dist/$REPONAME/$COMMANDHANDLING.Idempotency.$SEMVER.nupkg
-        node packages/Be.Vlaanderen.Basisregisters.Build.Pipeline/Content/ci-nuget.js dist/$REPONAME/$COMMANDHANDLING.SqlStreamStore.$SEMVER.nupkg
-        node packages/Be.Vlaanderen.Basisregisters.Build.Pipeline/Content/ci-nuget.js dist/$REPONAME/Be.Vlaanderen.Basisregisters.SnapshotVerifier.$SEMVER.nupkg
+        dotnet nuget push ~/Be.Vlaanderen.Basisregisters.AggregateSource.$SEMVER.nupkg --source nuget.org --api-key $NUGET_API_KEY
+        dotnet nuget push ~/Be.Vlaanderen.Basisregisters.AggregateSource.ExplicitRouting.$SEMVER.nupkg --source nuget.org --api-key $NUGET_API_KEY
+        dotnet nuget push ~/Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.$SEMVER.nupkg --source nuget.org --api-key $NUGET_API_KEY
+        dotnet nuget push ~/Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Autofac.$SEMVER.nupkg --source nuget.org --api-key $NUGET_API_KEY
+        dotnet nuget push ~/Be.Vlaanderen.Basisregisters.AggregateSource.Testing.$SEMVER.nupkg --source nuget.org --api-key $NUGET_API_KEY
+        dotnet nuget push ~/Be.Vlaanderen.Basisregisters.AggregateSource.Testing.CommandHandling.$SEMVER.nupkg --source nuget.org --api-key $NUGET_API_KEY
+        dotnet nuget push ~/Be.Vlaanderen.Basisregisters.AggregateSource.Testing.NUnit.$SEMVER.nupkg --source nuget.org --api-key $NUGET_API_KEY
+        dotnet nuget push ~/Be.Vlaanderen.Basisregisters.AggregateSource.Testing.SqlStreamStore.$SEMVER.nupkg --source nuget.org --api-key $NUGET_API_KEY
+        dotnet nuget push ~/Be.Vlaanderen.Basisregisters.AggregateSource.Testing.SqlStreamStore.Autofac.$SEMVER.nupkg --source nuget.org --api-key $NUGET_API_KEY
+        dotnet nuget push ~/Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Xunit.$SEMVER.nupkg --source nuget.org --api-key $NUGET_API_KEY
+        dotnet nuget push ~/Be.Vlaanderen.Basisregisters.CommandHandling.$SEMVER.nupkg --source nuget.org --api-key $NUGET_API_KEY
+        dotnet nuget push ~/Be.Vlaanderen.Basisregisters.CommandHandling.Idempotency.$SEMVER.nupkg --source nuget.org --api-key $NUGET_API_KEY
+        dotnet nuget push ~/Be.Vlaanderen.Basisregisters.CommandHandling.SqlStreamStore.$SEMVER.nupkg --source nuget.org --api-key $NUGET_API_KEY
+        dotnet nuget push ~/Be.Vlaanderen.Basisregisters.SnapshotVerifier.$SEMVER.nupkg --source nuget.org --api-key $NUGET_API_KEY
       env:
-        REPONAME: Be.Vlaanderen.Basisregisters.CommandHandling
-        COMMANDHANDLING: Be.Vlaanderen.Basisregisters.CommandHandling
-        AGGREGATESOURCE: Be.Vlaanderen.Basisregisters.AggregateSource
-        SEMVER: ${{ env.RELEASE_VERSION }}
-        NUGET_HOST: ${{ secrets.NUGET_HOST }}
+        SEMVER: ${{  needs.release.outputs.version }}
+        WORKSPACE: ${{ github.workspace }}
         NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
 
-    - name: Publish to Confluence
-      if: env.RELEASE_VERSION != 'none'
-      shell: bash
-      run: ./packages/Be.Vlaanderen.Basisregisters.Build.Pipeline/Content/ci-confluence.sh
-      env:
-        CONFLUENCE_TITLE: ${{ env.REPOSITORY_NAME }}
-        CONFLUENCE_USERNAME: ${{ secrets.VBR_CONFLUENCE_USER }}
-        CONFLUENCE_PASSWORD: ${{ secrets.VBR_CONFLUENCE_PASSWORD }}
+  publish_to_atlassian:
+    needs: [ release ]
+    if: ${{ (github.repository_owner == 'Informatievlaanderen') && (needs.release.outputs.version != 'none') }}
+    name: Publish to Atlassian
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Parse repository name
+        run: echo REPOSITORY_NAME=$(echo "$GITHUB_REPOSITORY" | awk -F / '{print $2}' | sed -e "s/:refs//") >> $GITHUB_ENV
+        shell: bash
+
+      - name: Cache Paket
+        uses: actions/cache@v4
+        env:
+          cache-name: cache-paket
+        with:
+          path: packages
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('paket.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+
+      - name: Cache Python
+        uses: actions/cache@v4
+        env:
+          cache-name: cache-pip
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-build-${{ env.cache-name }}
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install Python dependencies
+        shell: bash
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests markdown argparse
+
+      - name: Publish to Confluence
+        shell: bash
+        run: ./packages/Be.Vlaanderen.Basisregisters.Build.Pipeline/Content/ci-confluence.sh
+        env:
+          CONFLUENCE_TITLE: ${{ env.REPOSITORY_NAME }}
+          CONFLUENCE_USERNAME: ${{ secrets.VBR_CONFLUENCE_USER }}
+          CONFLUENCE_PASSWORD: ${{ secrets.VBR_CONFLUENCE_PASSWORD }}

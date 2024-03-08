@@ -1,56 +1,57 @@
-framework: net6.0
+framework: net8.0, netstandard2.1
 strategy: min
 source https://api.nuget.org/v3/index.json
 
 // PRODUCTION STUFF
-nuget Be.Vlaanderen.Basisregisters.DependencyInjection 1.0.3
-
-nuget Dapper 2.0.123
+nuget Dapper 2.1.35
 
 nuget SqlStreamStore 1.2.0
 nuget SqlStreamStore.MsSql 1.2.0
 
-nuget Microsoft.Extensions.Logging 6.0.0
-nuget Microsoft.Extensions.Configuration 6.0.1
-nuget Microsoft.Extensions.Options.ConfigurationExtensions 6.0.0
-nuget Microsoft.Extensions.Hosting 6.0.0
+nuget Microsoft.Extensions.Logging 8.0.0
+nuget Microsoft.Extensions.Configuration 8.0.0
+nuget Microsoft.Extensions.Options.ConfigurationExtensions 8.0.0
+nuget Microsoft.Extensions.Hosting 8.0.0
 
-nuget Microsoft.EntityFrameworkCore 6.0.3
-nuget Microsoft.EntityFrameworkCore.SqlServer 6.0.3
-nuget Microsoft.EntityFrameworkCore.InMemory 6.0.3
-nuget Microsoft.EntityFrameworkCore.Design 6.0.3
+nuget Microsoft.EntityFrameworkCore 8.0.2
+nuget Microsoft.EntityFrameworkCore.SqlServer 8.0.2
+nuget Microsoft.EntityFrameworkCore.InMemory 8.0.2
+nuget Microsoft.EntityFrameworkCore.Design 8.0.2
 
-nuget Microsoft.Data.SqlClient 4.1.0
+nuget Microsoft.Data.SqlClient 5.2.0
 
-nuget Autofac.Extensions.DependencyInjection 7.2.0
+nuget Autofac.Extensions.DependencyInjection 9.0.0
 
-nuget Newtonsoft.Json 13.0.1
+nuget Newtonsoft.Json 13.0.3
 
-nuget NodaTime 3.0.10
+nuget NodaTime 3.1.11
 
-nuget CompareNETObjects 4.81
+nuget CompareNETObjects 4.83.0
+
+nuget System.Collections.Immutable 8.0.0
 
 // VBR STUFF
-nuget Be.Vlaanderen.Basisregisters.Build.Pipeline 6.0.3
+nuget Be.Vlaanderen.Basisregisters.Build.Pipeline 7.0.4
 
-nuget Be.Vlaanderen.Basisregisters.EventHandling 4.2.3
+nuget Be.Vlaanderen.Basisregisters.EventHandling 5.0.0
 
-nuget Be.Vlaanderen.Basisregisters.Utilities.HashCodeCalculator 3.0.0
-nuget Be.Vlaanderen.Basisregisters.Utilities.ToStringBuilder 3.0.0
-nuget Be.Vlaanderen.Basisregisters.Utilities.HexByteConvertor 3.0.0
+nuget Be.Vlaanderen.Basisregisters.Utilities.HashCodeCalculator 4.0.0
+nuget Be.Vlaanderen.Basisregisters.Utilities.ToStringBuilder 4.0.0
+nuget Be.Vlaanderen.Basisregisters.Utilities.HexByteConvertor 4.0.0
 
-nuget Be.Vlaanderen.Basisregisters.Generators.Guid.Deterministic 3.0.1
+nuget Be.Vlaanderen.Basisregisters.Generators.Guid.Deterministic 4.0.0
 
-nuget Be.Vlaanderen.Basisregisters.Converters.Timestamp 3.0.0
+nuget Be.Vlaanderen.Basisregisters.Converters.Timestamp 4.0.0
 
 // TEST STUFF
-nuget Microsoft.NET.Test.Sdk 17.1.0
-nuget NUnit 3.13.3
-nuget NUnit3TestAdapter 4.2.1
-nuget xunit 2.4.1
-nuget xunit.runner.visualstudio 2.4.3
-nuget Moq 4.17.2
-nuget Shouldly 4.0.3
+nuget Microsoft.NET.Test.Sdk 17.9.0
+nuget NUnit 4.1.0
+nuget NUnit3TestAdapter 4.5.0
+nuget xunit 2.7.0
+nuget xunit.runner.visualstudio 2.5.7
+nuget Moq 4.20.70
+nuget Shouldly 4.2.1
+nuget CompareNETObjects 4.83.0
 
 // BUILD STUFF
 nuget SourceLink.Embed.AllSourceFiles 2.8.3 copy_local: true

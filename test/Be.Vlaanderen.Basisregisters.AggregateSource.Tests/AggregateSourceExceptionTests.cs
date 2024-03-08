@@ -1,3 +1,4 @@
+#pragma warning disable SYSLIB0011
 namespace Be.Vlaanderen.Basisregisters.AggregateSource.Tests
 {
     using System;

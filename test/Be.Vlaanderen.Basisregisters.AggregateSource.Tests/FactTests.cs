@@ -2,6 +2,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Tests
 {
     using System;
     using NUnit.Framework;
+    using NUnit.Framework.Legacy;
 
     [TestFixture]
     public class FactTests
@@ -17,25 +18,25 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Tests
         [Test]
         public void IdentifierCanNotBeNull()
         {
-            Assert.Throws<ArgumentNullException>(() => _sutBuilder.WithIdentifier(null).Build());
+            ClassicAssert.Throws<ArgumentNullException>(() => _sutBuilder.WithIdentifier(null).Build());
         }
 
         [Test]
         public void EventCanNotBeNull()
         {
-            Assert.Throws<ArgumentNullException>(() => _sutBuilder.WithEvent(null).Build());
+            ClassicAssert.Throws<ArgumentNullException>(() => _sutBuilder.WithEvent(null).Build());
         }
 
         [Test]
         public void TwoInstancesAreEqualWhenTheirIdentifierAndEventAreEqual()
         {
-            Assert.AreEqual(_sutBuilder.Build(), _sutBuilder.Build());
+            ClassicAssert.AreEqual(_sutBuilder.Build(), _sutBuilder.Build());
         }
 
         [Test]
         public void TwoInstancesAreNotEqualWhenTheirIdentifierDiffers()
         {
-            Assert.AreNotEqual(
+            ClassicAssert.AreNotEqual(
                 _sutBuilder.WithIdentifier("123").Build(),
                 _sutBuilder.WithIdentifier("456").Build());
         }
@@ -43,7 +44,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Tests
         [Test]
         public void TwoInstancesAreNotEqualWhenTheirEventDiffers()
         {
-            Assert.AreNotEqual(
+            ClassicAssert.AreNotEqual(
                 _sutBuilder.WithEvent(new object()).Build(),
                 _sutBuilder.WithEvent(new object()).Build());
         }
@@ -51,13 +52,13 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Tests
         [Test]
         public void TwoInstancesHaveTheSameHashCodeWhenTheirIdentifierAndEventAreEqual()
         {
-            Assert.AreEqual(_sutBuilder.Build().GetHashCode(), _sutBuilder.Build().GetHashCode());
+            ClassicAssert.AreEqual(_sutBuilder.Build().GetHashCode(), _sutBuilder.Build().GetHashCode());
         }
 
         [Test]
         public void TwoInstancesDoNotHaveTheSameHashCodeWhenTheirIdentifierDiffers()
         {
-            Assert.AreNotEqual(
+            ClassicAssert.AreNotEqual(
                 _sutBuilder.WithIdentifier("123").Build().GetHashCode(),
                 _sutBuilder.WithIdentifier("456").Build().GetHashCode());
         }
@@ -65,7 +66,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Tests
         [Test]
         public void TwoInstancesDoNotHaveTheSameHashCodeWhenTheirEventDiffers()
         {
-            Assert.AreNotEqual(
+            ClassicAssert.AreNotEqual(
                 _sutBuilder.WithEvent(new object()).Build().GetHashCode(),
                 _sutBuilder.WithEvent(new object()).Build().GetHashCode());
         }
@@ -73,26 +74,26 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Tests
         [Test]
         public void IsEquatable()
         {
-            Assert.That(_sutBuilder.Build(), Is.InstanceOf<IEquatable<Fact>>());
+            ClassicAssert.That(_sutBuilder.Build(), Is.InstanceOf<IEquatable<Fact>>());
         }
 
         [Test]
         public void DoesObjectEqualItself()
         {
             var instance = _sutBuilder.Build();
-            Assert.IsTrue(instance.Equals((object)instance));
+            ClassicAssert.IsTrue(instance.Equals((object)instance));
         }
 
         [Test]
         public void DoesNotEqualObjectOfOtherType()
         {
-            Assert.IsFalse(_sutBuilder.Build().Equals(new object()));
+            ClassicAssert.IsFalse(_sutBuilder.Build().Equals(new object()));
         }
 
         [Test]
         public void DoesNotEqualNullAsObject()
         {
-            Assert.IsFalse(_sutBuilder.Build().Equals(null));
+            ClassicAssert.IsFalse(_sutBuilder.Build().Equals(null));
         }
 
         [Test]
@@ -101,8 +102,8 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Tests
             var @event = new object();
             var sut = _sutBuilder.WithIdentifier("123").WithEvent(@event).Build();
 
-            Assert.That(sut.Identifier, Is.EqualTo("123"));
-            Assert.That(sut.Event, Is.SameAs(@event));
+            ClassicAssert.That(sut.Identifier, Is.EqualTo("123"));
+            ClassicAssert.That(sut.Event, Is.SameAs(@event));
         }
 
         [Test]
@@ -113,8 +114,8 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Tests
 
             Tuple<string, object> result = sut;
 
-            Assert.That(result.Item1, Is.EqualTo("123"));
-            Assert.That(result.Item2, Is.SameAs(@event));
+            ClassicAssert.That(result.Item1, Is.EqualTo("123"));
+            ClassicAssert.That(result.Item2, Is.SameAs(@event));
         }
     }
 }

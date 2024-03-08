@@ -15,7 +15,7 @@ licenseUrl https://opensource.org/licenses/MIT
 description Lightweight infrastructure for doing command handling and eventsourcing using aggregates.
 
 dependencies
-  framework: net6.0
+  framework: netstandard2.1
     Be.Vlaanderen.Basisregisters.Utilities.HashCodeCalculator >= LOCKEDVERSION
     Be.Vlaanderen.Basisregisters.Utilities.HexByteConvertor >= LOCKEDVERSION
     Be.Vlaanderen.Basisregisters.Utilities.ToStringBuilder >= LOCKEDVERSION
@@ -24,5 +24,5 @@ dependencies
     NodaTime >= LOCKEDVERSION
 
 files
-  bin\Release\net6.0\Be.Vlaanderen.Basisregisters.AggregateSource.dll => lib\net6.0
-  bin\Release\net6.0\Be.Vlaanderen.Basisregisters.AggregateSource.pdb => lib\net6.0
+  Be.Vlaanderen.Basisregisters.AggregateSource.dll => lib\netstandard2.1
+  Be.Vlaanderen.Basisregisters.AggregateSource.pdb => lib\netstandard2.1

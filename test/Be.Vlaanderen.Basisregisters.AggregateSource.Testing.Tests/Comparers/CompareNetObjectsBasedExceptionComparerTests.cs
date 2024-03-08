@@ -4,6 +4,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests.Comparers
     using System.Collections.Generic;
     using KellermanSoftware.CompareNetObjects;
     using NUnit.Framework;
+    using NUnit.Framework.Legacy;
     using Testing.Comparers;
 
     [TestFixture]
@@ -13,7 +14,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests.Comparers
         public void IsExceptionComparer()
         {
             var sut = new CompareNetObjectsBasedExceptionComparer(new CompareLogic());
-            Assert.IsInstanceOf<IExceptionComparer>(sut);
+            ClassicAssert.IsInstanceOf<IExceptionComparer>(sut);
         }
 
         [Test]

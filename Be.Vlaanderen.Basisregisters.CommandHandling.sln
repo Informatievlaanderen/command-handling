@@ -45,16 +45,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
-		build.fsx = build.fsx
 		global.json = global.json
 		package.json = package.json
 		paket.dependencies = paket.dependencies
 		README.md = README.md
 	EndProjectSection
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Microsoft", "src\Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Microsoft\Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Microsoft.csproj", "{69C1D4F4-7827-4F43-ADC6-EE3DF83FABCA}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Be.Vlaanderen.Basisregisters.AggregateSource.Testing.SqlStreamStore.Microsoft", "src\Be.Vlaanderen.Basisregisters.AggregateSource.Testing.SqlStreamStore.Microsoft\Be.Vlaanderen.Basisregisters.AggregateSource.Testing.SqlStreamStore.Microsoft.csproj", "{70A43B1F-AB1E-4D15-8053-A5037879642C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Be.Vlaanderen.Basisregisters.SnapshotVerifier", "src\Be.Vlaanderen.Basisregisters.SnapshotVerifier\Be.Vlaanderen.Basisregisters.SnapshotVerifier.csproj", "{CE43104C-1432-4C61-AA5B-010088E7036B}"
 EndProject
@@ -134,14 +129,6 @@ Global
 		{B0ED3658-E519-42CF-A057-665E0FDA0EA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B0ED3658-E519-42CF-A057-665E0FDA0EA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B0ED3658-E519-42CF-A057-665E0FDA0EA9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{69C1D4F4-7827-4F43-ADC6-EE3DF83FABCA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{69C1D4F4-7827-4F43-ADC6-EE3DF83FABCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{69C1D4F4-7827-4F43-ADC6-EE3DF83FABCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{69C1D4F4-7827-4F43-ADC6-EE3DF83FABCA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{70A43B1F-AB1E-4D15-8053-A5037879642C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{70A43B1F-AB1E-4D15-8053-A5037879642C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{70A43B1F-AB1E-4D15-8053-A5037879642C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{70A43B1F-AB1E-4D15-8053-A5037879642C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CE43104C-1432-4C61-AA5B-010088E7036B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CE43104C-1432-4C61-AA5B-010088E7036B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE43104C-1432-4C61-AA5B-010088E7036B}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -172,8 +159,6 @@ Global
 		{0D9C1A67-C555-4D45-B56E-EF1A4FE3508B} = {C2F8FF63-7A48-4179-A720-86206C42F496}
 		{912FCB01-7F65-4C76-8563-6BA0192EA4AD} = {C2F8FF63-7A48-4179-A720-86206C42F496}
 		{B0ED3658-E519-42CF-A057-665E0FDA0EA9} = {6DD3C208-58D1-46CE-AEAF-16F3F90D26C5}
-		{69C1D4F4-7827-4F43-ADC6-EE3DF83FABCA} = {C2F8FF63-7A48-4179-A720-86206C42F496}
-		{70A43B1F-AB1E-4D15-8053-A5037879642C} = {C2F8FF63-7A48-4179-A720-86206C42F496}
 		{CE43104C-1432-4C61-AA5B-010088E7036B} = {C2F8FF63-7A48-4179-A720-86206C42F496}
 		{60FB75B6-2EDC-481A-82B5-9773E7261EF2} = {6DD3C208-58D1-46CE-AEAF-16F3F90D26C5}
 	EndGlobalSection

@@ -72,6 +72,21 @@
 
     }
 
-    public record AggregateWithVersion<TAggregateRoot>(TAggregateRoot Aggregate, long StreamVersion)
-        where TAggregateRoot : class, IAggregateRootEntity, ISnapshotable;
+    public class AggregateWithVersion<TAggregateRoot> where TAggregateRoot : class, IAggregateRootEntity, ISnapshotable
+    {
+        public AggregateWithVersion(TAggregateRoot Aggregate, long StreamVersion)
+        {
+            this.Aggregate = Aggregate;
+            this.StreamVersion = StreamVersion;
+        }
+
+        public TAggregateRoot Aggregate { get; }
+        public long StreamVersion { get; }
+
+        public void Deconstruct(out TAggregateRoot Aggregate, out long StreamVersion)
+        {
+            Aggregate = this.Aggregate;
+            StreamVersion = this.StreamVersion;
+        }
+    }
 }

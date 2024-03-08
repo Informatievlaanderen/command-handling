@@ -3,6 +3,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Tests.ExplicitRouting.Agg
     using System;
     using System.Collections.Generic;
     using NUnit.Framework;
+    using NUnit.Framework.Legacy;
 
     [TestFixture]
     public class WithAnyInstance
@@ -10,7 +11,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Tests.ExplicitRouting.Agg
         [Test]
         public void IsAggregateRootEntity()
         {
-            Assert.IsInstanceOf<IAggregateRootEntity>(new AnyAggregateRootEntity());
+            ClassicAssert.IsInstanceOf<IAggregateRootEntity>(new AnyAggregateRootEntity());
         }
 
         [Test]

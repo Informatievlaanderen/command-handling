@@ -6,6 +6,8 @@
 
     namespace CommandScenarioForTests
     {
+        using NUnit.Framework.Legacy;
+
         [TestFixture]
         public class SutTests
         {
@@ -44,7 +46,7 @@
             [Test]
             public void IsAggregateCommandInitialStateBuilder()
             {
-                Assert.IsInstanceOf<IAggregateCommandInitialStateBuilder<AggregateRootEntityStub>>(_sut);
+                ClassicAssert.IsInstanceOf<IAggregateCommandInitialStateBuilder<AggregateRootEntityStub>>(_sut);
             }
 
             [Test]
@@ -255,7 +257,7 @@
                 Action<TAggregateRoot> command = _ => { called = true; };
 
                 var specification = When(command).ThenNone().Build();
-                
+
                 specification.When(specification.SutFactory());
 
                 Assert.That(called, Is.True);

@@ -54,5 +54,21 @@
         }
     }
 
-    public record SnapshotIdentifier(int SnapshotId, string StreamId);
+    public class SnapshotIdentifier
+    {
+        public SnapshotIdentifier(int SnapshotId, string StreamId)
+        {
+            this.SnapshotId = SnapshotId;
+            this.StreamId = StreamId;
+        }
+
+        public int SnapshotId { get; }
+        public string StreamId { get; }
+
+        public void Deconstruct(out int SnapshotId, out string StreamId)
+        {
+            SnapshotId = this.SnapshotId;
+            StreamId = this.StreamId;
+        }
+    }
 }

@@ -15,12 +15,12 @@ licenseUrl https://opensource.org/licenses/MIT
 description Lightweight infrastructure for doing command handling and eventsourcing using aggregates.
 
 dependencies
-  framework: net6.0
+  framework: netstandard2.1
     Be.Vlaanderen.Basisregisters.AggregateSource.Testing CURRENTVERSION
 
     nunit >= LOCKEDVERSION
     Microsoft.Extensions.Logging >= LOCKEDVERSION
 
 files
-  bin\Release\net6.0\Be.Vlaanderen.Basisregisters.AggregateSource.Testing.NUnit.dll => lib\net6.0
-  bin\Release\net6.0\Be.Vlaanderen.Basisregisters.AggregateSource.Testing.NUnit.pdb => lib\net6.0
+  Be.Vlaanderen.Basisregisters.AggregateSource.Testing.NUnit.dll => lib\netstandard2.1
+  Be.Vlaanderen.Basisregisters.AggregateSource.Testing.NUnit.pdb => lib\netstandard2.1

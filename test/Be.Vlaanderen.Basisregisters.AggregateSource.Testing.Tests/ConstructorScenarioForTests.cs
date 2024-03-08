@@ -6,6 +6,8 @@
 
     namespace ConstructorScenarioForTests
     {
+        using NUnit.Framework.Legacy;
+
         [TestFixture]
         public class ConstructorTests
         {
@@ -26,7 +28,7 @@
             [Test]
             public void IsAggregateWhenStateBuilder()
             {
-                Assert.IsInstanceOf<IAggregateConstructorWhenStateBuilder>(_sut);
+                ClassicAssert.IsInstanceOf<IAggregateConstructorWhenStateBuilder>(_sut);
             }
 
             [Test]

@@ -1,6 +1,8 @@
 Newtonsoft.Json
 NodaTime
 
+System.Collections.Immutable
+
 Be.Vlaanderen.Basisregisters.Utilities.HashCodeCalculator
 Be.Vlaanderen.Basisregisters.Utilities.ToStringBuilder
 Be.Vlaanderen.Basisregisters.Utilities.HexByteConvertor

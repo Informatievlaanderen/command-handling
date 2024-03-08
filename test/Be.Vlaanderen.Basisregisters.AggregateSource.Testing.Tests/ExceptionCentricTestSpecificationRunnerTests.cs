@@ -12,6 +12,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests
     using Moq;
     using Newtonsoft.Json;
     using NUnit.Framework;
+    using NUnit.Framework.Legacy;
     using SqlStreamStore;
     using Testing.Comparers;
 
@@ -77,28 +78,28 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests
         [Test]
         public void ExceptionComparerCannotBeNull()
         {
-            Assert.Throws<ArgumentNullException>(() => new ExceptionCentricTestSpecificationRunner(null, _factRepository,
+            ClassicAssert.Throws<ArgumentNullException>(() => new ExceptionCentricTestSpecificationRunner(null, _factRepository,
                 _factRepository, _handlerResolver.Object));
         }
 
         [Test]
         public void FactWriterCannotBeNull()
         {
-            Assert.Throws<ArgumentNullException>(() => new ExceptionCentricTestSpecificationRunner(CreateExceptionComparer(), null,
+            ClassicAssert.Throws<ArgumentNullException>(() => new ExceptionCentricTestSpecificationRunner(CreateExceptionComparer(), null,
                 _factRepository, _handlerResolver.Object));
         }
 
         [Test]
         public void FactReaderCannotBeNull()
         {
-            Assert.Throws<ArgumentNullException>(() => new ExceptionCentricTestSpecificationRunner(CreateExceptionComparer(), _factRepository,
+            ClassicAssert.Throws<ArgumentNullException>(() => new ExceptionCentricTestSpecificationRunner(CreateExceptionComparer(), _factRepository,
                 null, _handlerResolver.Object));
         }
 
         [Test]
         public void HandlerResolverCannotBeNull()
         {
-            Assert.Throws<ArgumentNullException>(() => new ExceptionCentricTestSpecificationRunner(CreateExceptionComparer(), _factRepository,
+            ClassicAssert.Throws<ArgumentNullException>(() => new ExceptionCentricTestSpecificationRunner(CreateExceptionComparer(), _factRepository,
                 _factRepository, null));
         }
 
@@ -110,9 +111,9 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests
 
             var result = Run(new ExceptionCentricTestSpecification(new Fact[0], new DoSomething(){Identifier = "1"}, expectedException));
 
-            Assert.IsTrue(result.Failed);
-            Assert.IsFalse(result.ButException.HasValue);
-            Assert.IsFalse(result.ButEvents.HasValue);
+            ClassicAssert.IsTrue(result.Failed);
+            ClassicAssert.IsFalse(result.ButException.HasValue);
+            ClassicAssert.IsFalse(result.ButEvents.HasValue);
         }
 
         [Test]
@@ -124,10 +125,10 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests
 
             var result = Run(new ExceptionCentricTestSpecification(new Fact[0], new DoSomething(){Identifier = identifier}, expectedException));
 
-            Assert.IsTrue(result.Failed);
-            Assert.IsFalse(result.ButException.HasValue);
-            Assert.IsTrue(result.ButEvents.HasValue);
-            Assert.That(result.ButEvents.Value, Is.EqualTo(new[] { new Fact(identifier, new SomethingHappened()) }).Using(new FactComparer()));
+            ClassicAssert.IsTrue(result.Failed);
+            ClassicAssert.IsFalse(result.ButException.HasValue);
+            ClassicAssert.IsTrue(result.ButEvents.HasValue);
+            ClassicAssert.That(result.ButEvents.Value, Is.EqualTo(new[] { new Fact(identifier, new SomethingHappened()) }).Using(new FactComparer()));
         }
 
         [Test]
@@ -139,9 +140,9 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests
 
             var result = Run(new ExceptionCentricTestSpecification(new Fact[0], new DoSomething(), expectedException));
 
-            Assert.IsTrue(result.Failed);
-            Assert.IsTrue(result.ButException.HasValue);
-            Assert.AreEqual(actualException, result.ButException.Value);
+            ClassicAssert.IsTrue(result.Failed);
+            ClassicAssert.IsTrue(result.ButException.HasValue);
+            ClassicAssert.AreEqual(actualException, result.ButException.Value);
         }
 
         [Test]
@@ -153,8 +154,8 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Tests
 
             var result = Run(new ExceptionCentricTestSpecification(new Fact[0], new DoSomething(), expectedException));
 
-            Assert.IsTrue(result.Passed);
-            Assert.IsTrue(result.ButException.HasValue);
+            ClassicAssert.IsTrue(result.Passed);
+            ClassicAssert.IsTrue(result.ButException.HasValue);
         }
     }
 }

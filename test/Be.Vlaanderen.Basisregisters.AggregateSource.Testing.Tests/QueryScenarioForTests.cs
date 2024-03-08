@@ -6,6 +6,8 @@
 
     namespace QueryScenarioForTests
     {
+        using NUnit.Framework.Legacy;
+
         [TestFixture]
         public class SutTests
         {
@@ -44,7 +46,7 @@
             [Test]
             public void IsAggregateQueryInitialStateBuilder()
             {
-                Assert.IsInstanceOf<IAggregateQueryInitialStateBuilder<AggregateRootEntityStub>>(_sut);
+                ClassicAssert.IsInstanceOf<IAggregateQueryInitialStateBuilder<AggregateRootEntityStub>>(_sut);
             }
 
             [Test]
@@ -184,7 +186,7 @@
         }
 
         [TestFixture]
-        public class QueryScenarioForWhenTests : WhenFixture<AggregateRootEntityStub, Int32> 
+        public class QueryScenarioForWhenTests : WhenFixture<AggregateRootEntityStub, Int32>
         {
             protected override IAggregateQueryWhenStateBuilder<int> When(Func<AggregateRootEntityStub, int> query)
             {
@@ -252,7 +254,7 @@
             public void IsSetInResultingSpecification()
             {
                 var called = false;
-                Func<TAggregateRoot, TResult> query = _ => { 
+                Func<TAggregateRoot, TResult> query = _ => {
                     called = true;
                     return default(TResult);
                 };
@@ -308,7 +310,7 @@
             public void IsSetInResultingSpecification()
             {
                 var result = Then(default(TResult)).Build().Then;
-                
+
                 Assert.That(result, Is.EqualTo(default(TResult)));
             }
         }

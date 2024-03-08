@@ -445,98 +445,98 @@ jobs:
       uses: actions/download-artifact@v4
       continue-on-error: false
       with:
-        name: nuget-Be.Vlaanderen.Basisregisters.AggregateSource-${{ needs.set-release-version.outputs.version }}
+        name: nuget-Be.Vlaanderen.Basisregisters.AggregateSource-${{ needs.release.outputs.version }}
         path: ~/
 
     - name: Download NuGet Aggregate Source Explicit Routing
       uses: actions/download-artifact@v4
       continue-on-error: false
       with:
-        name: nuget-Be.Vlaanderen.Basisregisters.AggregateSource.ExplicitRouting-${{ needs.set-release-version.outputs.version }}
+        name: nuget-Be.Vlaanderen.Basisregisters.AggregateSource.ExplicitRouting-${{ needs.release.outputs.version }}
         path: ~/
 
     - name: Download NuGet Aggregate Source Sql Stream Store
       uses: actions/download-artifact@v4
       continue-on-error: false
       with:
-        name: nuget-Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore-${{ needs.set-release-version.outputs.version }}
+        name: nuget-Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore-${{ needs.release.outputs.version }}
         path: ~/
 
     - name: Download NuGet Aggregate Source Sql Stream Store Autofac
       uses: actions/download-artifact@v4
       continue-on-error: false
       with:
-        name: nuget-Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Autofac-${{ needs.set-release-version.outputs.version }}
+        name: nuget-Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Autofac-${{ needs.release.outputs.version }}
         path: ~/
 
     - name: Download NuGet Aggregate Source Testing
       uses: actions/download-artifact@v4
       continue-on-error: false
       with:
-        name: nuget-Be.Vlaanderen.Basisregisters.AggregateSource.Testing-${{ needs.set-release-version.outputs.version }}
+        name: nuget-Be.Vlaanderen.Basisregisters.AggregateSource.Testing-${{ needs.release.outputs.version }}
         path: ~/
 
     - name: Download NuGet Aggregate Source Testing CommandHandling
       uses: actions/download-artifact@v4
       continue-on-error: false
       with:
-        name: nuget-Be.Vlaanderen.Basisregisters.AggregateSource.Testing.CommandHandling-${{ needs.set-release-version.outputs.version }}
+        name: nuget-Be.Vlaanderen.Basisregisters.AggregateSource.Testing.CommandHandling-${{ needs.release.outputs.version }}
         path: ~/
 
     - name: Download NuGet Aggregate Source Testing NUnit
       uses: actions/download-artifact@v4
       continue-on-error: false
       with:
-        name: nuget-Be.Vlaanderen.Basisregisters.AggregateSource.Testing.NUnit-${{ needs.set-release-version.outputs.version }}
+        name: nuget-Be.Vlaanderen.Basisregisters.AggregateSource.Testing.NUnit-${{ needs.release.outputs.version }}
         path: ~/
 
     - name: Download NuGet Aggregate Source Testing SqlStreamStore
       uses: actions/download-artifact@v4
       continue-on-error: false
       with:
-        name: nuget-Be.Vlaanderen.Basisregisters.AggregateSource.Testing.SqlStreamStore-${{ needs.set-release-version.outputs.version }}
+        name: nuget-Be.Vlaanderen.Basisregisters.AggregateSource.Testing.SqlStreamStore-${{ needs.release.outputs.version }}
         path: ~/
 
     - name: Download NuGet Aggregate Source Testing SqlStreamStore Autofac
       uses: actions/download-artifact@v4
       continue-on-error: false
       with:
-        name: nuget-Be.Vlaanderen.Basisregisters.AggregateSource.Testing.SqlStreamStore.Autofac-${{ needs.set-release-version.outputs.version }}
+        name: nuget-Be.Vlaanderen.Basisregisters.AggregateSource.Testing.SqlStreamStore.Autofac-${{ needs.release.outputs.version }}
         path: ~/
 
     - name: Download NuGet Aggregate Source Testing Xunit
       uses: actions/download-artifact@v4
       continue-on-error: false
       with:
-        name: nuget-Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Xunit-${{ needs.set-release-version.outputs.version }}
+        name: nuget-Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Xunit-${{ needs.release.outputs.version }}
         path: ~/
 
     - name: Download NuGet CommandHandling
       uses: actions/download-artifact@v4
       continue-on-error: false
       with:
-        name: nuget-Be.Vlaanderen.Basisregisters.CommandHandling-${{ needs.set-release-version.outputs.version }}
+        name: nuget-Be.Vlaanderen.Basisregisters.CommandHandling-${{ needs.release.outputs.version }}
         path: ~/
 
     - name: Download NuGet CommandHandling Idempotency
       uses: actions/download-artifact@v4
       continue-on-error: false
       with:
-        name: nuget-Be.Vlaanderen.Basisregisters.CommandHandling.Idempotency-${{ needs.set-release-version.outputs.version }}
+        name: nuget-Be.Vlaanderen.Basisregisters.CommandHandling.Idempotency-${{ needs.release.outputs.version }}
         path: ~/
 
     - name: Download NuGet CommandHandling SqlStreamStore
       uses: actions/download-artifact@v4
       continue-on-error: false
       with:
-        name: nuget-Be.Vlaanderen.Basisregisters.CommandHandling.SqlStreamStore-${{ needs.set-release-version.outputs.version }}
+        name: nuget-Be.Vlaanderen.Basisregisters.CommandHandling.SqlStreamStore-${{ needs.release.outputs.version }}
         path: ~/
 
     - name: Download NuGet CommandHandling SnapshotVerifier
       uses: actions/download-artifact@v4
       continue-on-error: false
       with:
-        name: nuget-Be.Vlaanderen.Basisregisters.SnapshotVerifier-${{ needs.set-release-version.outputs.version }}
+        name: nuget-Be.Vlaanderen.Basisregisters.SnapshotVerifier-${{ needs.release.outputs.version }}
         path: ~/
 
     - name: Publish packages to NuGet

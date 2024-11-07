@@ -1,3 +1,10 @@
+# [9.1.0](https://github.com/informatievlaanderen/command-handling/compare/v9.0.1...v9.1.0) (2024-11-07)
+
+
+### Features
+
+* add AnySnapshotStrategy and AllSnapshotStrategy ([7e470c5](https://github.com/informatievlaanderen/command-handling/commit/7e470c52b942555b111cc6935b4a9e230c19cd54))
+
 ## [9.0.1](https://github.com/informatievlaanderen/command-handling/compare/v9.0.0...v9.0.1) (2024-03-08)
 
 

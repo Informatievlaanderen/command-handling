@@ -1,3 +1,10 @@
+## [9.1.1](https://github.com/informatievlaanderen/command-handling/compare/v9.1.0...v9.1.1) (2024-11-27)
+
+
+### Bug Fixes
+
+* AfterEventTypeStrategy now correctly checks type ([900cd60](https://github.com/informatievlaanderen/command-handling/commit/900cd606b632aa1bd06735abeadd9cb09f4d0cfe))
+
 # [9.1.0](https://github.com/informatievlaanderen/command-handling/compare/v9.0.1...v9.1.0) (2024-11-07)
 
 

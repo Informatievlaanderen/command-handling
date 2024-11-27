@@ -12,6 +12,6 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Snapshotting
             _eventTypes = eventTypes;
         }
 
-        public bool ShouldCreateSnapshot(SnapshotStrategyContext context) => _eventTypes.Contains(context.Events.Last().GetType());
+        public bool ShouldCreateSnapshot(SnapshotStrategyContext context) => _eventTypes.Contains(context.Events.Last().Event.GetType());
     }
 }

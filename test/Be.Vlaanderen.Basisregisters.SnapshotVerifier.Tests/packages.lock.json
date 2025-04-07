@@ -614,7 +614,7 @@
         "dependencies": {
           "Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore": "[1.0.0, )",
           "CompareNETObjects": "[4.83.0, )",
-          "Dapper": "[2.1.35, )",
+          "Dapper": "[2.1.66, )",
           "Microsoft.Extensions.Hosting": "[9.0.3, )"
         }
       },
@@ -659,9 +659,9 @@
       },
       "Dapper": {
         "type": "CentralTransitive",
-        "requested": "[2.1.35, )",
-        "resolved": "2.1.35",
-        "contentHash": "YKRwjVfrG7GYOovlGyQoMvr1/IJdn+7QzNXJxyMh0YfFF5yvDmTYaJOVYWsckreNjGsGSEtrMTpnzxTUq/tZQw=="
+        "requested": "[2.1.66, )",
+        "resolved": "2.1.66",
+        "contentHash": "/q77jUgDOS+bzkmk3Vy9SiWMaetTw+NOoPAV0xPBsGVAyljd5S6P+4RUW7R3ZUGGr9lDRyPKgAMj2UAOwvqZYw=="
       },
       "Microsoft.CSharp": {
         "type": "CentralTransitive",

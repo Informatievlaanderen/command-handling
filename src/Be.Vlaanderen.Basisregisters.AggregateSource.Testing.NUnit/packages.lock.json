@@ -15,9 +15,9 @@
       },
       "NUnit": {
         "type": "Direct",
-        "requested": "[4.1.0, )",
-        "resolved": "4.1.0",
-        "contentHash": "MT/DpAhjtiytzhTgTqIhBuWx4y26PKfDepYUHUM+5uv4TsryHC2jwFo5e6NhWkApCm/G6kZ80dRjdJFuAxq3rg=="
+        "requested": "[4.3.2, )",
+        "resolved": "4.3.2",
+        "contentHash": "puVXayXNmEu7MFQSUswGmUjOy3M3baprMbkLl5PAutpeDoGTr+jPv33qAYsqxywi2wJCq8l/O3EhHoLulPE1iQ=="
       },
       "SourceLink.Copy.PdbFiles": {
         "type": "Direct",
@@ -106,7 +106,7 @@
           "Be.Vlaanderen.Basisregisters.Utilities.ToStringBuilder": "[4.0.8, )",
           "Newtonsoft.Json": "[13.0.3, )",
           "NodaTime": "[3.2.2, )",
-          "System.Collections.Immutable": "[9.0.0, )"
+          "System.Collections.Immutable": "[9.0.3, )"
         }
       },
       "be.vlaanderen.basisregisters.aggregatesource.testing": {
@@ -166,9 +166,9 @@
       },
       "System.Collections.Immutable": {
         "type": "CentralTransitive",
-        "requested": "[9.0.0, )",
-        "resolved": "9.0.0",
-        "contentHash": "QhkXUl2gNrQtvPmtBTQHb0YsUrDiDQ2QS09YbtTTiSjGcf7NBqtYbrG/BE06zcBPCKEwQGzIv13IVdXNOSub2w=="
+        "requested": "[9.0.3, )",
+        "resolved": "9.0.3",
+        "contentHash": "CfYi30Pbpw9aGpXVLcoGt+yM0egrE8M1DUOOwdAWOAQ2QZkXkSgjonqZYvtKdxUF1XJaLCp0OdTXueeAeUHSlQ=="
       }
     },
     "net9.0/linux-arm64": {

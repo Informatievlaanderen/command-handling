@@ -12,7 +12,7 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling.Idempotency
             string migrationsSchema,
             string migrationsTableName,
             IdempotencyTableInfo tableInfo,
-            ILoggerFactory loggerFactory = null)
+            ILoggerFactory? loggerFactory = null)
         {
             var migratorOptions = new DbContextOptionsBuilder<IdempotencyContext>()
                 .UseSqlServer(

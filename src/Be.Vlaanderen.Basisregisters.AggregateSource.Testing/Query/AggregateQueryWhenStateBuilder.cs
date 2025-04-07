@@ -3,6 +3,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Query
     using System;
 
     internal class AggregateQueryWhenStateBuilder<TResult> : IAggregateQueryWhenStateBuilder<TResult>
+        where TResult : notnull
     {
         private readonly Func<IAggregateRootEntity> _sutFactory;
         private readonly object[] _givens;

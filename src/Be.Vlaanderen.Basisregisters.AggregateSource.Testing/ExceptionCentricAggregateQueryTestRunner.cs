@@ -36,13 +36,13 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
             var sut = specification.SutFactory();
             sut.Initialize(specification.Givens);
 
-            object queryResult = null;
+            object? queryResult = null;
             var result = Catch.Exception(() => queryResult = specification.When(sut));
 
             if (!result.HasValue)
                 return sut.HasChanges()
                     ? specification.Fail(sut.GetChanges().ToArray())
-                    : specification.Fail(queryResult);
+                    : specification.Fail(queryResult!);
 
             var actualException = result.Value;
 

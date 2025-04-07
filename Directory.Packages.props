@@ -1,0 +1,47 @@
+<Project>
+    <PropertyGroup>
+        <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+        <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+        <CentralPackageVersionOverrideEnabled>false</CentralPackageVersionOverrideEnabled>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageVersion Include="Dapper" Version="2.1.35" />
+        <PackageVersion Include="Microsoft.CSharp" Version="4.7.0" />
+        <PackageVersion Include="Microsoft.Data.SqlClient" Version="6.0.1" />
+        <PackageVersion Include="SqlStreamStore" Version="1.2.0" />
+        <PackageVersion Include="SqlStreamStore.MsSql" Version="1.2.0" />
+
+        <PackageVersion Include="Microsoft.Extensions.Logging" Version="9.0.3" />
+        <PackageVersion Include="Microsoft.Extensions.Configuration" Version="9.0.3" />
+        <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="9.0.3" />
+        <PackageVersion Include="Microsoft.Extensions.Hosting" Version="9.0.3" />
+        <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="9.0.3" />
+        <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.3" />
+        <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.3" />
+        <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.3" />
+
+        <PackageVersion Include="Autofac.Extensions.DependencyInjection" Version="10.0.0" />
+        <PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
+        <PackageVersion Include="NodaTime" Version="3.2.0" />
+        <PackageVersion Include="CompareNETObjects" Version="4.83.0" />
+        <PackageVersion Include="System.Collections.Immutable" Version="9.0.0" />
+
+        <PackageVersion Include="Be.Vlaanderen.Basisregisters.EventHandling" Version="6.0.0" />
+        <PackageVersion Include="Be.Vlaanderen.Basisregisters.Utilities.HashCodeCalculator" Version="5.0.0" />
+        <PackageVersion Include="Be.Vlaanderen.Basisregisters.Utilities.ToStringBuilder" Version="4.0.8" />
+        <PackageVersion Include="Be.Vlaanderen.Basisregisters.Utilities.HexByteConvertor" Version="5.0.0" />
+        <PackageVersion Include="Be.Vlaanderen.Basisregisters.Converters.Timestamp" Version="4.0.1" />
+        <PackageVersion Include="Be.Vlaanderen.Basisregisters.Generators.Guid.Deterministic" Version="5.0.0" />
+
+        <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
+        <PackageVersion Include="NUnit" Version="4.1.0" />
+        <PackageVersion Include="NUnit3TestAdapter" Version="4.5.0" />
+        <PackageVersion Include="xunit" Version="2.9.3" />
+        <PackageVersion Include="xunit.runner.visualstudio" Version="3.0.2" />
+        <PackageVersion Include="Moq" Version="4.20.72" />
+        <PackageVersion Include="Shouldly" Version="4.3.0" />
+
+        <PackageVersion Include="SourceLink.Embed.AllSourceFiles" Version="2.8.3" />
+        <PackageVersion Include="SourceLink.Copy.PdbFiles" Version="2.8.3" />
+    </ItemGroup>
+</Project>

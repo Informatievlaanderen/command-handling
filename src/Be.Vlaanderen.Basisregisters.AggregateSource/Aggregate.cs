@@ -15,7 +15,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource
         /// <param name="root">The aggregate root entity.</param>
         /// <exception cref="System.ArgumentNullException">Thrown when the <paramref name="identifier"/> is null.</exception>
         /// <exception cref="System.ArgumentNullException">Thrown when the <paramref name="root"/> is null.</exception>
-        public Aggregate(string identifier, int expectedVersion, IAggregateRootEntity root)
+        public Aggregate(string? identifier, int expectedVersion, IAggregateRootEntity? root)
         {
             Identifier = identifier ?? throw new ArgumentNullException(nameof(identifier));
             ExpectedVersion = expectedVersion;

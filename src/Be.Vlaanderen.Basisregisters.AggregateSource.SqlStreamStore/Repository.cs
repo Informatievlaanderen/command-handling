@@ -32,13 +32,13 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore
             : base(factory, unitOfWork, eventStore, eventMapping, eventDeserializer, snapshotStore) { }
 
         public Task<TAggregateRoot> GetAsync(TAggregateRootIdentifier identifier, CancellationToken cancellationToken = default)
-            => base.GetAsync(identifier, cancellationToken);
+            => base.GetAsync(identifier!, cancellationToken);
 
         public Task<Optional<TAggregateRoot>> GetOptionalAsync(TAggregateRootIdentifier identifier, CancellationToken cancellationToken = default)
-            => base.GetOptionalAsync(identifier, cancellationToken);
+            => base.GetOptionalAsync(identifier!, cancellationToken);
 
         public void Add(TAggregateRootIdentifier identifier, TAggregateRoot root)
-            => base.Add(identifier, root);
+            => base.Add(identifier!, root);
     }
 
     public class Repository<TAggregateRoot> : IAsyncRepository<TAggregateRoot>

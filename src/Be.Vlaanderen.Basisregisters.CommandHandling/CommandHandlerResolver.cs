@@ -25,7 +25,7 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling
 
         public IEnumerable<Type> KnownCommandTypes => _knownCommandTypes;
 
-        public ReturnHandler<CommandMessage<TCommand>> Resolve<TCommand>() where TCommand : class
+        public ReturnHandler<CommandMessage<TCommand>>? Resolve<TCommand>() where TCommand : class
         {
             if(_handlers.TryGetValue(typeof(ReturnHandler<CommandMessage<TCommand>>), out var handler))
                 return (ReturnHandler<CommandMessage<TCommand>>) handler;

@@ -19,7 +19,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore
         private readonly EventDeserializer _eventDeserializer;
         private readonly Scripts _scripts;
 
-        protected DateTime GetUtcNow() => DateTime.UtcNow;
+        private DateTime GetUtcNow() => DateTime.UtcNow;
 
         public MsSqlSnapshotStore(
             MsSqlSnapshotStoreSettings settings,

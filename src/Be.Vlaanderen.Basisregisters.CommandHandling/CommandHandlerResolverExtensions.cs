@@ -17,7 +17,7 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling
             this ICommandHandlerResolver handlerResolver,
             Guid commandId,
             object command,
-            IDictionary<string, object> metadata = null,
+            IDictionary<string, object>? metadata = null,
             CancellationToken cancellationToken = default)
         {
             if (command == null)

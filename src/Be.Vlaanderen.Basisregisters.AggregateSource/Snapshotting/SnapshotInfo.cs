@@ -4,6 +4,6 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Snapshotting
     {
         public long StreamVersion { get; set; }
 
-        public string Type { get; set; }
+        public string Type { get; set; } = string.Empty;
     }
 }

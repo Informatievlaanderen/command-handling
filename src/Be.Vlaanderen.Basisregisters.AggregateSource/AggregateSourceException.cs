@@ -18,7 +18,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource
         /// Initializes a new instance of the <see cref="T:Be.Vlaanderen.Basisregisters.AggregateSource.AggregateSourceException" /> class.
         /// </summary>
         /// <param name="message">The message that describes the error.</param>
-        public AggregateSourceException(string message)
+        public AggregateSourceException(string? message)
             : base(message) {}
 
         /// <summary>

@@ -34,13 +34,13 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
             var sut = specification.SutFactory();
             sut.Initialize(specification.Givens);
 
-            IAggregateRootEntity factoryResult = null;
+            IAggregateRootEntity? factoryResult = null;
             var result = Catch.Exception(() => factoryResult = specification.When(sut));
 
             if (result.HasValue)
                 return specification.Fail(result.Value);
 
-            var actualEvents = factoryResult.GetChanges().ToArray();
+            var actualEvents = factoryResult!.GetChanges().ToArray();
             return actualEvents.SequenceEqual(specification.Thens, new WrappedEventComparerEqualityComparer(_comparer))
                 ? specification.Pass()
                 : specification.Fail(actualEvents);

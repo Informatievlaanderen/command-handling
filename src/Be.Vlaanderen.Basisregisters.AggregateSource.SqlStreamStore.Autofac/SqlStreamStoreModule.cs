@@ -8,9 +8,9 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Autofac
 
     public class SqlStreamStoreModule : Module
     {
-        private readonly string _eventsConnectionString;
-        private readonly string _schema;
-        private readonly Action<MsSqlStreamStoreSettings> _settingsFunc;
+        private readonly string? _eventsConnectionString;
+        private readonly string? _schema;
+        private readonly Action<MsSqlStreamStoreSettings>? _settingsFunc;
 
         /// <summary>
         /// Register an in-memory SqlStreamStore
@@ -34,7 +34,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Autofac
         public SqlStreamStoreModule(
             string eventsConnectionString,
             string schema,
-            Action<MsSqlStreamStoreSettings> settingsFunc)
+            Action<MsSqlStreamStoreSettings>? settingsFunc)
         {
             _eventsConnectionString = eventsConnectionString;
             _schema = schema;

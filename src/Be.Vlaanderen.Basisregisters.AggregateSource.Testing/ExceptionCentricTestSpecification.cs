@@ -28,7 +28,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
         /// <param name="givens">The specification givens.</param>
         /// <param name="when">The specification when.</param>
         /// <param name="throws">The specification exception thrown.</param>
-        public ExceptionCentricTestSpecification(Fact[] givens, object when, Exception throws)
+        public ExceptionCentricTestSpecification(Fact[] givens, object? when, Exception? throws)
         {
             Givens = givens ?? throw new ArgumentNullException(nameof(givens));
             When = when ?? throw new ArgumentNullException(nameof(when));
@@ -102,7 +102,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
         /// <returns>
         ///   <c>true</c> if the specified <see cref="System.Object" /> is equal to this instance; otherwise, <c>false</c>.
         /// </returns>
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (obj is null)
                 return false;
@@ -120,7 +120,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
         /// Returns a hash code for this instance.
         /// </summary>
         /// <returns>
-        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.
         /// </returns>
         public override int GetHashCode() => Givens.GetHashCode() ^ When.GetHashCode() ^ Throws.GetHashCode();
     }

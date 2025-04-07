@@ -9,6 +9,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Query
         public AggregateQueryGivenNoneStateBuilder(Func<IAggregateRootEntity> sutFactory) => _sutFactory = sutFactory;
 
         public IAggregateQueryWhenStateBuilder<TResult> When<TResult>(Func<TAggregateRoot, TResult> query)
+        where TResult : notnull
         {
             if (query == null)
                 throw new ArgumentNullException(nameof(query));

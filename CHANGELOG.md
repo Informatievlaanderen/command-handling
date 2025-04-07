@@ -1,3 +1,15 @@
+# [10.0.0](https://github.com/informatievlaanderen/command-handling/compare/v9.1.1...v10.0.0) (2025-04-07)
+
+
+### Code Refactoring
+
+* use renovate and nuget + update pipeline ([464def3](https://github.com/informatievlaanderen/command-handling/commit/464def36034bf087000003fe04c3ce0bd249367d))
+
+
+### BREAKING CHANGES
+
+* update to dotnet 9
+
 ## [9.1.1](https://github.com/informatievlaanderen/command-handling/compare/v9.1.0...v9.1.1) (2024-11-27)
 
 

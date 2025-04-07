@@ -3,7 +3,6 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.SqlStreamStore
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Reflection;
     using System.Threading.Tasks;
     using EventHandling;
     using global::SqlStreamStore;
@@ -46,7 +45,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.SqlStreamStore
         {
             var factsByAggregate = facts.GroupBy(x => x.Identifier);
 
-            AppendResult result = null;
+            AppendResult? result = null;
             foreach (var aggregateWithEvents in factsByAggregate)
                 result = await _streamStore.AppendToStream(
                     aggregateWithEvents.Key,

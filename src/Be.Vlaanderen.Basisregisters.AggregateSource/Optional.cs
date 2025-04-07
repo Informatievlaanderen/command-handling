@@ -78,7 +78,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource
         /// <returns>
         ///   <c>true</c> if the specified <see cref="System.Object" /> is equal to this instance; otherwise, <c>false</c>.
         /// </returns>
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (obj is null)
                 return false;
@@ -101,8 +101,8 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource
             if (!typeof(IEnumerable).IsAssignableFrom(typeof(T)))
                 return EqualityComparer<T>.Default.Equals(_value, other._value);
 
-            var enumerable1 = (IEnumerable) _value;
-            var enumerable2 = (IEnumerable) other._value;
+            var enumerable1 = (IEnumerable?) _value;
+            var enumerable2 = (IEnumerable?) other._value;
             if (enumerable1 == null && enumerable2 == null) return true;
             if (enumerable1 == null || enumerable2 == null) return false;
             var enumerator1 = enumerable1.GetEnumerator();
@@ -144,7 +144,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource
         {
             if (typeof(IEnumerable).IsAssignableFrom(typeof(T)))
             {
-                var enumerable = (IEnumerable)_value;
+                var enumerable = (IEnumerable?)_value;
                 if (enumerable != null)
                 {
                     var enumerator = enumerable.GetEnumerator();

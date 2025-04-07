@@ -40,17 +40,17 @@
 
             var contentHash = SHA512
                 .Create()
-                .ComputeHash(Encoding.UTF8.GetBytes(command.ToString()))
+                .ComputeHash(Encoding.UTF8.GetBytes(command.ToString()!))
                 .ToHexString();
 
             // It is possible we have a GUID collision, check the SHA-512 hash as well to see if it is really the same one.
             // Do nothing if commandId with contenthash exists
-            if (possibleProcessedCommand.Any() && possibleProcessedCommand.ContainsKey(contentHash))
+            if (possibleProcessedCommand.Any() && possibleProcessedCommand.ContainsKey(contentHash!))
             {
                 throw new IdempotencyException("Already processed");
             }
 
-            var processedCommand = new ProcessedCommand(commandId.Value, contentHash);
+            var processedCommand = new ProcessedCommand(commandId.Value, contentHash!);
             try
             {
                 // Store commandId in Command Store if it does not exist

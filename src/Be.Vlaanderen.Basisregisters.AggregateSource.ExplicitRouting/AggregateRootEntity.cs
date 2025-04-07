@@ -124,7 +124,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource
                 .ToArray();
 
 
-        public virtual object CreateSnapshot() => null;
+        public virtual object? CreateSnapshot() => null;
 
         /// <summary>
         /// Clears the state changes.

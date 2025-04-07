@@ -9,9 +9,9 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Autofac
 
     public class SqlSnapshotStoreModule : Module
     {
-        private readonly string _snapshotConnectionString;
-        private readonly string _schema;
-        private readonly Action<MsSqlSnapshotStoreSettings> _settingsFunc;
+        private readonly string? _snapshotConnectionString;
+        private readonly string? _schema;
+        private readonly Action<MsSqlSnapshotStoreSettings>? _settingsFunc;
 
         /// <summary>
         /// Register an in-memory SqlStreamStore
@@ -35,7 +35,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Autofac
         public SqlSnapshotStoreModule(
             string snapshotConnectionString,
             string schema,
-            Action<MsSqlSnapshotStoreSettings> settingsFunc)
+            Action<MsSqlSnapshotStoreSettings>? settingsFunc)
         {
             _snapshotConnectionString = snapshotConnectionString;
             _schema = schema;

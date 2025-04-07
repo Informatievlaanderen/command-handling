@@ -27,7 +27,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing.SqlStreamStore.Au
 
         protected AutofacBasedTest(
             ITestOutputHelper testOutputHelper,
-            Action<ContainerBuilder> registerFunc = null)
+            Action<ContainerBuilder>? registerFunc = null)
         {
             _container = new Lazy<IContainer>(() =>
             {

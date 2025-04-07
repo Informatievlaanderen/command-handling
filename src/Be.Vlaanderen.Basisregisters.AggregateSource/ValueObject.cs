@@ -85,7 +85,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource
     {
         protected StringValueObject(string @string) : base(@string) { }
 
-        public override string ToString() => Value?.ToString(CultureInfo.InvariantCulture);
+        public override string ToString() => Value.ToString(CultureInfo.InvariantCulture);
 
         int IComparable.CompareTo(object obj) => string.CompareOrdinal(Value, ((StringValueObject<T>)obj).Value);
     }
@@ -121,7 +121,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource
     {
         protected ByteArrayValueObject(byte[] bytes) : base(bytes) { }
 
-        public override string ToString() => Value.ToHexString();
+        public override string? ToString() => Value.ToHexString();
 
         protected override IEnumerable<object> Reflect() => Value.Cast<object>();
     }
@@ -134,7 +134,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource
         [JsonConstructor]
         protected ClassDataTypeValueObject(TDataType value) => Value = value;
 
-        public static implicit operator TDataType(ClassDataTypeValueObject<T, TDataType> valueObject) => valueObject?.Value;
+        public static implicit operator TDataType(ClassDataTypeValueObject<T, TDataType> valueObject) => valueObject.Value;
 
         protected override IEnumerable<object> Reflect()
         {
@@ -165,12 +165,12 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource
     {
         protected abstract IEnumerable<object> Reflect();
 
-        public static implicit operator string(ValueObject<T> valueObject)
+        public static implicit operator string?(ValueObject<T> valueObject)
         {
             return valueObject.ToString();
         }
 
-        public static bool operator ==(ValueObject<T> obj1, ValueObject<T> obj2)
+        public static bool operator ==(ValueObject<T>? obj1, ValueObject<T>? obj2)
         {
             if (ReferenceEquals(obj1, obj2))
                 return true;
@@ -186,7 +186,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource
 
         public static bool operator !=(ValueObject<T> obj1, ValueObject<T> obj2) => !(obj1 == obj2);
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (obj is null)
                 return false;
@@ -200,7 +200,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource
             return Equals(obj as T);
         }
 
-        public bool Equals(T other)
+        public bool Equals(T? other)
         {
             if (other is null)
                 return false;
@@ -213,6 +213,6 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource
 
         public override int GetHashCode() => HashCodeCalculator.GetHashCode(Reflect());
 
-        public override string ToString() => ToStringBuilder.ToString(Reflect());
+        public override string? ToString() => ToStringBuilder.ToString(Reflect());
     }
 }

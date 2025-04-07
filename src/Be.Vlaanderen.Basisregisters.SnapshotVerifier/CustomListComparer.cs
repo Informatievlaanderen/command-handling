@@ -88,10 +88,10 @@
             }
         }
 
-        private bool ListsHaveDifferentCounts(CompareParms parms)
+        private bool ListsHaveDifferentCounts(CompareParms @params)
         {
-            IList ilist1 = parms.Object1 as IList;
-            IList ilist2 = parms.Object2 as IList;
+            IList? ilist1 = @params.Object1 as IList;
+            IList? ilist2 = @params.Object2 as IList;
 
             if (ilist1 == null)
                 throw new ArgumentException("parms.Object1");
@@ -106,9 +106,9 @@
                 {
                     Difference difference = new Difference
                     {
-                        ParentObject1 = parms.ParentObject1,
-                        ParentObject2 = parms.ParentObject2,
-                        PropertyName = parms.BreadCrumb,
+                        ParentObject1 = @params.ParentObject1,
+                        ParentObject2 = @params.ParentObject2,
+                        PropertyName = @params.BreadCrumb,
                         Object1Value = ilist1.Count.ToString(CultureInfo.InvariantCulture),
                         Object2Value = ilist2.Count.ToString(CultureInfo.InvariantCulture),
                         ChildPropertyName = "Count",
@@ -116,14 +116,14 @@
                         Object2 = ilist2
                     };
 
-                    AddDifference(parms.Result, difference);
+                    AddDifference(@params.Result, difference);
 
                     return true;
                 }
             }
             catch (ObjectDisposedException)
             {
-                if (!parms.Config.IgnoreObjectDisposedException)
+                if (!@params.Config.IgnoreObjectDisposedException)
                     throw;
 
                 return true;

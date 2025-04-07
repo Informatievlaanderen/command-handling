@@ -19,6 +19,6 @@
         /// </summary>
         /// <param name="query">The query method invocation on the sut.</param>
         /// <returns>A builder continuation.</returns>
-        IAggregateQueryWhenStateBuilder<TResult> When<TResult>(Func<TAggregateRoot, TResult> query);
+        IAggregateQueryWhenStateBuilder<TResult> When<TResult>(Func<TAggregateRoot, TResult> query) where TResult : notnull;
     }
 }

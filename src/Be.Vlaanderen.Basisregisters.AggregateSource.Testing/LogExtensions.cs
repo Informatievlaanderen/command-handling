@@ -25,11 +25,11 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
         public static string ToLogStringLimited<T>(this IEnumerable<T> objects, Formatting formatting = Formatting.Indented, int max = 5)
         {
             var objectsList = objects.ToList();
-            return objectsList.Count < max ? JsonConvert.SerializeObject(objectsList.Select(o => o.ToAnonymousWithTypeInfo()), formatting, LogJsonSerializerSettings) : "...";
+            return objectsList.Count < max ? JsonConvert.SerializeObject(objectsList.Select(o => o?.ToAnonymousWithTypeInfo()), formatting, LogJsonSerializerSettings) : "...";
         }
 
         public static string ToLogString<T>(this T @object, Formatting formatting = Formatting.Indented)
-            => JsonConvert.SerializeObject(@object.ToAnonymousWithTypeInfo(), formatting, LogJsonSerializerSettings);
+            => JsonConvert.SerializeObject(@object?.ToAnonymousWithTypeInfo(), formatting, LogJsonSerializerSettings);
 
         public static string ToLogString(this Exception exception, Formatting formatting = Formatting.Indented, bool includeStackTrace = false)
         {

@@ -31,12 +31,12 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
             if (specification == null)
                 throw new ArgumentNullException(nameof(specification));
 
-            IAggregateRootEntity sut = null;
+            IAggregateRootEntity? sut = null;
 
             var result = Catch.Exception(() => sut = specification.SutFactory());
 
             if (!result.HasValue)
-                return sut.HasChanges()
+                return sut!.HasChanges()
                     ? specification.Fail(sut.GetChanges().ToArray())
                     : specification.Fail();
 

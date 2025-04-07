@@ -34,14 +34,14 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
             var sut = specification.SutFactory();
             sut.Initialize(specification.Givens);
 
-            object queryResult = null;
+            object? queryResult = null;
             var result = Catch.Exception(() => queryResult = specification.When(sut));
 
             if (result.HasValue)
                 return specification.Fail(result.Value);
 
-            if (_comparer.Compare(queryResult, specification.Then).Any())
-                return specification.Fail(queryResult);
+            if (_comparer.Compare(queryResult!, specification.Then).Any())
+                return specification.Fail(queryResult!);
 
             return sut.HasChanges()
                 ? specification.Fail(sut.GetChanges().ToArray())

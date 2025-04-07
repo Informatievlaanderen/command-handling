@@ -19,7 +19,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource
         /// <param name="identifier">The aggregate identifier.</param>
         /// <param name="clrType">ClrType of the aggregate root entity.</param>
         /// <exception cref="T:System.ArgumentNullException">Thrown when the <paramref name="clrType" /> is null.</exception>
-        public AggregateNotFoundException(string identifier, Type clrType)
+        public AggregateNotFoundException(string? identifier, Type? clrType)
             : base(
                 clrType != null && identifier != null
                     ? string.Format(CultureInfo.InvariantCulture, Resources.AggregateNotFoundException_DefaultMessage, clrType.Name, identifier)
@@ -83,7 +83,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource
         {
             base.GetObjectData(info, context);
             info.AddValue("identifier", Identifier);
-            info.AddValue("clrType", ClrType.AssemblyQualifiedName);
+            info.AddValue("clrType", ClrType?.AssemblyQualifiedName);
         }
 
         /// <summary>
@@ -100,6 +100,6 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource
         /// <value>
         /// The ClrType of the aggregate root entity, or <c>null</c> if type not found.
         /// </value>
-        public Type ClrType { get; }
+        public Type? ClrType { get; }
     }
 }

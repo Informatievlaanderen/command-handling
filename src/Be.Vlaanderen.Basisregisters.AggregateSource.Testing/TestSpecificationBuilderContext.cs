@@ -8,8 +8,8 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
     {
         private readonly Fact[] _givens;
         private readonly Fact[] _thens;
-        private readonly object _when;
-        private readonly Exception _throws;
+        private readonly object? _when;
+        private readonly Exception? _throws;
 
         public TestSpecificationBuilderContext()
         {
@@ -21,9 +21,9 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
 
         private TestSpecificationBuilderContext(
             Fact[] givens,
-            object when,
+            object? when,
             Fact[] thens,
-            Exception throws)
+            Exception? throws)
         {
             _givens = givens;
             _when = when;

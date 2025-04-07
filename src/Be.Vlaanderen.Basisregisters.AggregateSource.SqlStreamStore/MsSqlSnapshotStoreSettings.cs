@@ -9,8 +9,8 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore
         private int _commandTimeout = 30;
 
         public string ConnectionString { get; }
-        
-        public string Schema
+
+        public string? Schema
         {
             get => _schema;
             set => _schema = value ?? throw new ArgumentNullException(value);

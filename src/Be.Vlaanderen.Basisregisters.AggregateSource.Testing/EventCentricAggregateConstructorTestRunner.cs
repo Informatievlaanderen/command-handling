@@ -31,15 +31,15 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
             if (specification == null)
                 throw new ArgumentNullException("specification");
 
-            IAggregateRootEntity sut = null;
+            IAggregateRootEntity? sut = null;
             var result = Catch.Exception(() => sut = specification.SutFactory());
 
             if (result.HasValue)
                 return specification.Fail(result.Value);
 
-            var actualEvents = sut.GetChanges().ToArray();
+            var actualEvents = sut!.GetChanges().ToArray();
 
-            return actualEvents.SequenceEqual(specification.Thens, new WrappedEventComparerEqualityComparer(_comparer))
+            return actualEvents!.SequenceEqual(specification.Thens, new WrappedEventComparerEqualityComparer(_comparer))
                 ? specification.Pass()
                 : specification.Fail(actualEvents);
         }

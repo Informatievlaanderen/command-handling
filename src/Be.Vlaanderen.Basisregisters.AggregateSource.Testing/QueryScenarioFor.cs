@@ -59,6 +59,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.Testing
         /// <returns>A builder continuation.</returns>
         /// <exception cref="System.ArgumentNullException">Thrown when the <paramref name="query"/> is <c>null</c>.</exception>
         public IAggregateQueryWhenStateBuilder<TResult> When<TResult>(Func<TAggregateRoot, TResult> query)
+        where TResult : notnull
         {
             if (query == null)
                 throw new ArgumentNullException(nameof(query));

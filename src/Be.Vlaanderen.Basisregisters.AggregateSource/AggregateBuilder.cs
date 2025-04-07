@@ -32,7 +32,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource
         /// <value>
         /// The aggregate identifier.
         /// </value>
-        public string Identifier { get; private set; }
+        public string? Identifier { get; private set; }
 
         /// <summary>
         /// Gets the aggregate version.
@@ -45,7 +45,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource
         /// <value>
         /// The aggregate root entity.
         /// </value>
-        public IAggregateRootEntity Root { get; private set; }
+        public IAggregateRootEntity? Root { get; private set; }
 
         /// <summary>
         /// Captures the identity of the aggregate.

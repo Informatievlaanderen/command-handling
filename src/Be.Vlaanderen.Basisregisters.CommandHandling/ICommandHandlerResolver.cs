@@ -5,7 +5,7 @@ namespace Be.Vlaanderen.Basisregisters.CommandHandling
 
     public interface ICommandHandlerResolver
     {
-        ReturnHandler<CommandMessage<TCommand>> Resolve<TCommand>() where TCommand : class;
+        ReturnHandler<CommandMessage<TCommand>>? Resolve<TCommand>() where TCommand : class;
 
         IEnumerable<Type> KnownCommandTypes { get; }
     }

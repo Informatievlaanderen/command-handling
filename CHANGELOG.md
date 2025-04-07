@@ -1,3 +1,10 @@
+## [10.0.2](https://github.com/informatievlaanderen/command-handling/compare/v10.0.1...v10.0.2) (2025-04-07)
+
+
+### Bug Fixes
+
+* **deps:** update dependencies ([fd6401a](https://github.com/informatievlaanderen/command-handling/commit/fd6401a5b823a89e94289a4a4d883b15e8127384))
+
 ## [10.0.1](https://github.com/informatievlaanderen/command-handling/compare/v10.0.0...v10.0.1) (2025-04-07)
 
 

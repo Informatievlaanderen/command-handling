@@ -1,3 +1,10 @@
+## [10.0.1](https://github.com/informatievlaanderen/command-handling/compare/v10.0.0...v10.0.1) (2025-04-07)
+
+
+### Bug Fixes
+
+* **deps:** update dependency nodatime to 3.2.2 ([#293](https://github.com/informatievlaanderen/command-handling/issues/293)) ([905212e](https://github.com/informatievlaanderen/command-handling/commit/905212ec7704bd6c82631f42fcbedb53bc9f3461))
+
 # [10.0.0](https://github.com/informatievlaanderen/command-handling/compare/v9.1.1...v10.0.0) (2025-04-07)
 
 

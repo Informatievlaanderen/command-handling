@@ -166,7 +166,7 @@
           "Be.Vlaanderen.Basisregisters.Utilities.HexByteConvertor": "[5.0.0, )",
           "Be.Vlaanderen.Basisregisters.Utilities.ToStringBuilder": "[4.0.8, )",
           "Newtonsoft.Json": "[13.0.3, )",
-          "NodaTime": "[3.2.0, )",
+          "NodaTime": "[3.2.2, )",
           "System.Collections.Immutable": "[9.0.0, )"
         }
       },
@@ -220,9 +220,9 @@
       },
       "NodaTime": {
         "type": "CentralTransitive",
-        "requested": "[3.2.0, )",
-        "resolved": "3.2.0",
-        "contentHash": "yoRA3jEJn8NM0/rQm78zuDNPA3DonNSZdsorMUj+dltc1D+/Lc5h9YXGqbEEZozMGr37lAoYkcSM/KjTVqD0ow==",
+        "requested": "[3.2.2, )",
+        "resolved": "3.2.2",
+        "contentHash": "dmju5W0UYC3QP/UJM0juKAZkH0HSDMp0gH91A0+mT9M0kgyM2Jm67hUZPl/WRQLq8Lijjqmdk8kyAViWFWM7dA==",
         "dependencies": {
           "System.Runtime.CompilerServices.Unsafe": "6.0.0"
         }

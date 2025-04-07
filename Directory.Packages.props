@@ -26,7 +26,7 @@
         <PackageVersion Include="CompareNETObjects" Version="4.83.0" />
         <PackageVersion Include="System.Collections.Immutable" Version="9.0.0" />
 
-        <PackageVersion Include="Be.Vlaanderen.Basisregisters.EventHandling" Version="6.0.0" />
+        <PackageVersion Include="Be.Vlaanderen.Basisregisters.EventHandling" Version="7.0.0" />
         <PackageVersion Include="Be.Vlaanderen.Basisregisters.Utilities.HashCodeCalculator" Version="5.0.0" />
         <PackageVersion Include="Be.Vlaanderen.Basisregisters.Utilities.ToStringBuilder" Version="4.0.8" />
         <PackageVersion Include="Be.Vlaanderen.Basisregisters.Utilities.HexByteConvertor" Version="5.0.0" />

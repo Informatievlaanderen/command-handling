@@ -4,13 +4,13 @@
     ".NETStandard,Version=v2.1": {
       "Be.Vlaanderen.Basisregisters.EventHandling": {
         "type": "Direct",
-        "requested": "[6.0.0, )",
-        "resolved": "6.0.0",
-        "contentHash": "LprkLy+WZ/mcS+6ZYWa0GdG1Dn2ck9ZCQ7oZdBDkN793LwHcWLiWE86+HITJz4bcNcIQSYam6NeyfyzxphAxGA==",
+        "requested": "[7.0.0, )",
+        "resolved": "7.0.0",
+        "contentHash": "+KRMy1JBvzh8FF2tPZevMbLAZWkKUHQMyxAR1pBz2DbGiZ91rEjmlRbXnDbIlamZZI4DCcxtgbDMntuhIWCMOg==",
         "dependencies": {
-          "Be.Vlaanderen.Basisregisters.Converters.TrimString": "4.0.0",
+          "Be.Vlaanderen.Basisregisters.Converters.TrimString": "5.0.0",
           "Newtonsoft.Json": "13.0.3",
-          "NodaTime.Serialization.JsonNet": "3.1.0"
+          "NodaTime.Serialization.JsonNet": "3.2.0"
         }
       },
       "Be.Vlaanderen.Basisregisters.Generators.Guid.Deterministic": {
@@ -42,16 +42,16 @@
       },
       "Be.Vlaanderen.Basisregisters.Converters.TrimString": {
         "type": "Transitive",
-        "resolved": "4.0.0",
-        "contentHash": "7zZAWpJLeZXRwUCGBvgebfzw0QMaLPkMY+7XrMaA2LbSo/AnVsp/GYEksx/QkxPmpKcudBbgg3847yU712Jddg==",
+        "resolved": "5.0.0",
+        "contentHash": "LVMiWd/VIVKgbcmtiQgYBi/yGMxSEybDrruUTOVEa4hQc0eMMd55a/KyMmaqsT0afMQwgqwO6ld25RagB7sQoA==",
         "dependencies": {
           "Newtonsoft.Json": "13.0.3"
         }
       },
       "NodaTime.Serialization.JsonNet": {
         "type": "Transitive",
-        "resolved": "3.1.0",
-        "contentHash": "eEr9lXUz50TYr4rpeJG4TDAABkpxjIKr5mDSi/Zav8d6Njy6fH7x4ZtNwWFj0Vd+vIvEZNrHFQ4Gfy8j4BqRGg==",
+        "resolved": "3.2.0",
+        "contentHash": "zf4dQoRBaFxJ5Hf1SqVVHCPcMViKMZK/P0YnJUuhB8g58IxNGOkSxsPPX9jFp3fMjGrEER/ehyO+y86ubD4OKw==",
         "dependencies": {
           "Newtonsoft.Json": "13.0.3",
           "NodaTime": "[3.0.0, 4.0.0)"

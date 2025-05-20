@@ -33,7 +33,7 @@
         <PackageVersion Include="Be.Vlaanderen.Basisregisters.Converters.Timestamp" Version="4.0.1" />
         <PackageVersion Include="Be.Vlaanderen.Basisregisters.Generators.Guid.Deterministic" Version="5.0.0" />
 
-        <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
+        <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.14.0" />
         <PackageVersion Include="NUnit" Version="4.3.2" />
         <PackageVersion Include="NUnit3TestAdapter" Version="5.0.0" />
         <PackageVersion Include="xunit" Version="2.9.3" />

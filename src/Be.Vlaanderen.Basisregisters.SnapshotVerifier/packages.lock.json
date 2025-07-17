@@ -4,9 +4,9 @@
     ".NETStandard,Version=v2.1": {
       "CompareNETObjects": {
         "type": "Direct",
-        "requested": "[4.83.0, )",
-        "resolved": "4.83.0",
-        "contentHash": "KNpF1bgvuifzKB5BId3ZHXaBdI/rgJNpq0ZvM2wtdc1Oe8rh4rUUQUnBgHOJQ353eVGNxoXwvlOPuZqg/5cjdg==",
+        "requested": "[4.84.0, )",
+        "resolved": "4.84.0",
+        "contentHash": "OkAQ9RYkiQkgDc+eLDYMNE+rJB99rQAbnUqZTVLlzxt5YkPuLFQHgV+Nk2iRlffPxaq5DDoM577EC8lyR6OOnQ==",
         "dependencies": {
           "Microsoft.CSharp": "4.7.0"
         }

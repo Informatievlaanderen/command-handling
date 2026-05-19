@@ -33,9 +33,9 @@
       },
       "NUnit": {
         "type": "Direct",
-        "requested": "[4.3.2, )",
-        "resolved": "4.3.2",
-        "contentHash": "puVXayXNmEu7MFQSUswGmUjOy3M3baprMbkLl5PAutpeDoGTr+jPv33qAYsqxywi2wJCq8l/O3EhHoLulPE1iQ=="
+        "requested": "[4.6.1, )",
+        "resolved": "4.6.1",
+        "contentHash": "xS4+YaBFUv1r8bcAbjitSfYaRZGfMwUiMdiaRziBXZpKgVxKDSHhjUn0mV5mObHGZRZq6eNa+WFWr3g8grj66A=="
       },
       "NUnit3TestAdapter": {
         "type": "Direct",
@@ -253,7 +253,7 @@
           "Be.Vlaanderen.Basisregisters.AggregateSource": "[1.0.0, )",
           "Be.Vlaanderen.Basisregisters.AggregateSource.Testing": "[1.0.0, )",
           "Microsoft.Extensions.Logging": "[9.0.3, )",
-          "NUnit": "[4.3.2, )"
+          "NUnit": "[4.6.1, )"
         }
       },
       "be.vlaanderen.basisregisters.aggregatesource.testing.sqlstreamstore": {

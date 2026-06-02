@@ -45,7 +45,7 @@
                 sutFactory,
                 thens);
 
-            Assert.That(sut.SutFactory, Is.SameAs(sutFactory));
+            Assert.That(ReferenceEquals(sut.SutFactory, sutFactory), Is.True);
             Assert.That(sut.Thens, Is.EquivalentTo(thens));
         }
 

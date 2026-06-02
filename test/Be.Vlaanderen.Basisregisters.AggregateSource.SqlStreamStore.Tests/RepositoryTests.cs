@@ -69,7 +69,7 @@ namespace Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Tests
         public void UsingCtorReturnsInstanceWithExpectedProperties()
         {
             var sut = new Repository<AggregateRootEntityStub>(_factory, _unitOfWork, _store, _eventMapping, _eventDeserializer);
-            Assert.That(sut.RootFactory, Is.SameAs(_factory));
+            Assert.That(ReferenceEquals(sut.RootFactory, _factory), Is.True);
             Assert.That(sut.UnitOfWork, Is.SameAs(_unitOfWork));
             Assert.That(sut.EventStore, Is.SameAs(_store));
             Assert.That(sut.EventMapping, Is.SameAs(_eventMapping));

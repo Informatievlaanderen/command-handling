@@ -45,7 +45,7 @@
                 sutConstructor,
                 throws);
 
-            Assert.That(sut.SutFactory, Is.SameAs(sutConstructor));
+            Assert.That(ReferenceEquals(sut.SutFactory, sutConstructor), Is.True);
             Assert.That(sut.Throws, Is.SameAs(throws));
         }
 

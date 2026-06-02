@@ -1,3 +1,15 @@
+# [11.0.0](https://github.com/informatievlaanderen/command-handling/compare/v10.0.2...v11.0.0) (2026-06-02)
+
+
+### Features
+
+* update packages + upgrade to dotnet 10 ([c20ca0c](https://github.com/informatievlaanderen/command-handling/commit/c20ca0cb80466dc6cb0fd77555dee15ee19d4a90))
+
+
+### BREAKING CHANGES
+
+* update to dotnet 10
+
 ## [10.0.2](https://github.com/informatievlaanderen/command-handling/compare/v10.0.1...v10.0.2) (2025-04-07)
 
 

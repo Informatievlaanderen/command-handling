@@ -66,6 +66,7 @@
         public async Task ThenAggregateBySnapshotDoesNotEqualAggregateByEvents()
         {
             await _snapshotVerifier.StartAsync(CancellationToken.None);
+            await _snapshotVerifier.ExecuteTask!;
 
             _snapshotVerificationRepository
                 .Verify(x => x.AddVerificationState(

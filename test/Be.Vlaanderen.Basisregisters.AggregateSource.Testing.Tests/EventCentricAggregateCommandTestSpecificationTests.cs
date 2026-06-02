@@ -27,9 +27,9 @@
         public void SutFactoryCanNotBeNull()
         {
             Assert.Throws<ArgumentNullException>(() => new EventCentricAggregateCommandTestSpecification(
-                null, 
-                new object[0], 
-                _ => { }, 
+                null,
+                new object[0],
+                _ => { },
                 new object[0]));
         }
 
@@ -37,7 +37,7 @@
         public void GivensCanNotBeNull()
         {
             Assert.Throws<ArgumentNullException>(() => new EventCentricAggregateCommandTestSpecification(
-                () => null, 
+                () => null,
                 null,
                 _ => { },
                 new object[0]));
@@ -47,7 +47,7 @@
         public void WhenCanNotBeNull()
         {
             Assert.Throws<ArgumentNullException>(() => new EventCentricAggregateCommandTestSpecification(
-                () => null, 
+                () => null,
                 new object[0],
                 null,
                 new object[0]));
@@ -57,7 +57,7 @@
         public void ThenCanNotBeNull()
         {
             Assert.Throws<ArgumentNullException>(() => new EventCentricAggregateCommandTestSpecification(
-                () => null, 
+                () => null,
                 new object[0],
                 _ => { },
                 null));
@@ -77,7 +77,7 @@
                 when,
                 thens);
 
-            Assert.That(sut.SutFactory, Is.SameAs(sutFactory));
+            Assert.That(ReferenceEquals(sut.SutFactory, sutFactory), Is.True);
             Assert.That(sut.Givens, Is.EquivalentTo(givens));
             Assert.That(sut.When, Is.SameAs(when));
             Assert.That(sut.Thens, Is.EquivalentTo(thens));

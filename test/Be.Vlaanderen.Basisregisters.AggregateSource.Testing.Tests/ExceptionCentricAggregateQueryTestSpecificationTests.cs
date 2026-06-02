@@ -77,7 +77,7 @@
                 when,
                 throws);
 
-            Assert.That(sut.SutFactory, Is.SameAs(sutQuery));
+            Assert.That(ReferenceEquals(sut.SutFactory, sutQuery), Is.True);
             Assert.That(sut.Givens, Is.EquivalentTo(givens));
             Assert.That(sut.When, Is.SameAs(when));
             Assert.That(sut.Throws, Is.SameAs(throws));

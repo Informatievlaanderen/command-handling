@@ -20,7 +20,7 @@
         <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="10.0.8" />
         <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.8" />
 
-        <PackageVersion Include="Autofac.Extensions.DependencyInjection" Version="11.0.0" />
+        <PackageVersion Include="Autofac.Extensions.DependencyInjection" Version="11.0.2" />
         <PackageVersion Include="Newtonsoft.Json" Version="13.0.4" />
         <PackageVersion Include="NodaTime" Version="3.3.2" />
         <PackageVersion Include="CompareNETObjects" Version="4.84.0" />

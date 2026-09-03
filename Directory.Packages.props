@@ -22,7 +22,7 @@
 
         <PackageVersion Include="Autofac.Extensions.DependencyInjection" Version="11.0.0" />
         <PackageVersion Include="Newtonsoft.Json" Version="13.0.4" />
-        <PackageVersion Include="NodaTime" Version="3.3.2" />
+        <PackageVersion Include="NodaTime" Version="3.3.3" />
         <PackageVersion Include="CompareNETObjects" Version="4.84.0" />
         <PackageVersion Include="System.Collections.Immutable" Version="10.0.8" />
 
